@@ -1,4 +1,6 @@
 # OOP-todolist
+Projekti eesmärgiks on teha esmalt lokaalne todo list koos kasutajaliidese ja põhifunktsionaalsusega. Võimalusel lisandub ka server. 
+
 
 ## Ülesannetel on:
 - pealkiri
