@@ -7,3 +7,4 @@ out/
 
 # Maven
 target/
+/target/
