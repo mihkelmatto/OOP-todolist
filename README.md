@@ -1,7 +1,7 @@
 # OOP-todolist
 Projekti eesmärgiks on teha esmalt lokaalne todo list koos kasutajaliidese ja põhifunktsionaalsusega. Võimalusel lisandub ka server. 
 
-UI käivitamine root kaustast:
+UI käivitamine root kaustast:                 <br>
 mvn clean install (enne esimest käivitamist)  <br>
 mvn javafx:run                                <br>
 
