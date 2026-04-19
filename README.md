@@ -2,8 +2,8 @@
 Projekti eesmärgiks on teha esmalt lokaalne todo list koos kasutajaliidese ja põhifunktsionaalsusega. Võimalusel lisandub ka server. 
 
 UI käivitamine root kaustast:
-mvn clean install (enne esimest käivitamist)
-mvn javafx:run
+mvn clean install (enne esimest käivitamist)  <br>
+mvn javafx:run                                <br>
 
 
 ## Ülesannetel on:
