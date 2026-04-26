@@ -1,0 +1,18 @@
+.root, .root *{
+    -fx-font-family: Bahnschrift, Arial;
+}
+
+.Header{
+    -fx-background-color: rgb(59, 59, 59);
+    -fx-font-size: 25px;
+    border-bottom: 1px solid rgb(115, 115, 115);
+}
+
+.MidSection, .MidSection *{
+    -fx-background-color: rgb(38, 38, 38);
+    -fx-font-size: 25px;
+}
+
+.label {
+    -fx-text-fill: rgb(255, 255, 255);
+}
