@@ -1,12 +1,8 @@
 package UI;
 
-
-
-import io.github.robsonkades.uuidv7.UUIDv7;
+import UI.Home.HomeScene;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 /**
  * JavaFX App
@@ -15,17 +11,27 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        HomeScene home = new HomeScene();
 
-        var label = new Label("Hello, JavaFX ");
-        var scene = new Scene(new StackPane(label), 640, 480);
-        stage.setScene(scene);
+        stageSettings(stage);
+
+        stage.setScene(home.getScene());
         stage.show();
-        var uuid = UUIDv7.randomUUID();
-        System.out.println(uuid);
+    }
+
+    public void stageSettings(Stage stage){
+        Image icon = new Image("icon.png");
+        stage.getIcons().add(icon);
+        stage.setTitle("OOP-todolist");
+
+        stage.setWidth(1000);
+        stage.setHeight(750);
+        // stage.setResizable(false);
+
     }
 
     public static void main(String[] args) {
-        launch();
+        Application.launch(args);
     }
 
 }
