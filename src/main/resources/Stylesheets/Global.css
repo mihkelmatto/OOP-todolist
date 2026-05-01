@@ -2,17 +2,43 @@
     -fx-font-family: Bahnschrift, Arial;
 }
 
+.label {
+    -fx-text-fill: rgb(228, 228, 228);
+}
+
 .Header{
     -fx-background-color: rgb(59, 59, 59);
     -fx-font-size: 25px;
-    border-bottom: 1px solid rgb(115, 115, 115);
+    -fx-border-bottom: 1px solid rgb(115, 115, 115);
 }
+.Header .label {
+    -fx-text-fill: rgb(0, 132, 255);;
+}
+
+
 
 .MidSection, .MidSection *{
     -fx-background-color: rgb(38, 38, 38);
     -fx-font-size: 25px;
 }
 
-.label {
-    -fx-text-fill: rgb(255, 255, 255);
+
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .thumb {
+    -fx-background-color: rgba(0, 132, 255, 0.678);
+    -fx-background-radius: 6px;
+    -fx-pref-width: 5;
+}
+
+.scroll-pane .increment-button,
+.scroll-pane .decrement-button {
+    -fx-background-color: transparent;
+    -fx-pref-height: 0;
+    -fx-pref-width: 0;
+    -fx-opacity: 0;
+
 }
