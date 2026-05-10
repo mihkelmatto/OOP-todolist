@@ -1,5 +1,7 @@
 package models;
 
+import java.time.LocalDateTime;
+
 public class Test {
     public static void main(String[] args) {
         /*
@@ -13,9 +15,9 @@ public class Test {
         User user1 = new User("user1");
         User user2 = new User("user2");
 
-        Task task1 = new Task("title1", "description");
-        Task task2 = new Task("title2", "description");
-        Task task3 = new Task("title3", "description");
+        Task task1 = new Task("title1", "description", LocalDateTime.of(2026, 7, 10, 15, 30));
+        Task task2 = new Task("title2", "description", LocalDateTime.now());
+        Task task3 = new Task("title3", "description", LocalDateTime.now());
         Task[] tasks = {task1, task2, task3};
 
         // grupi loomine
