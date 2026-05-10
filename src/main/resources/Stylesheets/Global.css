@@ -1,18 +1,72 @@
-.root, .root *{
+* {
     -fx-font-family: Bahnschrift, Arial;
+    -fx-text-fill: rgb(228, 228, 228);
+    -fx-border-color: transparent;
 }
 
+
+
+.label {
+    
+}
+
+/* header */
 .Header{
     -fx-background-color: rgb(59, 59, 59);
     -fx-font-size: 25px;
-    border-bottom: 1px solid rgb(115, 115, 115);
+    -fx-border-color: rgb(115, 115, 115);
+    -fx-border-width: 0 0 1 0;
 }
 
-.MidSection, .MidSection *{
-    -fx-background-color: rgb(38, 38, 38);
+.Header .label{
+    -fx-text-fill: white;
+}
+
+/* Midsection */
+.MidSection {
+    -fx-padding: 5;
+}
+
+.TaskCard {
+    -fx-border-radius: 12px;
+    -fx-border-color: rgb(115, 115, 115);
+    -fx-min-height: 200px;
+    -fx-max-height: 200px;
+    -fx-padding: 5;
+}
+
+.TaskCard .label {
     -fx-font-size: 25px;
 }
 
-.label {
-    -fx-text-fill: rgb(255, 255, 255);
+.TaskCard-description * {
+    -fx-font-size: 15px;
+}
+
+
+/* Scroll pane */
+.scroll-pane,
+.scroll-pane .viewport {
+    -fx-background-color: rgb(38, 38, 38);
+}
+
+
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-pref-width: 8;
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .thumb {
+    -fx-background-color: rgba(0, 132, 255, 0.678);
+    -fx-background-radius: 6px;
+    -fx-pref-width: 8;
+}
+
+.scroll-pane .increment-button,
+.scroll-pane .decrement-button {
+    -fx-background-color: transparent;
+    -fx-pref-height: 0;
+    -fx-pref-width: 0;
+    -fx-opacity: 0;
 }
