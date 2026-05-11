@@ -6,24 +6,18 @@ import java.util.UUID;
 import io.github.robsonkades.uuidv7.UUIDv7;
 
 public class Task {
-    private final UUID taskID;
+    private final UUID id;
     private String title;
     private String description;
-
     private LocalDateTime deadline;
     private LocalDateTime lastupdated;
 
-    private User assigneduser;
-    // TODO: Kas peaks lisama TaskGroupi kohta ka märke?
-
     public Task(String title, String description, LocalDateTime deadline){
-        this.taskID = UUIDv7.randomUUID();
+        this.id = UUIDv7.randomUUID();
         this.title = title;
         this.description = description;
-        this.assigneduser = null;
         this.lastupdated = LocalDateTime.now();
         this.deadline = deadline;
-        // TODO: mis formaadis deadline input tuleb? Ilmselt peaks tegema eraldi meetodi String -> LocalDateTime
     }
 
     @Override
@@ -31,11 +25,10 @@ public class Task {
         return String.format("""
                 Title: %s
                 Description: %s
-                Assigned user: %s
                 Deadline: %s
                 Last updated: %s
 
-                """, this.title, this.description, this.assigneduser, this.deadline, this.lastupdated);
+                """, this.title, this.description, this.deadline, this.lastupdated);
     }
 
     public String getTitle(){

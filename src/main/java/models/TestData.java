@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class TestData {
 
-    public static TaskGroup createPersonalTaskGroup() {
+    public static TaskGroup getTestgroup() {
 
         // USER
         User user = new User("Toomas");
@@ -64,7 +64,7 @@ public class TestData {
         };
 
         // TASK GROUP
-        TaskGroup group = new TaskGroup(user);
+        TaskGroup group = new TaskGroup(user.getUUID());
         group.setGroupname("My Tasks");
         group.addTasks(tasks);
 
