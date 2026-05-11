@@ -1,13 +1,6 @@
 * {
     -fx-font-family: Bahnschrift, Arial;
     -fx-text-fill: rgb(228, 228, 228);
-    -fx-border-color: transparent;
-}
-
-
-
-.label {
-    
 }
 
 /* header */
@@ -27,21 +20,7 @@
     -fx-padding: 5;
 }
 
-.TaskCard {
-    -fx-border-radius: 12px;
-    -fx-border-color: rgb(115, 115, 115);
-    -fx-min-height: 200px;
-    -fx-max-height: 200px;
-    -fx-padding: 5;
-}
 
-.TaskCard .label {
-    -fx-font-size: 25px;
-}
-
-.TaskCard-description * {
-    -fx-font-size: 15px;
-}
 
 
 /* Scroll pane */

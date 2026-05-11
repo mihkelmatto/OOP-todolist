@@ -1,8 +1,12 @@
 package UI.Home;
 
 import java.time.LocalDateTime;
+
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import models.Task;
 
@@ -13,24 +17,41 @@ public class TaskCard {
     public TaskCard(Task task){
         this.task = task;
         this.layout = new VBox();
-        
-        Label title = new Label(task.getTitle());
-        Label deadline = new Label(task.getFormattedDeadline());
+
         Label description = new Label(task.getDescription());
-
-        for(Label l : new Label[]{title, deadline, description}){
-            l.setMaxWidth(Double.MAX_VALUE);
-            // l.prefWidthProperty().bind(layout.widthProperty());
-            l.setWrapText(true);
-        }
-
+        description.setMaxWidth(Double.MAX_VALUE);
+        description.setWrapText(true);
         description.getStyleClass().add("TaskCard-description");
 
-        this.layout.getChildren().addAll(title, deadline, description);
+        this.layout.getChildren().addAll(createHeader(), description);
         this.layout.getStyleClass().add("TaskCard");
+        this.layout.getStylesheets().add(getClass().getResource("/Stylesheets/TaskCard.css").toExternalForm());
+    }
+ 
+    private HBox createHeader(){
+        HBox layout = new HBox();
+        layout.setSpacing(10);
+        
+        // Headeri sisu loomine
+        Button button = new Button();
+        button.setOnAction(e -> {
+            System.out.println("task completed");
+        });
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        
+        Label title = new Label(this.task.getTitle());
+        Label taskgroup = new Label("Taskgroup"); // TODO: TaskGroup teistesse klassidesse laiali?
+        Label deadline = new Label(this.task.getFormattedDeadline());
+
+        // stylesheets, layouti lisamine
+        layout.getStyleClass().add("TaskCard-header");
+        layout.getChildren().addAll(button, title, spacer, taskgroup, deadline);
+        return layout;  
     }
 
-   public VBox getLayout(){
+    public VBox getLayout(){
     return this.layout;
    }
 }
