@@ -1,0 +1,37 @@
+{
+  "id" : "019e191e-35d5-7064-92e3-09c8ad2fe933",
+  "groupname" : "Shared group",
+  "owner" : "019e1916-2964-734e-b0d4-556e5c1d8505",
+  "users" : [ "019e1916-2964-734e-b0d4-556e5c1d8505", "019e1916-2963-7f73-8ff3-7e92fc6500b7", "019e1916-2963-7ab8-a546-1d507c5a6dc0" ],
+  "tasks" : [ {
+    "id" : "019e191e-35d5-78da-a351-efda234f36f1",
+    "title" : "Clean apartment",
+    "description" : "Living room and kitchen",
+    "deadline" : "2026-05-13T01:17:50.8039528",
+    "lastupdated" : "2026-05-12T01:17:50.8052413"
+  }, {
+    "id" : "019e191e-35d5-70ad-89a1-800d4ad891fc",
+    "title" : "Doctor appointment",
+    "description" : "Routine check-up",
+    "deadline" : "2026-08-12T10:00:00",
+    "lastupdated" : "2026-05-12T01:17:50.8052413"
+  }, {
+    "id" : "019e191e-35d5-7248-97e7-09c531d39c45",
+    "title" : "Work on project",
+    "description" : "Implement login feature",
+    "deadline" : "2026-05-12T09:17:50.8052413",
+    "lastupdated" : "2026-05-12T01:17:50.8052413"
+  }, {
+    "id" : "019e191e-35d5-7434-a0e6-2ff176a31fa1",
+    "title" : "Read book",
+    "description" : "Design Patterns chapter",
+    "deadline" : "2026-05-16T01:17:50.8052413",
+    "lastupdated" : "2026-05-12T01:17:50.8052413"
+  }, {
+    "id" : "019e191e-35d5-74c1-849d-774e42997ec3",
+    "title" : "Call friend",
+    "description" : "Catch up conversation",
+    "deadline" : "2026-05-14T01:17:50.8052413",
+    "lastupdated" : "2026-05-12T01:17:50.8052413"
+  } ]
+}

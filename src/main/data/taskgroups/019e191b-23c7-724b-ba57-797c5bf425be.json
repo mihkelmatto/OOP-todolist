@@ -1,0 +1,37 @@
+{
+  "id" : "019e191b-23c7-724b-ba57-797c5bf425be",
+  "groupname" : "My Tasks",
+  "owner" : "019e1916-2931-7c32-b749-2b01ee8263db",
+  "users" : [ "019e1916-2931-7c32-b749-2b01ee8263db" ],
+  "tasks" : [ {
+    "id" : "019e191b-23c7-7342-8316-21d5b7ea928a",
+    "title" : "Morning run",
+    "description" : "5km in the park",
+    "deadline" : "2026-05-13T01:14:29.5747322",
+    "lastupdated" : "2026-05-12T01:14:29.5757332"
+  }, {
+    "id" : "019e191b-23c7-7e17-9ced-baaa59210fd7",
+    "title" : "Team meeting",
+    "description" : "Weekly sync-up",
+    "deadline" : "2026-05-12T05:14:29.5757332",
+    "lastupdated" : "2026-05-12T01:14:29.5757332"
+  }, {
+    "id" : "019e191b-23c7-71fd-9bbc-03f0bbfa37ad",
+    "title" : "Study Java",
+    "description" : "Review OOP concepts",
+    "deadline" : "2026-05-14T01:14:29.5757332",
+    "lastupdated" : "2026-05-12T01:14:29.5757332"
+  }, {
+    "id" : "019e191b-23c7-75c9-b6ea-751ee9b333a3",
+    "title" : "Grocery shopping",
+    "description" : "Fruits and vegetables",
+    "deadline" : "2026-05-12T07:14:29.5757332",
+    "lastupdated" : "2026-05-12T01:14:29.5757332"
+  }, {
+    "id" : "019e191b-23c7-79e5-a7e3-d8fef793704b",
+    "title" : "Watch tutorial",
+    "description" : "JavaFX basics",
+    "deadline" : "2026-05-15T01:14:29.5757332",
+    "lastupdated" : "2026-05-12T01:14:29.5757332"
+  } ]
+}

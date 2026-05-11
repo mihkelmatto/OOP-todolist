@@ -1,7 +1,5 @@
 package UI.Home;
 
-import java.time.LocalDateTime;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -43,7 +41,7 @@ public class TaskCard {
         
         Label title = new Label(this.task.getTitle());
         Label taskgroup = new Label("Taskgroup"); // TODO: TaskGroup teistesse klassidesse laiali?
-        Label deadline = new Label(this.task.getFormattedDeadline());
+        Label deadline = new Label(this.task.formattedDeadline());
 
         // stylesheets, layouti lisamine
         layout.getStyleClass().add("TaskCard-header");
