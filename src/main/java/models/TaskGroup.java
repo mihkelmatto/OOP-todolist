@@ -8,8 +8,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.github.robsonkades.uuidv7.UUIDv7;
+import utils.Filesrw;
 
-public class TaskGroup {
+public class TaskGroup implements Filesrw{
     private final UUID id;
     private String groupname;
     private UUID owner;

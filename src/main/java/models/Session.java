@@ -1,8 +1,7 @@
 package models;
 
 import java.util.HashMap;
-
-import io.github.robsonkades.uuidv7.UUIDv7;
+import java.util.UUID;
 
 /*
 Sessioon peaks hakkama hoidma kõiki instantse, mida UI kasutab.
@@ -12,14 +11,12 @@ Sessioon peaks hakkama hoidma kõiki instantse, mida UI kasutab.
 
 public class Session {
     private User user;
-    private HashMap<UUIDv7, TaskGroup> taskgroups;
+    private HashMap<UUID, TaskGroup> taskgroups;
 
-    /*
-    Testimise mõttes hetkel hard-coded.
-    TODO: võimekus klasse failist lugeda
-    */
-    public Session(User user){
-        this.user = user;
-        
+    public static void main(String[] args) {
     }
+
+    public Session(UUID user){        
+    }
+
 }

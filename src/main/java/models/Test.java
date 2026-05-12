@@ -21,14 +21,14 @@ public class Test {
         Task[] tasks = {task1, task2, task3};
 
         // grupi loomine
-        TaskGroup taskGroup1 = new TaskGroup(user1.getUUID());
+        TaskGroup taskGroup1 = new TaskGroup(user1.getID());
         taskGroup1.addTasks(tasks);
         System.out.println(taskGroup1);
 
         // gruppi saab ka loomise hetkel argumente lisada,
         // hiljem kasutajaid lisada ja nime vahetada
-        TaskGroup taskGroup2 = new TaskGroup(user2.getUUID(), tasks);
-        taskGroup2.addUsers(user1.getUUID());
+        TaskGroup taskGroup2 = new TaskGroup(user2.getID(), tasks);
+        taskGroup2.addUsers(user1.getID());
         taskGroup2.setGroupname("nickname");
         System.out.println(taskGroup2);
         
