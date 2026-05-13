@@ -5,40 +5,13 @@ import utils.Classreader;
 import java.util.HashMap;
 import java.util.UUID;
 
-
 /*
 Sessioon peaks hakkama hoidma kõiki instantse, mida UI kasutab.
+Igal kasutajal on vähemalt üks taskgroup ja täpselt üks tgMapper.
 
-!! uurida javaFX bind meetodit
-*/
+Sessioon saab sisendiks kasutajanime. Selle järgi laeb failist User, Taskgroup (ja task) instantsid.
 
-
-/*
-Igal kasutajal võiks tekkida loomise hetkel isiklik taskgroup, kuhu ta ülesandeid lisab
-gruppe saab juurde teha ning grupi loomise ajal saab sinna liigutada vanu ülesandeid
-Gruppi saab lisada teisi kasutajaid, mis juhul on kõik ülesanded jagatud
-Kui UI avaneb, siis otsitakse, mis taskGroupis ta on ning edastatakse vastavad grupid
-
-TODO: Userite nimekirja peaks ehk Setiks tegema, et ei peaks duplikaate kontrollima ning otsimisaeg oleks väiksem (Setil on vist O1)
-*/
-
-/*
-Kui kasutaja kustutab taskgroupi:
-1. iga task läheb default gruppi
-2. iga kasutaja taskmapper lugeda ja uuendada.
-3. enda taskmapperist vastav grupp kustutada
-4. taskgroup kustutada
-
-kui omanik eemaldab isiku taskgroupist:
-1. kas on omanik?
-2. vastava kasutaja taskmapper uuendada
-3. taskgroupist eemaldada kasutaja UUID
-*/
-
-/*
-Sessioon saab sisendiks kasutajanime
-
-Kui ei leidu:
+Kui kasutajat ei leidu:
 - luua uus User(String username)
 - luua uus taskgroup(UUID owner) ning lisada taskgroupide nimekirja
 
@@ -49,16 +22,13 @@ Lugeda uus TGmapper
 - kui ei leidu, siis teha uus
 Salvestada uus TGmapper
 */
-/*
-Kuna User muudetakse?
 
-*/
 public class Session {
     private User user;
     private HashMap<UUID, TaskGroup> taskgroups;
 
-    public static void main(String[] args) {
-        Session session = new Session("Test");
+    public static void main(String[] args) throws Exception {
+        Session session = new Session("Mari");
         System.out.println(session);
         session.save();
     }

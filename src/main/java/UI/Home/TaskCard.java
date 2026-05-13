@@ -45,7 +45,7 @@ public class TaskCard {
         HBox.setHgrow(spacer, Priority.ALWAYS);
         
         Label title = new Label(this.task.getTitle());
-        Label taskgroup = new Label("Taskgroup"); // TODO: TaskGroup teistesse klassidesse laiali?
+        Label taskgroup = new Label("Taskgroup");
         Label deadline = new Label(this.task.formattedDeadline());
 
         // stylesheets, layouti lisamine

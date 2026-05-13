@@ -10,6 +10,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.robsonkades.uuidv7.UUIDv7;
 import utils.ToJson;
 
+/*
+Kui kasutaja kustutab taskgroupi:
+1. iga task läheb default gruppi
+2. iga kasutaja taskmapper lugeda ja uuendada.
+3. enda taskmapperist vastav grupp kustutada
+4. taskgroup kustutada
+
+kui omanik eemaldab isiku taskgroupist:
+1. kas on omanik?
+2. vastava kasutaja taskmapper uuendada
+3. taskgroupist eemaldada kasutaja UUID
+
+TODO: Userite nimekirja peaks ehk Setiks tegema, et ei peaks duplikaate kontrollima ning otsimisaeg oleks väiksem (Setil on vist O1)
+*/
+
 public class TaskGroup implements ToJson{
     private final UUID id;
     private String groupname;
