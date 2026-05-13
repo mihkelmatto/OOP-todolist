@@ -21,6 +21,7 @@ public class User implements ToJson{
     public User(String username){
         this.id = UUIDv7.randomUUID();
         this.username = username;
+        System.out.printf("New user created: %s, ID: %s\n", this.username, this.id);
     }
 
     @JsonCreator

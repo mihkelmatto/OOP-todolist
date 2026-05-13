@@ -26,6 +26,8 @@ public class TaskGroup implements ToJson{
 
         this.users.add(owner);
         this.tasks.addAll(List.of(tasks));
+
+        System.out.printf("New Taskgroup created for user: %s\n", owner);
     }
 
     @JsonCreator

@@ -1,81 +1,97 @@
 package utils;
 
+import models.TaskGroup;
+import models.User;
+import models.UserTgMapper;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import models.TaskGroup;
-import models.User;
-import models.UserTgMapper;
-
-/*
-Leida Stringi järgi user
-
-Kui ei leidu:
-- luua uus User(String username)
-- luua uus taskgroup(UUID owner)
-
-Programmi sulgemisel:
-Salvestada User
-Salvestada Taskgroupid
-Lugeda uus TGmapper
-- kui ei leidu, siis teha uus
-Salvestada uus TGmapper
-*/
-
 public class Classreader {
     static String path = "src/main/data";
     static ObjectMapper mapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    public static void main(String[] args) throws Exception{
-        User user = findUser("Mari");
-        UserTgMapper tg = fromJsonFile(user.getID(), UserTgMapper.class);
-        
-        ArrayList<TaskGroup> taskgroups = new ArrayList<>();
-        for(UUID tgid : tg.getTaskgroups()) taskgroups.add(fromJsonFile(tgid, TaskGroup.class));
 
-        System.out.println(taskgroups);
-    }
+    /*
+    Leiab Stringi järgi kasutaja
 
-    // Leiab data/User kaustast vastava kasutaja. Kui kasutajat ei leidu, siis teeb uue.
+    Kui failist ei leia, siis:
+    - loob uue kasutaja
+    - salvestab kasutaja faili
+    */
     public static User findUser(String username){
         File dir = new File(getDir(User.class));
-        File[] files = dir.listFiles();
+        
+        try{
+            File[] files = dir.listFiles();
 
-        if(files == null){
-            System.out.printf("User %s not found. Creating a new instance.\n", username);
-            return new User(username);
-        }
-
-        for(File f : files){
-            try{
+            for(File f : files){
                 User user = mapper.readValue(f, User.class);
                 if(user.getUsername().equals(username)) return user;
             }
-            catch(IOException e){
-                e.printStackTrace();
-            }
+
+            System.out.println("Kasutajat ei leitud: " + username);
+            return new User(username);
+
+        } catch(IOException e){
+            System.out.println("Kasutajate kaust on tühi.");
+            User user = new User(username);
+            user.toJsonFile();
+            return user;
         }
-        System.out.printf("User %s not found. Creating a new instance.\n", username);
-        return new User(username);
     }
 
-    // Kasutaja leidmiseks on meetod: findUser(String username)
-    public static <T extends ToJson> T fromJsonFile(UUID uuid, Class<T> clazz) throws IOException{
-        File file = new File(String.format("%s/%s.json", getDir(clazz), uuid));
+    /*
+    Leiab kasutaja Taskgroupid.
+    
+    Kui failist ei leia, siis:
+    - loob uue grupi (Igal kasutajal peab olema vähemalt üks taskgroup)
+    - salvestab loodud TGmapperi
+    */
+    public static HashMap<UUID, TaskGroup> findTaskgroups(UUID userid){
+        try{
+            UserTgMapper tgmap = Classreader.fromJsonFile(userid, UserTgMapper.class);
 
+            HashMap<UUID, TaskGroup> taskgroups = new HashMap<>();
+            for(UUID tgID : tgmap.getTaskgroups()){
+                TaskGroup tg = Classreader.fromJsonFile(tgID, TaskGroup.class);
+                taskgroups.put(tg.getID(), tg);
+            }
+
+            return taskgroups;
+
+        } catch(IOException e){ // Default task group: Tasks
+            HashMap<UUID, TaskGroup> taskgroups = new HashMap<>();
+
+            TaskGroup tg = new TaskGroup(userid);
+            tg.setGroupname("Tasks");
+            taskgroups.put(tg.getID(), tg);
+            
+            UserTgMapper tgmapper = new UserTgMapper(userid, tg.getID());
+            tgmapper.toJsonFile();
+
+            return taskgroups;
+        }
+    }
+
+    /*
+    Loeb failist ID-le vastava objekti. Klass peab implementeerima ToJson liidest. 
+    !! Kasutaja leidmiseks on olemas ka meetod: findUser(String username)
+    */
+    public static <T extends ToJson> T fromJsonFile(UUID id, Class<T> clazz) throws IOException{
+        File file = new File(String.format("%s/%s.json", getDir(clazz), id));
         if (!file.isFile()) throw new FileNotFoundException("File not found: " + file);
+
         return mapper.readValue(file, clazz);
     }
-
-    // GETTERS
 
     // Tagastab directory, kuhu failid salvestatakse
     public static <T extends ToJson> String getDir(Class<T> clazz){

@@ -14,10 +14,11 @@ Seab vastavusse User ja TaskGroup instantsid
 public class UserTgMapper implements ToJson{
     UUID id;    // !!!! tegemist on UserID-ga, kuid nimi on selline Filesrw jaoks !!!!
     ArrayList<UUID> taskgroups;
-    UserTgMapper(UUID user, UUID ... taskgroups){
+    public UserTgMapper(UUID user, UUID ... taskgroups){
         this.id = user;
         this.taskgroups = new ArrayList<>();
         for(UUID tg : taskgroups) this.taskgroups.add(tg);
+        System.out.printf("New tgmapper created for user: %s\n", user);
     }
 
     @JsonCreator
