@@ -3,39 +3,63 @@ package models;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.github.robsonkades.uuidv7.UUIDv7;
 
 public class Task {
-    private final UUID taskID;
+    private final UUID id;
     private String title;
     private String description;
-
     private LocalDateTime deadline;
     private LocalDateTime lastupdated;
 
-    private User assigneduser;
-    // TODO: Kas peaks lisama TaskGroupi kohta ka märke?
-
     public Task(String title, String description, LocalDateTime deadline){
-        this.taskID = UUIDv7.randomUUID();
+        this.id = UUIDv7.randomUUID();
         this.title = title;
         this.description = description;
-        this.assigneduser = null;
         this.lastupdated = LocalDateTime.now();
         this.deadline = deadline;
-        // TODO: mis formaadis deadline input tuleb? Ilmselt peaks tegema eraldi meetodi String -> LocalDateTime
     }
 
-    @Override
-    public String toString(){
-        return String.format("""
-                Title: %s
-                Description: %s
-                Assigned user: %s
-                Deadline: %s
-                Last updated: %s
+    @JsonCreator
+    public Task(
+            @JsonProperty("id") UUID id,
+            @JsonProperty("title") String title,
+            @JsonProperty("description") String description,
+            @JsonProperty("deadline") LocalDateTime deadline,
+            @JsonProperty("lastupdated") LocalDateTime lastupdated
+    ) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.deadline = deadline;
+        this.lastupdated = lastupdated;
+    }
 
-                """, this.title, this.description, this.assigneduser, this.deadline, this.lastupdated);
+    // SETTERS
+
+    public void updateTitle(String title){
+        this.title = title;
+        this.lastupdated = LocalDateTime.now();
+    }
+
+    public void updateDescription(String description){
+        this.description = description;
+        this.lastupdated = LocalDateTime.now();
+    }
+
+    public void updateDeadline(LocalDateTime deadline){
+        this.deadline = deadline;
+        this.lastupdated = LocalDateTime.now();
+    }
+
+    // GETTERS
+
+    public UUID getID(){
+        return this.id;
     }
 
     public String getTitle(){
@@ -46,10 +70,29 @@ public class Task {
         return this.description;
     }
 
-    public String getFormattedDeadline(){
+    public LocalDateTime getDeadline(){
+        return this.deadline;
+    }
+
+    public LocalDateTime getLastupdated(){
+        return this.lastupdated;
+    }
+
+    // OTHER
+
+    @Override
+    public String toString(){
+        return String.format("""
+                Title: %s
+                Description: %s
+                Deadline: %s
+                Last updated: %s
+
+                """, this.title, this.description, this.deadline, this.lastupdated);
+    }
+
+    public String formattedDeadline(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
         return this.deadline.format(formatter);
     }
-
-    
 }

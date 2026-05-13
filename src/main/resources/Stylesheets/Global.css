@@ -1,13 +1,6 @@
 * {
     -fx-font-family: Bahnschrift, Arial;
     -fx-text-fill: rgb(228, 228, 228);
-    -fx-border-color: transparent;
-}
-
-
-
-.label {
-    
 }
 
 /* header */
@@ -22,26 +15,25 @@
     -fx-text-fill: white;
 }
 
+.Header .Navbar {
+    -fx-border-color: rgb(115, 115, 115);
+    -fx-background-color: rgb(59, 59, 59);
+    -fx-padding: 3;
+}
+.Header .Navbar .button{
+    -fx-background-color: rgb(59, 59, 59);
+    -fx-border-color: rgb(115, 115, 115);
+}
+.Header .Navbar .button:hover {
+    -fx-background-color: rgb(82, 82, 82);
+}
+
 /* Midsection */
 .MidSection {
     -fx-padding: 5;
 }
 
-.TaskCard {
-    -fx-border-radius: 12px;
-    -fx-border-color: rgb(115, 115, 115);
-    -fx-min-height: 200px;
-    -fx-max-height: 200px;
-    -fx-padding: 5;
-}
 
-.TaskCard .label {
-    -fx-font-size: 25px;
-}
-
-.TaskCard-description * {
-    -fx-font-size: 15px;
-}
 
 
 /* Scroll pane */

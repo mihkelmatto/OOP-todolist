@@ -4,17 +4,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import io.github.robsonkades.uuidv7.UUIDv7;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class TaskGroup {
-    private final UUID taskGID;
+import io.github.robsonkades.uuidv7.UUIDv7;
+import utils.ToJson;
+
+/*
+Kui kasutaja kustutab taskgroupi:
+1. iga task läheb default gruppi
+2. iga kasutaja taskmapper lugeda ja uuendada.
+3. enda taskmapperist vastav grupp kustutada
+4. taskgroup kustutada
+
+kui omanik eemaldab isiku taskgroupist:
+1. kas on omanik?
+2. vastava kasutaja taskmapper uuendada
+3. taskgroupist eemaldada kasutaja UUID
+
+TODO: Userite nimekirja peaks ehk Setiks tegema, et ei peaks duplikaate kontrollima ning otsimisaeg oleks väiksem (Setil on vist O1)
+*/
+
+public class TaskGroup implements ToJson{
+    private final UUID id;
     private String groupname;
-    private User owner;
-    private ArrayList<User> users;
+    private UUID owner;
+    private ArrayList<UUID> users;
     private ArrayList<Task> tasks;
 
-    public TaskGroup(User owner, Task... tasks){
-        this.taskGID = UUIDv7.randomUUID();
+    public TaskGroup(UUID owner, Task... tasks){
+        this.id = UUIDv7.randomUUID();
         this.groupname = "New Group";
         this.owner = owner;
         this.users = new ArrayList<>();
@@ -22,19 +41,62 @@ public class TaskGroup {
 
         this.users.add(owner);
         this.tasks.addAll(List.of(tasks));
+
+        System.out.printf("New Taskgroup created for user: %s\n", owner);
     }
+
+    @JsonCreator
+    public TaskGroup(
+            @JsonProperty("id") UUID id,
+            @JsonProperty("groupname") String groupname,
+            @JsonProperty("owner") UUID owner,
+            @JsonProperty("users") ArrayList<UUID> users,
+            @JsonProperty("tasks") ArrayList<Task> tasks
+    ) {
+        this.id = id;
+        this.groupname = groupname;
+        this.owner = owner;
+        this.users = users != null ? new ArrayList<>(users) : new ArrayList<>();
+        this.tasks = tasks != null ? new ArrayList<>(tasks) : new ArrayList<>();
+    }
+
+    // SETTERS
 
     public void setGroupname(String groupname){
         this.groupname = groupname;
+    }
+
+    public void addUsers(UUID... users){
+        this.users.addAll(List.of(users));
     }
 
     public void addTasks(Task... tasks){
         this.tasks.addAll(List.of(tasks));
     }
 
-    public void addUsers(User... users){
-        this.users.addAll(List.of(users));
+    // GETTERS
+
+    public UUID getID(){
+        return this.id;
     }
+
+    public String getGroupname(){
+        return this.groupname;
+    }
+
+    public UUID getOwner(){
+        return this.owner;
+    }
+
+    public ArrayList<UUID> getUsers(){
+        return this.users;
+    }
+
+    public ArrayList<Task> getTasks(){
+        return this.tasks;
+    }
+
+    // OTHER
 
     @Override
     public String toString(){
