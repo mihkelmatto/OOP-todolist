@@ -31,9 +31,14 @@ public class TaskCard {
         layout.setSpacing(10);
         
         // Headeri sisu loomine
-        Button button = new Button();
-        button.setOnAction(e -> {
+        Button complete = new Button();
+        complete.setOnAction(e -> {
             System.out.println("task completed");
+        });
+
+        Button options = new Button();
+        options.setOnAction(e -> {
+            System.out.println("options");
         });
 
         Region spacer = new Region();
@@ -45,7 +50,7 @@ public class TaskCard {
 
         // stylesheets, layouti lisamine
         layout.getStyleClass().add("TaskCard-header");
-        layout.getChildren().addAll(button, title, spacer, taskgroup, deadline);
+        layout.getChildren().addAll(complete, title, spacer, taskgroup, deadline, options);
         return layout;  
     }
 

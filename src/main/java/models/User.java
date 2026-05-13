@@ -1,5 +1,5 @@
 package models;
-import utils.Filesrw;
+import utils.ToJson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,7 +14,7 @@ Siiski on vist mõistlik mujal UUID-d kasutada, et nimevahetus oleks tehniliselt
 TODO: Username loomisel või vahetamisel unikaalsuse kontroll
 */ 
 
-public class User implements Filesrw{ 
+public class User implements ToJson{ 
     private final UUID id;
     private String username;
 
@@ -51,6 +51,6 @@ public class User implements Filesrw{
     
     @Override
     public String toString(){
-        return this.username;
+        return String.format("Username: %s, UUID: %s\n", this.username, this.id);
     }
 }
