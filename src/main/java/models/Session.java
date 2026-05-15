@@ -27,12 +27,6 @@ public class Session {
     private User user;
     private HashMap<UUID, TaskGroup> taskgroups;
 
-    public static void main(String[] args) throws Exception {
-        Session session = new Session("Mari");
-        System.out.println(session);
-        session.save();
-    }
-
     public Session(String username){
         this.user = Classreader.findUser(username);
         this.taskgroups = Classreader.findTaskgroups(this.user.getID());
@@ -45,6 +39,16 @@ public class Session {
             taskgroups.get(tgid).toJsonFile();
         }
     }
+    // SETTERS
+    // GETTERS
+    public User getUser(){
+        return this.user;
+    }
+
+    public HashMap<UUID, TaskGroup> getTaskgroups(){
+        return this.taskgroups;
+    }
+    // OTHER
 
     @Override
     public String toString(){

@@ -2,8 +2,11 @@ package models;
 import utils.ToJson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.robsonkades.uuidv7.UUIDv7;
+import javafx.beans.property.SimpleStringProperty;
+
 import java.util.UUID;
 
 
@@ -16,11 +19,11 @@ TODO: Username loomisel või vahetamisel unikaalsuse kontroll
 
 public class User implements ToJson{ 
     private final UUID id;
-    private String username;
+    private SimpleStringProperty username;
 
     public User(String username){
         this.id = UUIDv7.randomUUID();
-        this.username = username;
+        this.username = new SimpleStringProperty(username);
         System.out.printf("New user created: %s, ID: %s\n", this.username, this.id);
     }
 
@@ -30,12 +33,12 @@ public class User implements ToJson{
             @JsonProperty("username") String username
         ) {
         this.id = id;
-        this.username = username;
+        this.username = new SimpleStringProperty(username);
     }    
 
     // SETTERS
     public void setUsername(String username){
-        this.username = username;
+        this.username.set(username);
     }
 
     // GETTERS
@@ -44,8 +47,13 @@ public class User implements ToJson{
         return this.id;
     }
 
-    public String getUsername(){
+    @JsonIgnore
+    public SimpleStringProperty getUsernameProperty(){
         return this.username;
+    }
+
+    public String getUsername(){
+        return this.username.getValue();
     }
 
     // OTHER

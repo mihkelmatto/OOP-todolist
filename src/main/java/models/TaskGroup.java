@@ -1,14 +1,18 @@
 package models;
 
+import utils.ToJson;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.github.robsonkades.uuidv7.UUIDv7;
-import utils.ToJson;
+import javafx.beans.property.SimpleStringProperty;
+
 
 /*
 Kui kasutaja kustutab taskgroupi:
@@ -27,14 +31,14 @@ TODO: Userite nimekirja peaks ehk Setiks tegema, et ei peaks duplikaate kontroll
 
 public class TaskGroup implements ToJson{
     private final UUID id;
-    private String groupname;
+    private SimpleStringProperty groupname;
     private UUID owner;
     private ArrayList<UUID> users;
     private ArrayList<Task> tasks;
 
     public TaskGroup(UUID owner, Task... tasks){
         this.id = UUIDv7.randomUUID();
-        this.groupname = "New Group";
+        this.groupname = new SimpleStringProperty("New Group");
         this.owner = owner;
         this.users = new ArrayList<>();
         this.tasks = new ArrayList<>();
@@ -54,16 +58,15 @@ public class TaskGroup implements ToJson{
             @JsonProperty("tasks") ArrayList<Task> tasks
     ) {
         this.id = id;
-        this.groupname = groupname;
+        this.groupname = new SimpleStringProperty(groupname);
         this.owner = owner;
         this.users = users != null ? new ArrayList<>(users) : new ArrayList<>();
         this.tasks = tasks != null ? new ArrayList<>(tasks) : new ArrayList<>();
     }
 
     // SETTERS
-
     public void setGroupname(String groupname){
-        this.groupname = groupname;
+        this.groupname.set(groupname);
     }
 
     public void addUsers(UUID... users){
@@ -81,6 +84,11 @@ public class TaskGroup implements ToJson{
     }
 
     public String getGroupname(){
+        return this.groupname.getValue();
+    }
+    
+    @JsonIgnore
+    public SimpleStringProperty getGroupnameProperty(){
         return this.groupname;
     }
 

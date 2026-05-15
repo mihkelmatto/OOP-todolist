@@ -1,21 +1,24 @@
 package UI.Home;
 
-import java.time.LocalDateTime;
-
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import models.Session;
 import models.Task;
+import models.TaskGroup;
 
 public class MidSection {
     private ScrollPane layout;
+    private Session session;
+    private TaskGroup activeTG;
 
-    public MidSection(){
+    public MidSection(Session session){
+        this.session = session;
+        this.activeTG = this.session.getTaskgroups().values().iterator().next();
+
         VBox content = new VBox();
         content.setSpacing(10);
 
-        String description = "description description description description description description description description description description description description description description description description description ";
-        for(int i = 0; i<20; i++){
-            Task task = new Task("Task " + i, description, LocalDateTime.of(2026, 7, 10, 15, 30));
+        for(Task task : this.activeTG.getTasks()){
             TaskCard card = new TaskCard(task);
             content.getChildren().add(card.getLayout());
         }

@@ -42,6 +42,7 @@ public class Classreader {
             return new User(username);
 
         } catch(IOException e){
+            e.printStackTrace();
             System.out.println("Kasutajate kaust on tühi.");
             User user = new User(username);
             user.toJsonFile();

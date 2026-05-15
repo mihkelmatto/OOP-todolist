@@ -1,0 +1,49 @@
+{
+  "id" : "019e2bf9-c885-7238-9cb3-65ae615bdd91",
+  "groupname" : "Tasks",
+  "owner" : "019e2bf9-c881-7056-80e9-64f7ba927a7c",
+  "users" : [ "019e2bf9-c881-7056-80e9-64f7ba927a7c" ],
+  "tasks" : [ {
+    "id" : "019e2bf9-c8be-74ac-a502-fdc6f9ffa005",
+    "title" : "Projektiplaan",
+    "description" : "Koosta algne projektiplaan ja eesmärgid",
+    "deadline" : "2026-05-15T17:58:09.483983",
+    "lastupdated" : "2026-05-15T17:58:09.4849844"
+  }, {
+    "id" : "019e2bf9-c8bf-7db6-81ec-9357d5a5f62e",
+    "title" : "Andmeanalüüs",
+    "description" : "Analüüsi esialgsed andmekogumid",
+    "deadline" : "2026-05-19T11:27:45.6873809",
+    "lastupdated" : "2026-05-15T10:18:22.6873809"
+  }, {
+    "id" : "019e2bf9-c8bf-7abc-954b-ddd7a36d7fce",
+    "title" : "Kasutajaliides",
+    "description" : "Disaini rakenduse UI prototüüp",
+    "deadline" : "2026-05-21T14:03:18.6873809",
+    "lastupdated" : "2026-05-15T12:55:41.6873809"
+  }, {
+    "id" : "019e2bf9-c8bf-7129-bcef-8b486eead23d",
+    "title" : "Testimine",
+    "description" : "Koosta testjuhtumid põhifunktsioonidele",
+    "deadline" : "2026-05-23T16:49:07.6873809",
+    "lastupdated" : "2026-05-15T15:21:09.6873809"
+  }, {
+    "id" : "019e2bf9-c8bf-769a-8231-f5b23815c3f4",
+    "title" : "Dokumentatsioon",
+    "description" : "Kirjuta tehniline dokumentatsioon",
+    "deadline" : "2026-05-25T08:36:54.6873809",
+    "lastupdated" : "2026-05-15T09:47:13.6873809"
+  }, {
+    "id" : "019e2bf9-c8bf-705b-b8c1-8ff544b1e2e8",
+    "title" : "Integratsioon",
+    "description" : "Ühenda teenused ja API-d",
+    "deadline" : "2026-05-27T13:22:31.6873809",
+    "lastupdated" : "2026-05-15T11:59:48.6873809"
+  }, {
+    "id" : "019e2bf9-c8bf-71c4-8c9d-9387592028a8",
+    "title" : "Koodiarvustus",
+    "description" : "Teosta koodikvaliteedi ülevaatus",
+    "deadline" : "2026-05-29T18:11:26.6873809",
+    "lastupdated" : "2026-05-15T16:04:57.6873809"
+  } ]
+}
