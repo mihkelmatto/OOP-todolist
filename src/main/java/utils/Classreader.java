@@ -35,13 +35,14 @@ public class Classreader {
 
             for(File f : files){
                 User user = mapper.readValue(f, User.class);
-                if(user.getUsername().equals(username)) return user;
+                if(user.getUsername().getValue().equals(username)) return user;
             }
 
             System.out.println("Kasutajat ei leitud: " + username);
             return new User(username);
 
         } catch(IOException e){
+            e.printStackTrace();
             System.out.println("Kasutajate kaust on tühi.");
             User user = new User(username);
             user.toJsonFile();

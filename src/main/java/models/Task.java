@@ -8,18 +8,19 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.github.robsonkades.uuidv7.UUIDv7;
+import javafx.beans.property.SimpleStringProperty;
 
 public class Task {
     private final UUID id;
-    private String title;
-    private String description;
-    private LocalDateTime deadline;
+    private SimpleStringProperty title;
+    private SimpleStringProperty description;
+    private LocalDateTime deadline; // TODO: Kuidas seda propertyks teha?
     private LocalDateTime lastupdated;
 
     public Task(String title, String description, LocalDateTime deadline){
         this.id = UUIDv7.randomUUID();
-        this.title = title;
-        this.description = description;
+        this.title = new SimpleStringProperty(title);
+        this.description = new SimpleStringProperty(description);
         this.lastupdated = LocalDateTime.now();
         this.deadline = deadline;
     }
@@ -27,8 +28,8 @@ public class Task {
     @JsonCreator
     public Task(
             @JsonProperty("id") UUID id,
-            @JsonProperty("title") String title,
-            @JsonProperty("description") String description,
+            @JsonProperty("title") SimpleStringProperty title,
+            @JsonProperty("description") SimpleStringProperty description,
             @JsonProperty("deadline") LocalDateTime deadline,
             @JsonProperty("lastupdated") LocalDateTime lastupdated
     ) {
@@ -42,12 +43,12 @@ public class Task {
     // SETTERS
 
     public void updateTitle(String title){
-        this.title = title;
+        this.title.set(title);
         this.lastupdated = LocalDateTime.now();
     }
 
     public void updateDescription(String description){
-        this.description = description;
+        this.description.set(description);
         this.lastupdated = LocalDateTime.now();
     }
 
@@ -62,11 +63,11 @@ public class Task {
         return this.id;
     }
 
-    public String getTitle(){
+    public SimpleStringProperty getTitle(){
         return this.title;
     }
     
-    public String getDescription(){
+    public SimpleStringProperty getDescription(){
         return this.description;
     }
 

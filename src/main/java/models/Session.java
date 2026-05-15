@@ -2,6 +2,7 @@ package models;
 
 import utils.Classreader;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -29,8 +30,27 @@ public class Session {
 
     public static void main(String[] args) throws Exception {
         Session session = new Session("Mari");
+
+        UUID tgid = session.taskgroups.keySet().iterator().next();
+        TaskGroup tg = session.taskgroups.get(tgid);
+        tg.addTasks(createSampleTasks());
+        
+        session.taskgroups.put(tgid, tg);
+        
         System.out.println(session);
         session.save();
+    }
+
+    public static Task[] createSampleTasks() {
+        return new Task[] {
+            new Task("Projektiplaan", "Koosta algne projektiplaan ja eesmärgid", LocalDateTime.now().plusDays(2)),
+            new Task("Andmeanalüüs", "Analüüsi esialgsed andmekogumid", LocalDateTime.now().plusDays(4)),
+            new Task("Kasutajaliides", "Disaini rakenduse UI prototüüp", LocalDateTime.now().plusDays(6)),
+            new Task("Testimine", "Koosta testjuhtumid põhifunktsioonidele", LocalDateTime.now().plusDays(8)),
+            new Task("Dokumentatsioon", "Kirjuta tehniline dokumentatsioon", LocalDateTime.now().plusDays(10)),
+            new Task("Integratsioon", "Ühenda teenused ja API-d", LocalDateTime.now().plusDays(12)),
+            new Task("Koodiarvustus", "Teosta koodikvaliteedi ülevaatus", LocalDateTime.now().plusDays(14))
+        };
     }
 
     public Session(String username){
