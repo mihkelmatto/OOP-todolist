@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.github.robsonkades.uuidv7.UUIDv7;
@@ -51,20 +52,19 @@ public class TaskGroup implements ToJson{
     @JsonCreator
     public TaskGroup(
             @JsonProperty("id") UUID id,
-            @JsonProperty("groupname") SimpleStringProperty groupname,
+            @JsonProperty("groupname") String groupname,
             @JsonProperty("owner") UUID owner,
             @JsonProperty("users") ArrayList<UUID> users,
             @JsonProperty("tasks") ArrayList<Task> tasks
     ) {
         this.id = id;
-        this.groupname = groupname;
+        this.groupname = new SimpleStringProperty(groupname);
         this.owner = owner;
         this.users = users != null ? new ArrayList<>(users) : new ArrayList<>();
         this.tasks = tasks != null ? new ArrayList<>(tasks) : new ArrayList<>();
     }
 
     // SETTERS
-
     public void setGroupname(String groupname){
         this.groupname.set(groupname);
     }
@@ -83,7 +83,12 @@ public class TaskGroup implements ToJson{
         return this.id;
     }
 
-    public SimpleStringProperty getGroupname(){
+    public String getGroupname(){
+        return this.groupname.getValue();
+    }
+    
+    @JsonIgnore
+    public SimpleStringProperty getGroupnameProperty(){
         return this.groupname;
     }
 

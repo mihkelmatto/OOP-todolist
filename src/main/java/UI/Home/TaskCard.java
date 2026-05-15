@@ -16,7 +16,7 @@ public class TaskCard {
         this.task = task;
         this.layout = new VBox();
 
-        Label description = new Label(task.getDescription().getValue());
+        Label description = new Label(task.getDescription());
         description.setMaxWidth(Double.MAX_VALUE);
         description.setWrapText(true);
         description.getStyleClass().add("TaskCard-description");
@@ -44,7 +44,7 @@ public class TaskCard {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         
-        Label title = new Label(this.task.getTitle().getValue());
+        Label title = new Label(this.task.getTitle());
         Label taskgroup = new Label("Taskgroup");
         Label deadline = new Label(this.task.formattedDeadline());
 

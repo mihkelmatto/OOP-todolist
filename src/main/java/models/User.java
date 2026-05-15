@@ -2,6 +2,7 @@ package models;
 import utils.ToJson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.robsonkades.uuidv7.UUIDv7;
 import javafx.beans.property.SimpleStringProperty;
@@ -29,10 +30,10 @@ public class User implements ToJson{
     @JsonCreator
     public User(
             @JsonProperty("uuid") UUID id, 
-            @JsonProperty("username") SimpleStringProperty username
+            @JsonProperty("username") String username
         ) {
         this.id = id;
-        this.username = username;
+        this.username = new SimpleStringProperty(username);
     }    
 
     // SETTERS
@@ -46,8 +47,13 @@ public class User implements ToJson{
         return this.id;
     }
 
-    public SimpleStringProperty getUsername(){
+    @JsonIgnore
+    public SimpleStringProperty getUsernameProperty(){
         return this.username;
+    }
+
+    public String getUsername(){
+        return this.username.getValue();
     }
 
     // OTHER
