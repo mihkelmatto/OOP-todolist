@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.github.robsonkades.uuidv7.UUIDv7;
@@ -16,52 +17,47 @@ public class Task {
     private final UUID id;
     private SimpleStringProperty title;
     private SimpleStringProperty description;
-    private ObjectProperty<LocalDateTime> deadlineObjectProperty;
-    private ObjectProperty<LocalDateTime> lastUpdatedObjectPropery;
-    private LocalDateTime deadline; // TODO: Kuidas seda propertyks teha?
-    private LocalDateTime lastupdated;
+    private ObjectProperty<LocalDateTime> deadline;
+    private ObjectProperty<LocalDateTime> lastupdated;
 
     public Task(String title, String description, LocalDateTime deadline){
         this.id = UUIDv7.randomUUID();
         this.title = new SimpleStringProperty(title);
         this.description = new SimpleStringProperty(description);
-        this.lastupdated = LocalDateTime.now();
-        this.deadline = deadline;
-        this.deadlineObjectProperty = new SimpleObjectProperty<>(deadline);
-        this.lastUpdatedObjectPropery = new SimpleObjectProperty<>(LocalDateTime.now());
+        this.deadline = new SimpleObjectProperty<>(deadline);
+        this.lastupdated = new SimpleObjectProperty<>(LocalDateTime.now());
     }
 
     @JsonCreator
     public Task(
             @JsonProperty("id") UUID id,
-            @JsonProperty("title") SimpleStringProperty title,
-            @JsonProperty("description") SimpleStringProperty description,
+            @JsonProperty("title") String title,
+            @JsonProperty("description") String description,
             @JsonProperty("deadline") LocalDateTime deadline,
             @JsonProperty("lastupdated") LocalDateTime lastupdated
     ) {
         this.id = id;
-        this.title = title;
-        this.description = description;
-        this.deadline = deadline;
-        this.lastupdated = lastupdated;
+        this.title = new SimpleStringProperty(title);
+        this.description = new SimpleStringProperty(description);
+        this.deadline = new SimpleObjectProperty<>(deadline);
+        this.lastupdated = new SimpleObjectProperty<>(lastupdated);
     }
 
     // SETTERS
 
     public void updateTitle(String title){
         this.title.set(title);
-        this.lastupdated = LocalDateTime.now();
+        this.lastupdated.set(LocalDateTime.now());
     }
 
     public void updateDescription(String description){
         this.description.set(description);
-        this.lastupdated = LocalDateTime.now();
+        this.lastupdated.set(LocalDateTime.now());
     }
 
     public void updateDeadline(LocalDateTime deadline){
-        this.deadline = deadline;
-        this.lastupdated = LocalDateTime.now();
-        this.deadlineObjectProperty.set(deadline);
+        this.lastupdated.set(LocalDateTime.now());
+        this.deadline.set(deadline);
     }
 
     // GETTERS
@@ -70,28 +66,31 @@ public class Task {
         return this.id;
     }
 
-    public SimpleStringProperty getTitle(){
-        return this.title;
+ 
+    public String getTitle(){
+        return this.title.getValue();
     }
-    
-    public SimpleStringProperty getDescription(){
-        return this.description;
+
+
+    public String getDescription(){
+        return this.description.getValue();
     }
 
     public LocalDateTime getDeadline(){
-        return this.deadline;
+        return this.deadline.getValue();
     }
 
     public LocalDateTime getLastupdated(){
-        return this.lastupdated;
+        return this.lastupdated.getValue();
     }
 
-    public ObjectProperty<LocalDateTime> deadlineObjectPropertyProperty() {
-        return deadlineObjectProperty;
+    @JsonIgnore
+    public ObjectProperty<LocalDateTime> getDeadlineProperty() {
+        return deadline;
     }
-
-    public ObjectProperty<LocalDateTime> lastUpdatedObjectProperyProperty() {
-        return lastUpdatedObjectPropery;
+    @JsonIgnore
+    public ObjectProperty<LocalDateTime> getLastupdatedProperty() {
+        return lastupdated;
     }
 
     // OTHER
@@ -109,6 +108,6 @@ public class Task {
 
     public String formattedDeadline(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
-        return this.deadline.format(formatter);
+        return this.deadline.getValue().format(formatter);
     }
 }

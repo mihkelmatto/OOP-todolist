@@ -35,7 +35,7 @@ public class Classreader {
 
             for(File f : files){
                 User user = mapper.readValue(f, User.class);
-                if(user.getUsername().getValue().equals(username)) return user;
+                if(user.getUsername().equals(username)) return user;
             }
 
             System.out.println("Kasutajat ei leitud: " + username);
