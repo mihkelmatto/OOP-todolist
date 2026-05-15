@@ -45,5 +45,47 @@
     "description" : "Teosta koodikvaliteedi ülevaatus",
     "deadline" : "2026-05-29T15:15:02.4642112",
     "lastupdated" : "2026-05-15T15:15:02.4642112"
+  }, {
+    "id" : "019e2b9c-c663-7fe1-b309-973f88327c55",
+    "title" : "Projektiplaan",
+    "description" : "Koosta algne projektiplaan ja eesmärgid",
+    "deadline" : "2026-05-17T15:29:15.234357",
+    "lastupdated" : "2026-05-15T15:29:15.2358986"
+  }, {
+    "id" : "019e2b9c-c663-7f0f-9a47-5b39e4f04615",
+    "title" : "Andmeanalüüs",
+    "description" : "Analüüsi esialgsed andmekogumid",
+    "deadline" : "2026-05-19T15:29:15.2358986",
+    "lastupdated" : "2026-05-15T15:29:15.2358986"
+  }, {
+    "id" : "019e2b9c-c663-7476-a267-208c8d6b92f7",
+    "title" : "Kasutajaliides",
+    "description" : "Disaini rakenduse UI prototüüp",
+    "deadline" : "2026-05-21T15:29:15.2358986",
+    "lastupdated" : "2026-05-15T15:29:15.2358986"
+  }, {
+    "id" : "019e2b9c-c663-75ea-bc7a-60289682f94e",
+    "title" : "Testimine",
+    "description" : "Koosta testjuhtumid põhifunktsioonidele",
+    "deadline" : "2026-05-23T15:29:15.2358986",
+    "lastupdated" : "2026-05-15T15:29:15.2358986"
+  }, {
+    "id" : "019e2b9c-c663-7f9d-9965-bc09bd684b87",
+    "title" : "Dokumentatsioon",
+    "description" : "Kirjuta tehniline dokumentatsioon",
+    "deadline" : "2026-05-25T15:29:15.2358986",
+    "lastupdated" : "2026-05-15T15:29:15.2358986"
+  }, {
+    "id" : "019e2b9c-c663-784e-8162-720bab06e9f1",
+    "title" : "Integratsioon",
+    "description" : "Ühenda teenused ja API-d",
+    "deadline" : "2026-05-27T15:29:15.2358986",
+    "lastupdated" : "2026-05-15T15:29:15.2358986"
+  }, {
+    "id" : "019e2b9c-c663-75cc-9d94-b7ad7b39c376",
+    "title" : "Koodiarvustus",
+    "description" : "Teosta koodikvaliteedi ülevaatus",
+    "deadline" : "2026-05-29T15:29:15.2358986",
+    "lastupdated" : "2026-05-15T15:29:15.2358986"
   } ]
 }
