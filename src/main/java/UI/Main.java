@@ -2,16 +2,20 @@ package UI;
 
 import UI.Home.HomeScene;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import models.Session;
 /**
  * JavaFX App
  */
 public class Main extends Application {
+    Session session;
 
     @Override
     public void start(Stage stage) {
-        HomeScene home = new HomeScene();
+        this.session = new Session("Mari");
+        HomeScene home = new HomeScene(this.session);
 
         stageSettings(stage);
 
@@ -28,6 +32,12 @@ public class Main extends Application {
         stage.setHeight(750);
         // stage.setResizable(false);
 
+        stage.setOnCloseRequest(event -> {
+            this.session.save();
+
+            Platform.exit();
+            System.exit(0);
+        });
     }
 
     public static void main(String[] args) {

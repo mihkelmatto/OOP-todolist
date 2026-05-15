@@ -41,8 +41,7 @@ public class TaskCard {
         HBox layout = new HBox();
         layout.setSpacing(10);
 
-
-        // Headeri sisu loomine
+        // Vasak pool
         Button complete = new Button();
         complete.setOnAction(e -> {
             System.out.println("task completed");
@@ -50,22 +49,23 @@ public class TaskCard {
             System.out.println(this.task.getDeadline());
         });
 
+        Label title = new Label(this.task.getTitle());
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        
+        Label deadline = new Label();
+        deadline.textProperty().bind(this.deadline);
+        
+        // Parem pool
         Button options = new Button();
         options.setOnAction(e -> {
             System.out.println("options");
         });
 
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-
-        Label title = new Label(this.task.getTitle());
-        Label taskgroup = new Label("Taskgroup");
-        Label deadline = new Label();
-        deadline.textProperty().bind(this.deadline);
-
         // stylesheets, layouti lisamine
         layout.getStyleClass().add("TaskCard-header");
-        layout.getChildren().addAll(complete, title, spacer, taskgroup, deadline, options);
+        layout.getChildren().addAll(complete, title, spacer, deadline, options);
         return layout;  
     }
 

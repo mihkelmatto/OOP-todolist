@@ -2,6 +2,7 @@ package models;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -107,7 +108,7 @@ public class Task {
     }
 
     public String formattedDeadline(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm d.MMM yyyy", Locale.getDefault());
         return this.deadline.getValue().format(formatter);
     }
 }

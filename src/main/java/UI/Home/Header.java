@@ -1,16 +1,21 @@
 package UI.Home;
 
+import java.util.UUID;
+
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import models.Session;
+import models.TaskGroup;
 
 public class Header {
     private VBox layout;
+    private Session session;
 
-    public Header(){
+    public Header(Session session){
+        this.session = session;
         VBox layout = new VBox();
         
-        // layout.getChildren().add(new Label("Title"));
         layout.getChildren().add(getNavbar());
         layout.getStyleClass().add("Header");
 
@@ -21,9 +26,13 @@ public class Header {
         HBox navbar = new HBox();
         navbar.setSpacing(10);
 
-        for(int i = 1; i<5; i++){
-            String category = String.format("Category %s", i);
-            navbar.getChildren().add(new Button(category));
+        
+        for(UUID tgid : this.session.getTaskgroups().keySet()){
+            TaskGroup tg = this.session.getTaskgroups().get(tgid);
+
+            Button navigation = new Button(tg.getGroupname());
+
+            navbar.getChildren().add(navigation);
         }
         navbar.getStyleClass().add("Navbar");
         return navbar;
