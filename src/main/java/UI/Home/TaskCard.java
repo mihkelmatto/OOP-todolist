@@ -1,17 +1,14 @@
 package UI.Home;
+import models.Task;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import models.Task;
-
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class TaskCard {
     private Task task;
@@ -20,12 +17,11 @@ public class TaskCard {
 
     public TaskCard(Task task){
         this.task = task;
-        this.deadline = new SimpleStringProperty();
 
+        this.deadline = new SimpleStringProperty();
         this.task.getDeadlineProperty().addListener((obs, oldVal, newVal) -> {
             this.deadline.set(this.task.formattedDeadline());
         });
-
         this.deadline.set(this.task.formattedDeadline());
 
 
@@ -62,8 +58,6 @@ public class TaskCard {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        //StringProperty stringProperty = new SimpleStringProperty();
-        //stringProperty.bind(this.deadline);
         Label title = new Label(this.task.getTitle());
         Label taskgroup = new Label("Taskgroup");
         Label deadline = new Label();

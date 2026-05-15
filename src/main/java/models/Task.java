@@ -12,7 +12,6 @@ import io.github.robsonkades.uuidv7.UUIDv7;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 
 public class Task {
     private final UUID id;
