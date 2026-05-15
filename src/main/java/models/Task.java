@@ -8,12 +8,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.github.robsonkades.uuidv7.UUIDv7;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Task {
     private final UUID id;
     private SimpleStringProperty title;
     private SimpleStringProperty description;
+    private ObjectProperty<LocalDateTime> deadlineObjectProperty;
+    private ObjectProperty<LocalDateTime> lastUpdatedObjectPropery;
     private LocalDateTime deadline; // TODO: Kuidas seda propertyks teha?
     private LocalDateTime lastupdated;
 
@@ -23,6 +27,8 @@ public class Task {
         this.description = new SimpleStringProperty(description);
         this.lastupdated = LocalDateTime.now();
         this.deadline = deadline;
+        this.deadlineObjectProperty = new SimpleObjectProperty<>(deadline);
+        this.lastUpdatedObjectPropery = new SimpleObjectProperty<>(LocalDateTime.now());
     }
 
     @JsonCreator
@@ -55,6 +61,7 @@ public class Task {
     public void updateDeadline(LocalDateTime deadline){
         this.deadline = deadline;
         this.lastupdated = LocalDateTime.now();
+        this.deadlineObjectProperty.set(deadline);
     }
 
     // GETTERS
@@ -77,6 +84,14 @@ public class Task {
 
     public LocalDateTime getLastupdated(){
         return this.lastupdated;
+    }
+
+    public ObjectProperty<LocalDateTime> deadlineObjectPropertyProperty() {
+        return deadlineObjectProperty;
+    }
+
+    public ObjectProperty<LocalDateTime> lastUpdatedObjectProperyProperty() {
+        return lastUpdatedObjectPropery;
     }
 
     // OTHER
