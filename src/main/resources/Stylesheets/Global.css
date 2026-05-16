@@ -28,6 +28,10 @@
 
 
 /* Scroll pane */
+.scroll-pane{
+    -fx-padding: 20;
+}
+
 .scroll-pane,
 .scroll-pane .viewport {
     -fx-background-color: rgb(38, 38, 38);

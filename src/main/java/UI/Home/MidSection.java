@@ -16,14 +16,13 @@ public class MidSection {
         this.activeTG = this.session.getTaskgroups().values().iterator().next();
 
         VBox content = new VBox();
-        content.setSpacing(10);
+        content.setSpacing(20);
 
         for(Task task : this.activeTG.getTasks()){
             TaskCard card = new TaskCard(task);
             content.getChildren().add(card.getLayout());
         }
         
-        // content.getStyleClass().add("MidSection");
         this.layout = new ScrollPane(content);
         this.layout.setFitToWidth(true);
         this.layout.getStyleClass().add("MidSection");
