@@ -40,6 +40,7 @@ public class Session {
         }
     }
     // SETTERS
+
     // GETTERS
     public User getUser(){
         return this.user;
@@ -47,15 +48,5 @@ public class Session {
 
     public HashMap<UUID, TaskGroup> getTaskgroups(){
         return this.taskgroups;
-    }
-    // OTHER
-
-    @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Session info: \n");
-        sb.append(user.toString());
-        for(UUID tgid : taskgroups.keySet()) sb.append(taskgroups.get(tgid).toString() + "\n");
-        return sb.toString();
     }
 }

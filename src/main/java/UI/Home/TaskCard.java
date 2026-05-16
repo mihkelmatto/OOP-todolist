@@ -49,10 +49,12 @@ public class TaskCard {
         // Content area
         VBox contentarea = new VBox();
 
-        Label title = new Label(this.task.getTitle()); //TODO: title peaks olema property
+        Label title = new Label(this.task.getTitle());
+        title.textProperty().bind(this.task.getTitleProperty());
         title.getStyleClass().add("Taskcard-title");
 
         Label description = new Label(task.getDescription());
+        description.textProperty().bind(this.task.getDescriptionProperty());
         description.setWrapText(true);
         description.getStyleClass().add("Taskcard-description");
 

@@ -43,23 +43,16 @@ public class User implements ToJson{
 
     // GETTERS
 
-    public UUID getID(){
-        return this.id;
-    }
-
     @JsonIgnore
     public SimpleStringProperty getUsernameProperty(){
         return this.username;
     }
+    
+    public UUID getID(){
+        return this.id;
+    }
 
     public String getUsername(){
         return this.username.getValue();
-    }
-
-    // OTHER
-    
-    @Override
-    public String toString(){
-        return String.format("Username: %s, UUID: %s\n", this.username, this.id);
     }
 }

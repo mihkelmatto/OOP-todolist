@@ -12,15 +12,6 @@
     -fx-border-radius: 10;
 }
 
-.button:hover{
-    -fx-background-color: rgb(71, 71, 71);
-}
-
-.Button:pressed{
-    -fx-background-color: rgb(59, 59, 59);
-}
-
-
 /* Midsection */
 .MidSection {
     -fx-padding: 5;

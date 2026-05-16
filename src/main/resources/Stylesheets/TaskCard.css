@@ -12,6 +12,10 @@
     -fx-pref-width: 40;
 }
 
+.Completebutton:hover{
+    -fx-background-color: rgb(71, 71, 71);
+}
+
 /* Content container */
 .Taskcard-contentarea{
     -fx-padding: 10 0 0 0
@@ -82,4 +86,8 @@
 
     -fx-font-size: 20;
     -fx-font-weight: bold;
+}
+
+.Taskcard-optionsbox .button:hover{
+    -fx-background-color: rgb(71, 71, 71);
 }
