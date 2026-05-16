@@ -1,7 +1,6 @@
 package UI.Home;
 
-import java.util.UUID;
-
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -14,30 +13,40 @@ import models.TaskGroup;
 public class Header {
     private HBox layout;
     private Session session;
+    private SimpleStringProperty activeTGtitle;
 
     public Header(Session session){
         this.session = session;
-        HBox layout = new HBox();
-        
-        Label activeTG = new Label("My tasks");
+        this.activeTGtitle = session.getActiveTGProperty().getValue().getGroupnameProperty();
 
+        HBox layout = new HBox();
+
+        // Title
+        Label title = new Label();
+        title.textProperty().bind(activeTGtitle);
+
+        // spacer
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        // Taskgroup menüü
+        // Dropdown menu
         Button addTG = new Button("+");
         addTG.setOnAction(e -> {
             System.out.println("taskgroup added");
         });
 
         ComboBox<String> dropdown = new ComboBox<>();
-        for(UUID tgid : this.session.getTaskgroups().keySet()){
-            TaskGroup tg = this.session.getTaskgroups().get(tgid);
+        for(TaskGroup tg : this.session.getTaskgroups()){
             dropdown.getItems().add(tg.getGroupname());
         }
-        dropdown.setValue(this.session.getTaskgroups().values().iterator().next().getGroupname()); // TODO: kuidas saaks default-value täpsemalt määrata?
+        dropdown.valueProperty().bind(activeTGtitle);
+        dropdown.valueProperty().addListener((obs, oldValue, newValue) -> {
 
-        layout.getChildren().addAll(activeTG, spacer, addTG, dropdown);
+            // TODO: scrollable sisu muutmine
+        });      
+
+
+        layout.getChildren().addAll(title, spacer, addTG, dropdown);
         layout.getStyleClass().add("Header");
 
         this.layout = layout;

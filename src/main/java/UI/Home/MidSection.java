@@ -1,5 +1,8 @@
 package UI.Home;
 
+import java.util.ArrayList;
+
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import models.Session;
@@ -9,23 +12,30 @@ import models.TaskGroup;
 public class MidSection {
     private ScrollPane layout;
     private Session session;
-    private TaskGroup activeTG;
+    private SimpleObjectProperty<TaskGroup> activeTG;
 
     public MidSection(Session session){
         this.session = session;
-        this.activeTG = this.session.getTaskgroups().values().iterator().next();
+        this.activeTG = session.getActiveTGProperty();
 
-        VBox content = new VBox();
-        content.setSpacing(20);
-
-        for(Task task : this.activeTG.getTasks()){
-            TaskCard card = new TaskCard(task);
-            content.getChildren().add(card.getLayout());
-        }
+        this.layout = new ScrollPane();
+        refreshTaskCards();
         
-        this.layout = new ScrollPane(content);
         this.layout.setFitToWidth(true);
         this.layout.getStyleClass().add("MidSection");
+    }
+
+    public void refreshTaskCards(){
+        VBox taskcards = new VBox();
+        taskcards.setSpacing(20);
+
+        ArrayList<Task> tasks = this.activeTG.getValue().getTasks();
+
+        for(Task task : tasks){
+            TaskCard card = new TaskCard(task);
+            taskcards.getChildren().add(card.getLayout());
+        }
+        this.layout.setContent(taskcards);
     }
 
     public ScrollPane getLayout(){

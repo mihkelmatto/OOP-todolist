@@ -9,7 +9,7 @@ public class HomeScene{
     private Scene scene;
 
     public HomeScene(Session session){
-        this.session = session;
+        this.session = session;        
         VBox root = new VBox();
 
         Header header = new Header(this.session);

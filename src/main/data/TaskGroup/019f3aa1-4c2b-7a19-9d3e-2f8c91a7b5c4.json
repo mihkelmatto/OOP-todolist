@@ -1,0 +1,43 @@
+{
+  "id" : "019f3aa1-4c2b-7a19-9d3e-2f8c91a7b5c4",
+  "groupname" : "Chores",
+  "owner" : "019f3aa1-4c2b-7a19-9d3e-2f8c91a7b5c4",
+  "users" : [ "019f3aa1-4c2b-7a19-9d3e-2f8c91a7b5c4" ],
+  "tasks" : [ {
+    "id" : "019f3aa1-4c2b-7b10-8c3d-91a2f4d7e001",
+    "title" : "Kitchen cleaning",
+    "description" : "Puhasta tööpinnad, kraanikauss ja pliit põhjalikult",
+    "deadline" : "2026-05-18T10:30:00",
+    "lastupdated" : "2026-05-17T09:15:00"
+  }, {
+    "id" : "019f3aa1-4c2b-7b10-8c3d-91a2f4d7e002",
+    "title" : "Laundry",
+    "description" : "Pese, kuivata ja voldi riided",
+    "deadline" : "2026-05-19T18:00:00",
+    "lastupdated" : "2026-05-17T12:40:00"
+  }, {
+    "id" : "019f3aa1-4c2b-7b10-8c3d-91a2f4d7e003",
+    "title" : "Waste sorting",
+    "description" : "Kontrolli ja vii välja olme- ning pakendijäätmed",
+    "deadline" : "2026-05-20T08:00:00",
+    "lastupdated" : "2026-05-17T08:10:00"
+  }, {
+    "id" : "019f3aa1-4c2b-7b10-8c3d-91a2f4d7e004",
+    "title" : "Dusting",
+    "description" : "Puhasta kõik pinnad tolmust eluruumides",
+    "deadline" : "2026-05-22T16:45:00",
+    "lastupdated" : "2026-05-17T14:25:00"
+  }, {
+    "id" : "019f3aa1-4c2b-7b10-8c3d-91a2f4d7e005",
+    "title" : "Bathroom cleaning",
+    "description" : "Puhasta kraanikauss, dušš ja põrand",
+    "deadline" : "2026-05-24T11:20:00",
+    "lastupdated" : "2026-05-17T10:05:00"
+  }, {
+    "id" : "019f3aa1-4c2b-7b10-8c3d-91a2f4d7e006",
+    "title" : "Grocery list",
+    "description" : "Koosta nädalaseks tarbimiseks vajalike toodete nimekiri",
+    "deadline" : "2026-05-21T19:10:00",
+    "lastupdated" : "2026-05-17T13:55:00"
+  } ]
+}

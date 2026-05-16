@@ -1,14 +1,14 @@
 {
   "id" : "019e2bf9-c885-7238-9cb3-65ae615bdd91",
-  "groupname" : "Tasks",
+  "groupname" : "Tarkvaraprojekt",
   "owner" : "019e2bf9-c881-7056-80e9-64f7ba927a7c",
   "users" : [ "019e2bf9-c881-7056-80e9-64f7ba927a7c" ],
   "tasks" : [ {
     "id" : "019e2bf9-c8be-74ac-a502-fdc6f9ffa005",
     "title" : "Projektiplaan",
     "description" : "Koosta algne projektiplaan ja eesmärgid",
-    "deadline" : "2026-05-16T18:12:04.6627153",
-    "lastupdated" : "2026-05-16T18:12:04.6627153"
+    "deadline" : "2026-05-16T23:29:21.1941296",
+    "lastupdated" : "2026-05-16T23:29:21.1950968"
   }, {
     "id" : "019e2bf9-c8bf-7db6-81ec-9357d5a5f62e",
     "title" : "Andmeanalüüs",
