@@ -16,16 +16,23 @@ import java.time.LocalDateTime;
 public class TaskCard {
     private Task task;
     private HBox layout;
-    private SimpleStringProperty deadline;
+    private SimpleStringProperty timeDL;
+    private SimpleStringProperty dateDL;
 
     public TaskCard(Task task){
         this.task = task;
 
-        this.deadline = new SimpleStringProperty();
-        this.task.getDeadlineProperty().addListener((obs, oldVal, newVal) -> {
-            this.deadline.set(this.task.formattedDeadline());
+        this.timeDL = new SimpleStringProperty();
+        this.task.getTimeDLProperty().addListener((obs, oldVal, newVal) -> {
+            this.timeDL.set(this.task.formattedTimeDL());
         });
-        this.deadline.set(this.task.formattedDeadline());
+        this.timeDL.set(this.task.formattedTimeDL());        
+
+        this.dateDL = new SimpleStringProperty();
+        this.task.getDateDLProperty().addListener((obs, oldVal, newVal) -> {
+            this.dateDL.set(this.task.formattedDateDL());
+        });
+        this.dateDL.set(this.task.formattedDateDL()); 
 
         this.layout = createLayout();
     }
@@ -39,9 +46,10 @@ public class TaskCard {
         Button complete = new Button();
         complete.setOnAction(e -> {
             System.out.println("task completed");
-            this.task.updateDeadline(LocalDateTime.now());
+            this.task.updateDateTimeDL(LocalDateTime.now());
             System.out.println(this.task.getDeadline());
         });
+
         complete.getStyleClass().add("Completebutton");
         HBox.setMargin(complete, new Insets(20, 10, 0, 0));
 
@@ -70,12 +78,6 @@ public class TaskCard {
         // deadline area
         HBox deadlinewidget = createDeadlinewidget();
         HBox.setMargin(deadlinewidget, new Insets(10, 0, 10, 0));
-        /*        
-        Label deadline = new Label();
-        deadline.textProperty().bind(this.deadline);
-        deadline.getStyleClass().add("Taskcard-deadline");
-        */
-
 
         // options
         VBox optionsbox = new VBox();
@@ -93,7 +95,6 @@ public class TaskCard {
         return layout;
     }
 
-    // TODO: Aja property korda teha
     private HBox createDeadlinewidget(){
         HBox layout = new HBox();
         layout.setSpacing(20);
@@ -104,11 +105,13 @@ public class TaskCard {
         VBox deadlinebox = new VBox();     
         deadlinebox.setAlignment(Pos.CENTER_LEFT);
 
-        Label time = new Label("22:58");
+        Label time = new Label();
+        time.textProperty().bind(timeDL);
         time.getStyleClass().add("deadline-time");
 
-        Label date = new Label("15.May 2026");
+        Label date = new Label();
         date.getStyleClass().add("deadline-date");
+        date.textProperty().bind(dateDL);
         deadlinebox.getChildren().addAll(time, date);
 
         layout.getStyleClass().add("Taskcard-deadlinewidget");
