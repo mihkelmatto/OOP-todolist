@@ -48,6 +48,7 @@ public class TaskCard {
             this.task.updateDeadline(LocalDateTime.now());
             System.out.println(this.task.getDeadline());
         });
+        complete.getStyleClass().add("Completebutton");
 
         Label title = new Label(this.task.getTitle());
 
@@ -58,10 +59,11 @@ public class TaskCard {
         deadline.textProperty().bind(this.deadline);
         
         // Parem pool
-        Button options = new Button();
+        Button options = new Button("⋮");
         options.setOnAction(e -> {
             System.out.println("options");
         });
+        options.getStyleClass().add("Optionsbutton");
 
         // stylesheets, layouti lisamine
         layout.getStyleClass().add("TaskCard-header");

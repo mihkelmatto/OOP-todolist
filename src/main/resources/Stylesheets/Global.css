@@ -3,37 +3,28 @@
     -fx-text-fill: rgb(228, 228, 228);
 }
 
-/* header */
-.Header{
-    -fx-background-color: rgb(59, 59, 59);
-    -fx-font-size: 25px;
+.button {
+    -fx-background-color: rgb(38, 38, 38);
+    -fx-text-alignment: center;
+    -fx-border-width: 1 1 1 1;
     -fx-border-color: rgb(115, 115, 115);
-    -fx-border-width: 0 0 1 0;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
 }
 
-.Header .label{
-    -fx-text-fill: white;
+.button:hover{
+    -fx-background-color: rgb(71, 71, 71);
 }
 
-.Header .Navbar {
-    -fx-border-color: rgb(115, 115, 115);
+.Button:pressed{
     -fx-background-color: rgb(59, 59, 59);
-    -fx-padding: 3;
 }
-.Header .Navbar .button{
-    -fx-background-color: rgb(59, 59, 59);
-    -fx-border-color: rgb(115, 115, 115);
-}
-.Header .Navbar .button:hover {
-    -fx-background-color: rgb(82, 82, 82);
-}
+
 
 /* Midsection */
 .MidSection {
     -fx-padding: 5;
 }
-
-
 
 
 /* Scroll pane */
