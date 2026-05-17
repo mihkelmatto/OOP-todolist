@@ -29,7 +29,7 @@ kui omanik eemaldab isiku taskgroupist:
 TODO: Userite nimekirja peaks ehk Setiks tegema, et ei peaks duplikaate kontrollima ning otsimisaeg oleks väiksem (Setil on vist O1)
 */
 
-public class TaskGroup implements ToJson{
+public class TaskGroup implements ToJson, Comparable<TaskGroup> {
     private final UUID id;
     private SimpleStringProperty groupname;
     private UUID owner;
@@ -62,6 +62,11 @@ public class TaskGroup implements ToJson{
         this.owner = owner;
         this.users = users != null ? new ArrayList<>(users) : new ArrayList<>();
         this.tasks = tasks != null ? new ArrayList<>(tasks) : new ArrayList<>();
+    }
+
+    @Override
+    public int compareTo(TaskGroup tg) {
+        return this.groupname.getValue().compareToIgnoreCase(tg.groupname.getValue());
     }
 
     // SETTERS

@@ -2,6 +2,7 @@ package models;
 
 import utils.Classreader;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -32,6 +33,7 @@ public class Session {
         this.user = Classreader.findUser(username);
         this.taskgroups = Classreader.findTaskgroups(this.user.getID());
         this.activeTG = new SimpleObjectProperty<TaskGroup>(this.taskgroups.get(0));
+        Collections.sort(this.taskgroups);
     }
 
     // salvestamise ajal vist ei pea tgmapperit kontrollima?
@@ -42,6 +44,14 @@ public class Session {
         }
     }
     // SETTERS
+    public void setActiveTG(String groupname){
+        for(TaskGroup tg : this.taskgroups){
+            if(tg.getGroupname().equals(groupname)){
+                this.activeTG.setValue(tg);
+                break;
+            }
+        }
+    }
 
     // GETTERS
     public SimpleObjectProperty<TaskGroup> getActiveTGProperty(){

@@ -13,16 +13,20 @@ import models.TaskGroup;
 public class Header {
     private HBox layout;
     private Session session;
-    private SimpleStringProperty activeTGtitle;
 
     public Header(Session session){
         this.session = session;
-        this.activeTGtitle = session.getActiveTGProperty().getValue().getGroupnameProperty();
-
         HBox layout = new HBox();
 
         // Title
         Label title = new Label();
+        SimpleStringProperty activeTGtitle = new SimpleStringProperty();
+        activeTGtitle.set(this.session.getActiveTGProperty().getValue().getGroupname());
+        this.session.getActiveTGProperty().addListener(
+            (obs, oldVal, newVal) -> {
+                activeTGtitle.set(newVal.getGroupname());
+            }
+        );
         title.textProperty().bind(activeTGtitle);
 
         // spacer
@@ -39,10 +43,9 @@ public class Header {
         for(TaskGroup tg : this.session.getTaskgroups()){
             dropdown.getItems().add(tg.getGroupname());
         }
-        dropdown.valueProperty().bind(activeTGtitle);
+        dropdown.setValue(this.session.getActiveTGProperty().getValue().getGroupname());
         dropdown.valueProperty().addListener((obs, oldValue, newValue) -> {
-
-            // TODO: scrollable sisu muutmine
+            this.session.setActiveTG(newValue);
         });      
 
 
