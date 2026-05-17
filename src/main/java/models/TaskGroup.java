@@ -29,7 +29,7 @@ kui omanik eemaldab isiku taskgroupist:
 TODO: Userite nimekirja peaks ehk Setiks tegema, et ei peaks duplikaate kontrollima ning otsimisaeg oleks väiksem (Setil on vist O1)
 */
 
-public class TaskGroup implements ToJson{
+public class TaskGroup implements ToJson, Comparable<TaskGroup> {
     private final UUID id;
     private SimpleStringProperty groupname;
     private UUID owner;
@@ -64,6 +64,11 @@ public class TaskGroup implements ToJson{
         this.tasks = tasks != null ? new ArrayList<>(tasks) : new ArrayList<>();
     }
 
+    @Override
+    public int compareTo(TaskGroup tg) {
+        return this.groupname.getValue().compareToIgnoreCase(tg.groupname.getValue());
+    }
+
     // SETTERS
     public void setGroupname(String groupname){
         this.groupname.set(groupname);
@@ -78,6 +83,10 @@ public class TaskGroup implements ToJson{
     }
 
     // GETTERS
+    @JsonIgnore
+    public SimpleStringProperty getGroupnameProperty(){
+        return this.groupname;
+    }
 
     public UUID getID(){
         return this.id;
@@ -85,11 +94,6 @@ public class TaskGroup implements ToJson{
 
     public String getGroupname(){
         return this.groupname.getValue();
-    }
-    
-    @JsonIgnore
-    public SimpleStringProperty getGroupnameProperty(){
-        return this.groupname;
     }
 
     public UUID getOwner(){
@@ -102,25 +106,5 @@ public class TaskGroup implements ToJson{
 
     public ArrayList<Task> getTasks(){
         return this.tasks;
-    }
-
-    // OTHER
-
-    @Override
-    public String toString(){
-        return String.format("""
-                    Task group: %s
-                    Owner: %s
-                    Users: %s
-                    Task count: %s
-                """, this.groupname, this.owner, this.users, this.tasks.size());
-    }
-
-    public String tasksToString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("Task list for group %s:\n", this.groupname));
-        for(Task task : this.tasks) sb.append(task);
-        sb.append("\n");
-        return sb.toString();
     }
 }

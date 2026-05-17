@@ -1,0 +1,105 @@
+/* header */
+.Header{
+    -fx-alignment: center;
+    
+    -fx-background-color: rgb(59, 59, 59);
+    -fx-border-color: rgb(115, 115, 115);
+    -fx-border-width: 0 0 1 0;
+
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+
+    -fx-min-height: 80;
+}
+
+.Header .label{
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.Header {
+    -fx-border-color: rgb(115, 115, 115);
+    -fx-background-color: rgb(59, 59, 59);
+    -fx-padding: 10;
+}
+
+/* Buttons */
+.Header .button{
+    -fx-font-size: 25;
+    -fx-font-weight: bold;
+    -fx-padding: 0;
+
+    -fx-pref-height: 50;
+    -fx-pref-width: 50;
+
+    -fx-background-color: rgb(59, 59, 59);
+    -fx-border-color: rgb(115, 115, 115);
+    -fx-border-radius: 10 0 0 10;
+    -fx-background-radius: 10 0 0 10;
+}
+
+.Header .button:hover {
+    -fx-background-color: rgb(82, 82, 82);
+}
+
+/* Dropdown menu */
+.combo-box,
+.combo-box * {
+    -fx-background-color: rgb(59, 59, 59);
+}
+
+.combo-box {
+    -fx-pref-height: 50;
+    -fx-pref-width: 300;
+    -fx-font-size: 20px;
+    -fx-border-width: 1 1 1 0;
+    -fx-border-radius: 0 10 10 0;
+    -fx-background-radius: 0 10 10 0;
+    -fx-border-color: rgb(115, 115, 115);
+}
+
+.combo-box:showing, .combo-box:showing .list-cell{
+    -fx-border-width: 1 1 0 0;
+    -fx-border-radius: 0 0 0 0;
+    -fx-background-radius: 0 0 0 0;
+}
+
+.combo-box .list-cell{
+    -fx-pref-height: 30;
+    -fx-border-radius: 0 10 10 0;
+    -fx-background-radius: 0 10 10 0;
+}
+
+.combo-box:hover .list-cell, /* Mingi imelik bug, kus hoveri ajal on ka sisu hele*/
+.combo-box .list-cell:hover{
+    -fx-background-color: rgb(82, 82, 82);
+}
+
+.combo-box:pressed,
+.combo-box .list-cell:pressed{
+    -fx-background-color: rgb(59, 59, 59);
+}
+
+.combo-box .list-view{
+    -fx-border-color: rgb(115, 115, 115);
+}
+
+.combo-box-popup .scroll-bar .thumb {
+    -fx-background-color: rgb(115, 115, 115);
+    -fx-background-radius: 6px;
+}
+
+.combo-box-popup .scroll-bar:vertical {
+    -fx-pref-width: 8;
+    -fx-background-color: transparent;
+}
+
+.combo-box-popup .increment-button,
+.combo-box-popup .decrement-button,
+.combo-box-popup .scroll-bar:horizontal,
+.combo-box .arrow-button,
+.combo-box .arrow{
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}

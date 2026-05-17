@@ -1,9 +1,10 @@
 package models;
 
 import utils.Classreader;
+import java.util.ArrayList;
+import java.util.Collections;
 
-import java.util.HashMap;
-import java.util.UUID;
+import javafx.beans.property.SimpleObjectProperty;
 
 /*
 Sessioon peaks hakkama hoidma kõiki instantse, mida UI kasutab.
@@ -25,37 +26,43 @@ Salvestada uus TGmapper
 
 public class Session {
     private User user;
-    private HashMap<UUID, TaskGroup> taskgroups;
+    private ArrayList<TaskGroup> taskgroups;  // TODO: Sorteerimine
+    private SimpleObjectProperty<TaskGroup> activeTG;
 
     public Session(String username){
         this.user = Classreader.findUser(username);
         this.taskgroups = Classreader.findTaskgroups(this.user.getID());
+        this.activeTG = new SimpleObjectProperty<TaskGroup>(this.taskgroups.get(0));
+        Collections.sort(this.taskgroups);
     }
 
     // salvestamise ajal vist ei pea tgmapperit kontrollima?
     public void save(){
         this.user.toJsonFile();
-        for(UUID tgid : taskgroups.keySet()){
-            taskgroups.get(tgid).toJsonFile();
+        for(TaskGroup tg : taskgroups){
+            tg.toJsonFile();
         }
     }
     // SETTERS
+    public void setActiveTG(String groupname){
+        for(TaskGroup tg : this.taskgroups){
+            if(tg.getGroupname().equals(groupname)){
+                this.activeTG.setValue(tg);
+                break;
+            }
+        }
+    }
+
     // GETTERS
+    public SimpleObjectProperty<TaskGroup> getActiveTGProperty(){
+        return this.activeTG;
+    }
+    
     public User getUser(){
         return this.user;
     }
 
-    public HashMap<UUID, TaskGroup> getTaskgroups(){
+    public ArrayList<TaskGroup> getTaskgroups(){
         return this.taskgroups;
-    }
-    // OTHER
-
-    @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Session info: \n");
-        sb.append(user.toString());
-        for(UUID tgid : taskgroups.keySet()) sb.append(taskgroups.get(tgid).toString() + "\n");
-        return sb.toString();
     }
 }

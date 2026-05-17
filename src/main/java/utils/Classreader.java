@@ -7,7 +7,7 @@ import models.UserTgMapper;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,24 +57,22 @@ public class Classreader {
     - loob uue grupi (Igal kasutajal peab olema vähemalt üks taskgroup)
     - salvestab loodud TGmapperi
     */
-    public static HashMap<UUID, TaskGroup> findTaskgroups(UUID userid){
+    public static ArrayList<TaskGroup> findTaskgroups(UUID userid){
+        ArrayList<TaskGroup> taskgroups = new ArrayList<>();
         try{
             UserTgMapper tgmap = Classreader.fromJsonFile(userid, UserTgMapper.class);
 
-            HashMap<UUID, TaskGroup> taskgroups = new HashMap<>();
             for(UUID tgID : tgmap.getTaskgroups()){
                 TaskGroup tg = Classreader.fromJsonFile(tgID, TaskGroup.class);
-                taskgroups.put(tg.getID(), tg);
+                taskgroups.add(tg);
             }
 
             return taskgroups;
 
         } catch(IOException e){ // Default task group: Tasks
-            HashMap<UUID, TaskGroup> taskgroups = new HashMap<>();
-
             TaskGroup tg = new TaskGroup(userid);
             tg.setGroupname("Tasks");
-            taskgroups.put(tg.getID(), tg);
+            taskgroups.add(tg);
             
             UserTgMapper tgmapper = new UserTgMapper(userid, tg.getID());
             tgmapper.toJsonFile();
