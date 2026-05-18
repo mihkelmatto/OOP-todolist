@@ -34,6 +34,7 @@ public class UserTgMapper implements ToJson{
 
 
     // GETTERS
+
     public UUID getID(){
         return this.id;
     }

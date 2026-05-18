@@ -51,7 +51,7 @@ public class User implements ToJson{
     public UUID getID(){
         return this.id;
     }
-
+    @Deprecated
     public String getUsername(){
         return this.username.getValue();
     }

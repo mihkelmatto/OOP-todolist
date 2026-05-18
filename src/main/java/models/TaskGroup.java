@@ -1,7 +1,9 @@
 package models;
 
+import utils.Classreader;
 import utils.ToJson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -12,21 +14,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.github.robsonkades.uuidv7.UUIDv7;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.transformation.SortedList;
 
 
 /*
-Kui kasutaja kustutab taskgroupi:
-1. iga task läheb default gruppi
-2. iga kasutaja taskmapper lugeda ja uuendada.
-3. enda taskmapperist vastav grupp kustutada
-4. taskgroup kustutada
-
-kui omanik eemaldab isiku taskgroupist:
-1. kas on omanik?
-2. vastava kasutaja taskmapper uuendada
-3. taskgroupist eemaldada kasutaja UUID
-
 TODO: Userite nimekirja peaks ehk Setiks tegema, et ei peaks duplikaate kontrollima ning otsimisaeg oleks väiksem (Setil on vist O1)
+TODO: Jackson getteritelt field-accessi peale
+TODO: Sisu halduse Error handling? Peaks olema tegelikult varasemalt garanteeritud.
 */
 
 public class TaskGroup implements ToJson, Comparable<TaskGroup> {
@@ -34,14 +29,14 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
     private SimpleStringProperty groupname;
     private UUID owner;
     private ArrayList<UUID> users;
-    private ArrayList<Task> tasks;
+    private SortedList<Task> tasks;
 
     public TaskGroup(UUID owner, Task... tasks){
         this.id = UUIDv7.randomUUID();
         this.groupname = new SimpleStringProperty("New Group");
         this.owner = owner;
         this.users = new ArrayList<>();
-        this.tasks = new ArrayList<>();
+        this.tasks = new SortedList<Task>(FXCollections.observableArrayList()); // TODO: ei sorteeri aja muudatuste peale
 
         this.users.add(owner);
         this.tasks.addAll(List.of(tasks));
@@ -61,7 +56,7 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
         this.groupname = new SimpleStringProperty(groupname);
         this.owner = owner;
         this.users = users != null ? new ArrayList<>(users) : new ArrayList<>();
-        this.tasks = tasks != null ? new ArrayList<>(tasks) : new ArrayList<>();
+        this.tasks = new SortedList<Task>(FXCollections.observableArrayList(tasks != null ? tasks : new ArrayList<>()));
     }
 
     @Override
@@ -74,12 +69,56 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
         this.groupname.set(groupname);
     }
 
-    public void addUsers(UUID... users){
-        this.users.addAll(List.of(users));
+    /*
+    Lisab isiku taskgroupi
+    !!! eeltingimus: kasutaja eksisteerib ning ei ole juba taskgroupi lisatud
+
+    1. kas kasutaja on juba olemas?
+    2. lisada taskgroup.users nimekirja
+    3. uuendada kasutaja TGmapperit
+
+    
+    */
+    public void addUser(UUID userid){
+        try{
+            UserTgMapper mapper = Classreader.fromJsonFile(userid, UserTgMapper.class);
+            this.users.add(userid);
+            mapper.getTaskgroups().add(this.id);
+            mapper.toJsonFile();
+        }
+        catch(IOException e){
+            e.printStackTrace(); 
+        }
     }
 
-    public void addTasks(Task... tasks){
-        this.tasks.addAll(List.of(tasks));
+    /*
+    eemaldab isiku taskgroupist
+    !! eeltingimus: kasutaja eksisteerib taskgroupis.
+
+    1. omanikku ei saa eemaldada
+    2. vastava kasutaja taskmapper uuendada
+    3. taskgroupist eemaldada kasutaja UUID
+    */
+
+    public void removeUser(UUID userid){
+        if(userid.equals(this.owner)){
+            System.out.println("Omanikku ei saa eemaldada. Selle asemel tuleb grupp kustutada."); // TODO: mida siis UI-s teha?
+        }
+        else{
+            try{
+                UserTgMapper mapper = Classreader.fromJsonFile(userid, UserTgMapper.class);
+                this.users.remove(userid);
+                mapper.getTaskgroups().remove(this.id);
+                mapper.toJsonFile();
+            }
+            catch(IOException e){
+                e.printStackTrace(); 
+            }
+        }
+    }
+    
+    public void addTask(Task task){
+        this.tasks.add(task);
     }
 
     // GETTERS
@@ -88,14 +127,21 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
         return this.groupname;
     }
 
+    @JsonIgnore
+    public SortedList<Task> getTasksProperty(){
+        return this.tasks;
+    }
+    
     public UUID getID(){
         return this.id;
     }
 
+    @Deprecated
     public String getGroupname(){
         return this.groupname.getValue();
     }
 
+    @Deprecated
     public UUID getOwner(){
         return this.owner;
     }
@@ -104,7 +150,8 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
         return this.users;
     }
 
+    @Deprecated
     public ArrayList<Task> getTasks(){
-        return this.tasks;
+        return new ArrayList<>(this.tasks);
     }
 }

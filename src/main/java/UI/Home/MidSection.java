@@ -1,7 +1,6 @@
 package UI.Home;
 
-import java.util.ArrayList;
-
+import javafx.collections.transformation.SortedList;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import models.Session;
@@ -30,7 +29,7 @@ public class MidSection {
         VBox taskcards = new VBox();
         taskcards.setSpacing(20);
 
-        ArrayList<Task> tasks = this.session.getActiveTGProperty().getValue().getTasks();
+        SortedList<Task> tasks = this.session.getActiveTGProperty().getValue().getTasksProperty();
 
         for(Task task : tasks){
             TaskCard card = new TaskCard(task);
