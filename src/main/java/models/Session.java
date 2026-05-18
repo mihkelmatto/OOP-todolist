@@ -2,8 +2,13 @@ package models;
 
 import utils.Classreader;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.UUID;
+
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 
 /*
@@ -22,16 +27,26 @@ Salvestada Taskgroupid
 Lugeda uus TGmapper
 - kui ei leidu, siis teha uus
 Salvestada uus TGmapper
+
 */
 
 public class Session {
     private User user;
+    private ObservableList<TaskGroup> taskgroupsSource;
     private SortedList<TaskGroup> taskgroups;
     private SimpleObjectProperty<TaskGroup> activeTG;
 
+
+    /*
+    SortedListi ei saa otse muuta.
+    - lisamine ja eemaldamine taskgroupsSource alt.
+    - get() ja sarnased meetodid taskgroups alt
+    */
+   
     public Session(String username){
         this.user = Classreader.findUser(username);
-        this.taskgroups = new SortedList<TaskGroup>(FXCollections.observableArrayList(Classreader.findTaskgroups(this.user.getID())));
+        this.taskgroupsSource = FXCollections.observableArrayList(Classreader.findTaskgroups(this.user.getID()));
+        this.taskgroups = new SortedList<TaskGroup>(this.taskgroupsSource);
         this.activeTG = new SimpleObjectProperty<TaskGroup>(this.taskgroups.get(0));
     }
 
@@ -42,15 +57,58 @@ public class Session {
             tg.toJsonFile();
         }
     }
+    /*
+    Loob uue TaskGroupi:
+    - uuendab this.taskgroups nimekirja
+    - uuendab kasutaja TGmapperit
+    */
+    public void createTaskgroup(){
+        try{
+            TaskGroup tg = new TaskGroup(this.user.getID());
+            tg.setGroupname("New task group");
+            this.taskgroupsSource.add(tg);
 
-    public void refreshTGMappers(){
-        // TODO
+            UserTgMapper mapper = Classreader.fromJsonFile(this.user.getID(), UserTgMapper.class);
+            mapper.addTaskgroups(tg.getID());
+            mapper.toJsonFile();
+        }
+        catch(IOException e){
+            e.printStackTrace(); // ei tohiks juhtuda, kuna taskgroup luuakse sisselogimisel
+        }
+    }
+
+    /*
+    Kustutab hetkel aktiivse taskgroupi.
+    2. iga kasutaja taskmapper lugeda ja uuendada.
+    4. taskgroup kustutada
+    */
+   // TODO: mis on eeltingimused ja mis on default grupp?
+    public void deleteTaskgroup(){
+        if(this.taskgroupsSource.size() == 1){
+            System.out.println("Viimast gruppi ei saa kustutada");
+            return;
+        }
+
+        // uuendab iga this.activeTG-s oleva kasutaja TGmapperit
+        UUID activeTGtgid = this.activeTG.getValue().getID();
+        try{
+            for(UUID userid : this.activeTG.getValue().getUsers()){
+                UserTgMapper mapper = Classreader.fromJsonFile(userid, UserTgMapper.class);
+                mapper.removeTaskgroup(activeTGtgid);
+                mapper.toJsonFile();
+            }
+        }
+        catch(IOException e){
+            e.printStackTrace(); // ei tohiks juhtuda, kuna taskgroup luuakse sisselogimisel
+        }
+        this.taskgroupsSource.remove(this.activeTG.getValue());
+        this.activeTG.set(this.taskgroups.get(0));
     }
 
 
     // SETTERS
     public void setActiveTG(String groupname){
-        for(TaskGroup tg : this.taskgroups){
+        for(TaskGroup tg : this.taskgroupsSource){
             if(tg.getGroupnameProperty().getValue().equals(groupname)){
                 this.activeTG.setValue(tg);
                 break;

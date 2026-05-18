@@ -38,6 +38,7 @@ public class TaskCard {
         this.layout = createLayout();
     }
 
+    // TODO: Tegelikult peaks olema teist pidi binditud, et kasutaja saaks üldse aega muuta.
     private void updateDeadlineProperties(LocalDateTime deadline){
         DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
         this.timeDL.set(deadline.toLocalTime().format(timeformat));
