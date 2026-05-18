@@ -1,10 +1,6 @@
 package models;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -16,20 +12,18 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class Task {
+public class Task implements Comparable<Task>{
     private final UUID id;
     private SimpleStringProperty title;
     private SimpleStringProperty description;
-    private ObjectProperty<LocalTime> timeDL;
-    private ObjectProperty<LocalDate> dateDL;
+    private ObjectProperty<LocalDateTime> deadline;
     private ObjectProperty<LocalDateTime> lastupdated; // TODO> kas on vaja?
 
     public Task(String title, String description, LocalDateTime deadline){
         this.id = UUIDv7.randomUUID();
         this.title = new SimpleStringProperty(title);
         this.description = new SimpleStringProperty(description);
-        this.timeDL = new SimpleObjectProperty<>(deadline.toLocalTime());
-        this.dateDL = new SimpleObjectProperty<>(deadline.toLocalDate());
+        this.deadline = new SimpleObjectProperty<>(deadline);
         this.lastupdated = new SimpleObjectProperty<>(LocalDateTime.now());
     }
 
@@ -44,19 +38,13 @@ public class Task {
         this.id = id;
         this.title = new SimpleStringProperty(title);
         this.description = new SimpleStringProperty(description);
-        this.timeDL = new SimpleObjectProperty<>(deadline.toLocalTime());
-        this.dateDL = new SimpleObjectProperty<>(deadline.toLocalDate());
+        this.deadline = new SimpleObjectProperty<>(deadline);
         this.lastupdated = new SimpleObjectProperty<>(lastupdated);
     }
-    
-    public String formattedTimeDL(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return timeDL.getValue().format(formatter);
-    }
 
-    public String formattedDateDL(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MMM yyyy", Locale.getDefault());
-        return dateDL.getValue().format(formatter);
+    @Override
+    public int compareTo(Task task) {
+        return this.getDeadline().compareTo(task.getDeadline());
     }
 
     /*
@@ -81,20 +69,9 @@ public class Task {
         this.lastupdated.set(LocalDateTime.now());
     }
 
-    public void updateTimeDL(LocalTime timeDL){
+    public void updateDeadline(LocalDateTime deadline){
+        this.deadline.set(deadline);
         this.lastupdated.set(LocalDateTime.now());
-        this.timeDL.set(timeDL);
-    }
-
-    public void updateDateDL(LocalDate dateDL){
-        this.lastupdated.set(LocalDateTime.now());
-        this.dateDL.set(dateDL);
-    }
-
-    public void updateDateTimeDL(LocalDateTime deadline){
-        this.lastupdated.set(LocalDateTime.now());
-        this.timeDL.set(deadline.toLocalTime());
-        this.dateDL.set(deadline.toLocalDate());
     }
 
     // GETTERS
@@ -110,15 +87,10 @@ public class Task {
     }
 
     @JsonIgnore
-    public ObjectProperty<LocalTime> getTimeDLProperty() {
-        return this.timeDL;
+    public ObjectProperty<LocalDateTime> getDeadlineProperty(){
+        return this.deadline;
     }
-
-    @JsonIgnore
-    public ObjectProperty<LocalDate> getDateDLProperty() {
-        return this.dateDL;
-    }
-
+  
     @JsonIgnore
     public ObjectProperty<LocalDateTime> getLastupdatedProperty() {
         return this.lastupdated;
@@ -127,20 +99,23 @@ public class Task {
     public UUID getID(){
         return this.id;
     }
- 
+
+    @Deprecated
     public String getTitle(){
         return this.title.getValue();
     }
 
+    @Deprecated
     public String getDescription(){
         return this.description.getValue();
     }
 
+    @Deprecated
     public LocalDateTime getDeadline(){
-        LocalDateTime deadline = LocalDateTime.of(dateDL.getValue(), timeDL.getValue());
-        return deadline;
+        return this.deadline.getValue();
     }
 
+    @Deprecated
     public LocalDateTime getLastupdated(){
         return this.lastupdated.getValue();
     }

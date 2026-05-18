@@ -1,10 +1,10 @@
 package models;
 
 import utils.Classreader;
-import java.util.ArrayList;
-import java.util.Collections;
 
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.transformation.SortedList;
 
 /*
 Sessioon peaks hakkama hoidma kõiki instantse, mida UI kasutab.
@@ -26,14 +26,13 @@ Salvestada uus TGmapper
 
 public class Session {
     private User user;
-    private ArrayList<TaskGroup> taskgroups;  // TODO: Sorteerimine
+    private SortedList<TaskGroup> taskgroups;
     private SimpleObjectProperty<TaskGroup> activeTG;
 
     public Session(String username){
         this.user = Classreader.findUser(username);
-        this.taskgroups = Classreader.findTaskgroups(this.user.getID());
+        this.taskgroups = new SortedList<TaskGroup>(FXCollections.observableArrayList(Classreader.findTaskgroups(this.user.getID())));
         this.activeTG = new SimpleObjectProperty<TaskGroup>(this.taskgroups.get(0));
-        Collections.sort(this.taskgroups);
     }
 
     // salvestamise ajal vist ei pea tgmapperit kontrollima?
@@ -43,10 +42,16 @@ public class Session {
             tg.toJsonFile();
         }
     }
+
+    public void refreshTGMappers(){
+        // TODO
+    }
+
+
     // SETTERS
     public void setActiveTG(String groupname){
         for(TaskGroup tg : this.taskgroups){
-            if(tg.getGroupname().equals(groupname)){
+            if(tg.getGroupnameProperty().getValue().equals(groupname)){
                 this.activeTG.setValue(tg);
                 break;
             }
@@ -62,7 +67,7 @@ public class Session {
         return this.user;
     }
 
-    public ArrayList<TaskGroup> getTaskgroups(){
+    public SortedList<TaskGroup> getTaskgroupProperty(){
         return this.taskgroups;
     }
 }

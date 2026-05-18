@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.github.robsonkades.uuidv7.UUIDv7;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.transformation.SortedList;
 
 
 /*
@@ -27,6 +29,7 @@ kui omanik eemaldab isiku taskgroupist:
 3. taskgroupist eemaldada kasutaja UUID
 
 TODO: Userite nimekirja peaks ehk Setiks tegema, et ei peaks duplikaate kontrollima ning otsimisaeg oleks väiksem (Setil on vist O1)
+TODO: Jackson getteritelt field-accessi peale
 */
 
 public class TaskGroup implements ToJson, Comparable<TaskGroup> {
@@ -34,14 +37,14 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
     private SimpleStringProperty groupname;
     private UUID owner;
     private ArrayList<UUID> users;
-    private ArrayList<Task> tasks;
+    private SortedList<Task> tasks;
 
     public TaskGroup(UUID owner, Task... tasks){
         this.id = UUIDv7.randomUUID();
         this.groupname = new SimpleStringProperty("New Group");
         this.owner = owner;
         this.users = new ArrayList<>();
-        this.tasks = new ArrayList<>();
+        this.tasks = new SortedList<Task>(FXCollections.observableArrayList()); // TODO: ei sorteeri aja muudatuste peale
 
         this.users.add(owner);
         this.tasks.addAll(List.of(tasks));
@@ -61,7 +64,7 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
         this.groupname = new SimpleStringProperty(groupname);
         this.owner = owner;
         this.users = users != null ? new ArrayList<>(users) : new ArrayList<>();
-        this.tasks = tasks != null ? new ArrayList<>(tasks) : new ArrayList<>();
+        this.tasks = new SortedList<Task>(FXCollections.observableArrayList(tasks != null ? tasks : new ArrayList<>()));
     }
 
     @Override
@@ -88,23 +91,32 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
         return this.groupname;
     }
 
+    @JsonIgnore
+    public SortedList<Task> getTasksProperty(){
+        return this.tasks;
+    }
+    
     public UUID getID(){
         return this.id;
     }
 
+    @Deprecated
     public String getGroupname(){
         return this.groupname.getValue();
     }
 
+    @Deprecated
     public UUID getOwner(){
         return this.owner;
     }
 
+    @Deprecated
     public ArrayList<UUID> getUsers(){
         return this.users;
     }
 
+    @Deprecated
     public ArrayList<Task> getTasks(){
-        return this.tasks;
+        return new ArrayList<>(this.tasks);
     }
 }

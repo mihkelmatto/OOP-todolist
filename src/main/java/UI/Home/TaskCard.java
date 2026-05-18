@@ -12,6 +12,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class TaskCard {
     private Task task;
@@ -23,18 +25,25 @@ public class TaskCard {
         this.task = task;
 
         this.timeDL = new SimpleStringProperty();
-        this.task.getTimeDLProperty().addListener((obs, oldVal, newVal) -> {
-            this.timeDL.set(this.task.formattedTimeDL());
+        this.task.getDeadlineProperty().addListener((obs, oldVal, newVal) -> {
+            updateDeadlineProperties(newVal);
         });
-        this.timeDL.set(this.task.formattedTimeDL());        
 
         this.dateDL = new SimpleStringProperty();
-        this.task.getDateDLProperty().addListener((obs, oldVal, newVal) -> {
-            this.dateDL.set(this.task.formattedDateDL());
+        this.task.getDeadlineProperty().addListener((obs, oldVal, newVal) -> {
+            updateDeadlineProperties(newVal);
         });
-        this.dateDL.set(this.task.formattedDateDL()); 
 
+        updateDeadlineProperties(this.task.getDeadlineProperty().getValue());
         this.layout = createLayout();
+    }
+
+    private void updateDeadlineProperties(LocalDateTime deadline){
+        DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
+        this.timeDL.set(deadline.toLocalTime().format(timeformat));
+
+        DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("d.MMM yyyy", Locale.getDefault());
+        this.dateDL.set(deadline.toLocalDate().format(dateformat));
     }
 
     private HBox createLayout(){
@@ -46,8 +55,7 @@ public class TaskCard {
         Button complete = new Button();
         complete.setOnAction(e -> {
             System.out.println("task completed");
-            this.task.updateDateTimeDL(LocalDateTime.now());
-            System.out.println(this.task.getDeadline());
+            this.task.updateDeadline(LocalDateTime.now());
         });
 
         complete.getStyleClass().add("Completebutton");
@@ -57,11 +65,11 @@ public class TaskCard {
         // Content area
         VBox contentarea = new VBox();
 
-        Label title = new Label(this.task.getTitle());
+        Label title = new Label(this.task.getTitleProperty().getValue());
         title.textProperty().bind(this.task.getTitleProperty());
         title.getStyleClass().add("Taskcard-title");
 
-        Label description = new Label(task.getDescription());
+        Label description = new Label(task.getDescriptionProperty().getValue());
         description.textProperty().bind(this.task.getDescriptionProperty());
         description.setWrapText(true);
         description.getStyleClass().add("Taskcard-description");

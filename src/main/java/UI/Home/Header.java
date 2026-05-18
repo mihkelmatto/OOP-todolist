@@ -10,6 +10,9 @@ import javafx.scene.layout.Region;
 import models.Session;
 import models.TaskGroup;
 
+// TODO: mingi bug, kus headeri borderit on näha vaid siis kui header on aktiivne
+// TODO: Dropdown-menüü CSS-i hover property ei tööta korrektselt
+
 public class Header {
     private HBox layout;
     private Session session;
@@ -21,10 +24,10 @@ public class Header {
         // Title
         Label title = new Label();
         SimpleStringProperty activeTGtitle = new SimpleStringProperty();
-        activeTGtitle.set(this.session.getActiveTGProperty().getValue().getGroupname());
+        activeTGtitle.set(this.session.getActiveTGProperty().getValue().getGroupnameProperty().getValue());
         this.session.getActiveTGProperty().addListener(
             (obs, oldVal, newVal) -> {
-                activeTGtitle.set(newVal.getGroupname());
+                activeTGtitle.set(newVal.getGroupnameProperty().getValue());
             }
         );
         title.textProperty().bind(activeTGtitle);
@@ -36,14 +39,14 @@ public class Header {
         // Dropdown menu
         Button addTG = new Button("+");
         addTG.setOnAction(e -> {
-            System.out.println("taskgroup added");
+            //todo: this.session.addTaskgroup();
         });
 
         ComboBox<String> dropdown = new ComboBox<>();
-        for(TaskGroup tg : this.session.getTaskgroups()){
-            dropdown.getItems().add(tg.getGroupname());
+        for(TaskGroup tg : this.session.getTaskgroupProperty()){
+            dropdown.getItems().add(tg.getGroupnameProperty().getValue());
         }
-        dropdown.setValue(this.session.getActiveTGProperty().getValue().getGroupname());
+        dropdown.setValue(this.session.getActiveTGProperty().getValue().getGroupnameProperty().getValue());
         dropdown.valueProperty().addListener((obs, oldValue, newValue) -> {
             this.session.setActiveTG(newValue);
         });      
