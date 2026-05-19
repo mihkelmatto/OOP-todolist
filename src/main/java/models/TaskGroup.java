@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.robsonkades.uuidv7.UUIDv7;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.transformation.SortedList;
+import javafx.collections.ObservableList;
 
 
 /*
@@ -29,18 +29,19 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
     private SimpleStringProperty groupname;
     private UUID owner;
     private ArrayList<UUID> users;
-    private SortedList<Task> tasks;
+    private ObservableList<Task> tasks;
 
     public TaskGroup(UUID owner, Task... tasks){
         this.id = UUIDv7.randomUUID();
         this.groupname = new SimpleStringProperty("New Group");
         this.owner = owner;
         this.users = new ArrayList<>();
-        this.tasks = new SortedList<Task>(FXCollections.observableArrayList()); // TODO: ei sorteeri aja muudatuste peale
+
+        this.tasks = FXCollections.observableArrayList();
+        this.tasks.addAll(List.of(tasks));
+        FXCollections.sort(this.tasks);
 
         this.users.add(owner);
-        this.tasks.addAll(List.of(tasks));
-
         System.out.printf("New Taskgroup created for user: %s\n", owner);
     }
 
@@ -56,7 +57,10 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
         this.groupname = new SimpleStringProperty(groupname);
         this.owner = owner;
         this.users = users != null ? new ArrayList<>(users) : new ArrayList<>();
-        this.tasks = new SortedList<Task>(FXCollections.observableArrayList(tasks != null ? tasks : new ArrayList<>()));
+        this.tasks = FXCollections.observableArrayList();
+        this.tasks.addAll(tasks);
+        FXCollections.sort(this.tasks);
+
     }
 
     @Override
@@ -118,7 +122,11 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
     }
     
     public void addTask(Task task){
-        this.tasks.add(task);
+        this.tasks.addFirst(task);
+    }
+
+    public void removeTask(Task task){
+        this.tasks.remove(task);
     }
 
     // GETTERS
@@ -128,7 +136,7 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
     }
 
     @JsonIgnore
-    public SortedList<Task> getTasksProperty(){
+    public ObservableList<Task> getTasksProperty(){
         return this.tasks;
     }
     

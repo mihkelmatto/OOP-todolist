@@ -1,7 +1,9 @@
 package UI.Home;
+import models.Session;
 import models.Task;
-
+import models.TaskGroup;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -16,13 +18,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class TaskCard {
+    private Session session;
     private Task task;
     private HBox layout;
     private SimpleStringProperty timeDL;
     private SimpleStringProperty dateDL;
 
-    public TaskCard(Task task){
+    public TaskCard(Task task, Session session){
         this.task = task;
+        this.session = session;
 
         this.timeDL = new SimpleStringProperty();
         this.task.getDeadlineProperty().addListener((obs, oldVal, newVal) -> {
@@ -55,8 +59,8 @@ public class TaskCard {
         // Button area
         Button complete = new Button();
         complete.setOnAction(e -> {
-            System.out.println("task completed");
-            this.task.updateDeadline(LocalDateTime.now());
+            TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
+            activeTG.removeTask(this.task);
         });
 
         complete.getStyleClass().add("Completebutton");
@@ -92,7 +96,10 @@ public class TaskCard {
         VBox optionsbox = new VBox();
         Button options = new Button("⋮");
         options.setOnAction(e -> {
-            System.out.println("options");
+            TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
+            
+            this.task.updateDeadline(LocalDateTime.now());
+            FXCollections.sort(activeTG.getTasksProperty());
         });
         optionsbox.getChildren().add(options);
         optionsbox.getStyleClass().add("Taskcard-optionsbox");

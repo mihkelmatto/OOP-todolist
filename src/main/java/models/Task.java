@@ -47,15 +47,6 @@ public class Task implements Comparable<Task>{
         return this.getDeadline().compareTo(task.getDeadline());
     }
 
-    /*
-    Vana formatter:
-
-    public String formattedDeadline(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm d.MMM yyyy", Locale.getDefault());
-        return this.deadline.getValue().format(formatter);
-    }
-    */
-
 
     // SETTERS
 

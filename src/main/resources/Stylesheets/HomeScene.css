@@ -16,24 +16,29 @@
     -fx-border-radius: 10;
 }
 
-/* Midsection (scroll-pane) */
-.MidSection{
+/* MidSection (ListView) */
+.MidSection {
     -fx-background-color: rgb(38, 38, 38);
     -fx-border-width: 1 0 0 0;
     -fx-border-color: rgb(115, 115, 115);
     -fx-background-insets: 0;
 }
 
-.MidSection .viewport {
+.MidSection .list-cell {
     -fx-background-color: transparent;
 }
 
-.MidSection-VBox{
-    -fx-background-color: transparent;
+.MidSection {
     -fx-padding: 20;
 }
 
+.MidSection .list-view {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
 
+/* scroll bar */
 .MidSection .scroll-bar:vertical,
 .MidSection .scroll-bar:horizontal {
     -fx-pref-width: 8;
