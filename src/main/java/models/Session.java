@@ -3,7 +3,6 @@ package models;
 import utils.Classreader;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.UUID;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -103,17 +102,6 @@ public class Session {
         }
         this.taskgroupsSource.remove(this.activeTG.getValue());
         this.activeTG.set(this.taskgroups.get(0));
-    }
-
-
-    // SETTERS
-    public void setActiveTG(String groupname){
-        for(TaskGroup tg : this.taskgroupsSource){
-            if(tg.getGroupnameProperty().getValue().equals(groupname)){
-                this.activeTG.setValue(tg);
-                break;
-            }
-        }
     }
 
     // GETTERS

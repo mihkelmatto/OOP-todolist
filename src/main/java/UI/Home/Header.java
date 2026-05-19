@@ -1,11 +1,9 @@
 package UI.Home;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.css.converter.StringConverter;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -17,30 +15,29 @@ import models.TaskGroup;
 
 // TODO: mingi bug, kus headeri borderit on näha vaid siis kui header on aktiivne
 // TODO: Dropdown-menüü CSS-i hover property ei tööta korrektselt
-// TODO: Dropdown-menüü vahetamisel kaob selected item ära
 public class Header {
     private HBox layout;
     private Session session;
+    private SimpleObjectProperty<TaskGroup> activeTG;
     private SimpleStringProperty activeTGtitle;
-    private ObservableList<SimpleStringProperty> taskgroupnames;
+
+    private SortedList<TaskGroup> taskgroups;
 
     public Header(Session session){
         this.session = session;
-
+        
+        this.activeTG = this.session.getActiveTGProperty();
         this.activeTGtitle = new SimpleStringProperty();
         this.activeTGtitle.set(this.session.getActiveTGProperty().getValue().getGroupnameProperty().getValue());
-        
-        this.taskgroupnames = FXCollections.observableArrayList();
-        refreshTaskgroupnames();
-        // Session listeners
-        this.session.getTaskgroupProperty().addListener((ListChangeListener<TaskGroup>) change -> {
-            refreshTaskgroupnames();
+
+        this.taskgroups = this.session.getTaskgroupProperty();
+        this.taskgroups.addListener((ListChangeListener<TaskGroup>) change -> {
+
         });
 
-        this.session.getActiveTGProperty().addListener(
+        this.activeTG.addListener(
             (obs, oldVal, newVal) -> {
                 this.activeTGtitle.set(newVal.getGroupnameProperty().getValue());
-                refreshTaskgroupnames();
             }
         );
 
@@ -64,23 +61,28 @@ public class Header {
             this.session.createTaskgroup();
         });
 
-        ComboBox<SimpleStringProperty> dropdown = new ComboBox<>(this.taskgroupnames);
+        ComboBox<TaskGroup> dropdown = new ComboBox<>(this.taskgroups);
+        // Converter õpetab ComboBoxile, kuidas teisendada oma objektide ja pealkirjade vahel
         dropdown.setConverter(new javafx.util.StringConverter<>() {
             @Override
-            public String toString(SimpleStringProperty value) {
-                return value == null ? "" : value.get();
+            public String toString(TaskGroup tg) {
+                return tg.getGroupnameProperty().getValue() == null ? "" : tg.getGroupnameProperty().getValue();
             }
 
             @Override
-            public SimpleStringProperty fromString(String string) {
-                return new SimpleStringProperty(string);
+            public TaskGroup fromString(String groupname) {
+                for(TaskGroup tg : taskgroups){
+                    if(tg.getGroupnameProperty().getValue().equals(groupname)) return tg;
+                }
+                
+                return new TaskGroup(session.getUser().getID());
             }
         });
-
+        // tegevused dropdownist eseme valimisel
         dropdown.valueProperty().addListener((obs, oldValue, newValue) -> {
-            this.session.setActiveTG(newValue.getValue());
+            this.activeTG.setValue(newValue);
         });
-        dropdown.setValue(this.session.getActiveTGProperty().getValue().getGroupnameProperty());
+        dropdown.setValue(this.activeTG.getValue());
 
 
         // layout settings
@@ -88,13 +90,6 @@ public class Header {
         layout.getStylesheets().add(getClass().getResource("/Stylesheets/Header.css").toExternalForm());
         layout.getStyleClass().add("Header");
         return layout;
-    }
-
-    public void refreshTaskgroupnames(){
-        this.taskgroupnames.clear();
-        for(TaskGroup tg : this.session.getTaskgroupProperty()){
-            this.taskgroupnames.add(tg.getGroupnameProperty());
-        }
     }
 
     public HBox getLayout(){

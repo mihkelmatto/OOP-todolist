@@ -11,6 +11,7 @@ public class HomeScene{
     public HomeScene(Session session){
         this.session = session;        
         VBox root = new VBox();
+        // root.setSpacing(1);
 
         Header header = new Header(this.session);
         MidSection midsection = new MidSection(this.session);
