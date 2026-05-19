@@ -11,7 +11,6 @@ public class HomeScene{
     public HomeScene(Session session){
         this.session = session;        
         VBox root = new VBox();
-        // root.setSpacing(1);
 
         Header header = new Header(this.session);
         MidSection midsection = new MidSection(this.session);
@@ -19,7 +18,7 @@ public class HomeScene{
         root.getChildren().addAll(header.getLayout(), midsection.getLayout());
 
         this.scene = new Scene(root);
-        this.scene.getStylesheets().add(getClass().getResource("/Stylesheets/Global.css").toExternalForm());
+        this.scene.getStylesheets().add(getClass().getResource("/Stylesheets/HomeScene.css").toExternalForm());
     }
 
     public Scene getScene(){

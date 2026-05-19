@@ -13,8 +13,6 @@ import javafx.scene.layout.Region;
 import models.Session;
 import models.TaskGroup;
 
-// TODO: mingi bug, kus headeri borderit on näha vaid siis kui header on aktiivne
-// TODO: Dropdown-menüü CSS-i hover property ei tööta korrektselt
 public class Header {
     private HBox layout;
     private Session session;

@@ -35,6 +35,7 @@ public class MidSection {
             TaskCard card = new TaskCard(task);
             taskcards.getChildren().add(card.getLayout());
         }
+        taskcards.getStyleClass().add("MidSection-VBox");
         this.layout.setContent(taskcards);
     }
 
