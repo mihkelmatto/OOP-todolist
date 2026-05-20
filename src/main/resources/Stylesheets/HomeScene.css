@@ -3,6 +3,10 @@
     -fx-text-fill: rgb(228, 228, 228);
 }
 
+.root{
+    -fx-background-color: #0C1421;
+}
+
 .button {
     -fx-background-color: rgb(38, 38, 38);
     -fx-text-alignment: center;
@@ -12,37 +16,43 @@
     -fx-border-radius: 10;
 }
 
-/* Midsection */
+/* MidSection (ListView) */
 .MidSection {
-    -fx-padding: 5;
+    -fx-background-color: #0C1421;
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: #2E3442;;
+    -fx-background-insets: 0;
 }
 
+.MidSection .list-cell {
+    -fx-background-color: transparent;
+}
 
-/* Scroll pane */
-.scroll-pane{
+.MidSection {
     -fx-padding: 20;
 }
 
-.scroll-pane,
-.scroll-pane .viewport {
-    -fx-background-color: rgb(38, 38, 38);
+.MidSection .list-view {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
 }
 
-
-.scroll-bar:vertical,
-.scroll-bar:horizontal {
+/* scroll bar */
+.MidSection .scroll-bar:vertical,
+.MidSection .scroll-bar:horizontal {
     -fx-pref-width: 8;
     -fx-background-color: transparent;
 }
 
-.scroll-pane .thumb {
+.MidSection .thumb {
     -fx-background-color: rgba(0, 132, 255, 0.678);
     -fx-background-radius: 6px;
     -fx-pref-width: 8;
 }
 
-.scroll-pane .increment-button,
-.scroll-pane .decrement-button {
+.MidSection .increment-button,
+.MidSection .decrement-button {
     -fx-background-color: transparent;
     -fx-pref-height: 0;
     -fx-pref-width: 0;

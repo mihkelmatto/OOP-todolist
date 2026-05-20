@@ -1,6 +1,10 @@
 package models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -17,7 +21,7 @@ public class Task implements Comparable<Task>{
     private SimpleStringProperty title;
     private SimpleStringProperty description;
     private ObjectProperty<LocalDateTime> deadline;
-    private ObjectProperty<LocalDateTime> lastupdated; // TODO> kas on vaja?
+    private ObjectProperty<LocalDateTime> lastupdated; // TODO: kas on vaja?
 
     public Task(String title, String description, LocalDateTime deadline){
         this.id = UUIDv7.randomUUID();
@@ -47,15 +51,6 @@ public class Task implements Comparable<Task>{
         return this.getDeadline().compareTo(task.getDeadline());
     }
 
-    /*
-    Vana formatter:
-
-    public String formattedDeadline(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm d.MMM yyyy", Locale.getDefault());
-        return this.deadline.getValue().format(formatter);
-    }
-    */
-
 
     // SETTERS
 
@@ -69,9 +64,19 @@ public class Task implements Comparable<Task>{
         this.lastupdated.set(LocalDateTime.now());
     }
 
-    public void updateDeadline(LocalDateTime deadline){
-        this.deadline.set(deadline);
-        this.lastupdated.set(LocalDateTime.now());
+    public void updateDeadline(String time, String date){
+        time = time.strip();
+        date = date.strip();
+
+        DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH.mm");
+        DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        try{
+            this.deadline.setValue(LocalDateTime.of(LocalDate.parse(date, dateformat), LocalTime.parse(time, timeformat)));
+            this.lastupdated.set(LocalDateTime.now());
+        } catch(Exception e){
+            System.out.println("UpdateDeadLine: Invalid format");
+        }
     }
 
     // GETTERS

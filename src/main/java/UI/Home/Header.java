@@ -1,46 +1,38 @@
 package UI.Home;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
+import java.time.LocalDateTime;
+
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
-import javafx.css.converter.StringConverter;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import models.Session;
+import models.Task;
 import models.TaskGroup;
 
-// TODO: mingi bug, kus headeri borderit on näha vaid siis kui header on aktiivne
-// TODO: Dropdown-menüü CSS-i hover property ei tööta korrektselt
-// TODO: Dropdown-menüü vahetamisel kaob selected item ära
 public class Header {
     private HBox layout;
     private Session session;
-    private SimpleStringProperty activeTGtitle;
-    private ObservableList<SimpleStringProperty> taskgroupnames;
+    private SimpleObjectProperty<TaskGroup> activeTG;
+    private TextField title;
+    private ComboBox<TaskGroup> dropdown;
+
+    private ObservableList<TaskGroup> taskgroups;
 
     public Header(Session session){
         this.session = session;
-
-        this.activeTGtitle = new SimpleStringProperty();
-        this.activeTGtitle.set(this.session.getActiveTGProperty().getValue().getGroupnameProperty().getValue());
         
-        this.taskgroupnames = FXCollections.observableArrayList();
-        refreshTaskgroupnames();
-        // Session listeners
-        this.session.getTaskgroupProperty().addListener((ListChangeListener<TaskGroup>) change -> {
-            refreshTaskgroupnames();
-        });
+        this.activeTG = this.session.getActiveTGProperty();
 
-        this.session.getActiveTGProperty().addListener(
+        this.taskgroups = this.session.getTaskgroupProperty();
+
+        this.activeTG.addListener(
             (obs, oldVal, newVal) -> {
-                this.activeTGtitle.set(newVal.getGroupnameProperty().getValue());
-                refreshTaskgroupnames();
+                this.title.setText(newVal.getGroupnameProperty().getValue());
             }
         );
 
@@ -51,8 +43,31 @@ public class Header {
         HBox layout = new HBox();
 
         // Title
-        Label title = new Label();
-        title.textProperty().bind(activeTGtitle);
+        this.title = new TextField();
+        this.title.setEditable(false);
+        this.title.setText(this.activeTG.getValue().getGroupnameProperty().getValue());
+        this.title.getStyleClass().add("Header-title");
+
+        Button edittitle = new Button();
+        edittitle.setOnAction(e -> {
+            if(title.isEditable()){
+                title.setEditable(false);
+                this.activeTG.getValue().setGroupname(title.getText());
+                title.getStyleClass().remove("Header-editable");
+            }
+            else{
+                title.setEditable(true);
+                title.getStyleClass().add("Header-editable");
+            }
+        });
+        edittitle.getStyleClass().add("Header-edittitle");
+
+        // new task
+        Button newtask = new Button("New task");
+        newtask.setOnAction(e -> {
+            this.activeTG.getValue().addTask(new Task("New Task", "Description", LocalDateTime.of(2025, 1, 1, 0, 0)));
+        });
+        newtask.getStyleClass().add("Header-newtask");
 
         // spacer
         Region spacer = new Region();
@@ -63,38 +78,56 @@ public class Header {
         dropdownbutton.setOnAction(e -> {
             this.session.createTaskgroup();
         });
+        dropdownbutton.getStyleClass().add("Header-dropdownbutton");
 
-        ComboBox<SimpleStringProperty> dropdown = new ComboBox<>(this.taskgroupnames);
-        dropdown.setConverter(new javafx.util.StringConverter<>() {
-            @Override
-            public String toString(SimpleStringProperty value) {
-                return value == null ? "" : value.get();
-            }
-
-            @Override
-            public SimpleStringProperty fromString(String string) {
-                return new SimpleStringProperty(string);
-            }
-        });
-
-        dropdown.valueProperty().addListener((obs, oldValue, newValue) -> {
-            this.session.setActiveTG(newValue.getValue());
-        });
-        dropdown.setValue(this.session.getActiveTGProperty().getValue().getGroupnameProperty());
+        this.dropdown = createDropdown();
 
 
         // layout settings
-        layout.getChildren().addAll(title, spacer, dropdownbutton, dropdown);
+        layout.getChildren().addAll(edittitle, title, newtask, spacer, dropdownbutton, dropdown);
         layout.getStylesheets().add(getClass().getResource("/Stylesheets/Header.css").toExternalForm());
         layout.getStyleClass().add("Header");
         return layout;
     }
 
-    public void refreshTaskgroupnames(){
-        this.taskgroupnames.clear();
-        for(TaskGroup tg : this.session.getTaskgroupProperty()){
-            this.taskgroupnames.add(tg.getGroupnameProperty());
-        }
+    private ComboBox<TaskGroup> createDropdown(){
+        ComboBox<TaskGroup> dropdown = new ComboBox<>(this.taskgroups);
+
+        dropdown.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(TaskGroup tg, boolean empty) {
+                super.updateItem(tg, empty);
+                textProperty().unbind();
+
+                if (empty || tg == null) {
+                    setText(null);
+                } else {
+                    textProperty().bind(tg.getGroupnameProperty());
+                }
+            }
+        });
+
+        dropdown.setButtonCell(new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(TaskGroup tg, boolean empty) {
+                super.updateItem(tg, empty);
+                textProperty().unbind();
+
+                if (empty || tg == null) {
+                    setText(null);
+                } else {
+                    textProperty().bind(tg.getGroupnameProperty());
+                }
+            }
+        });
+
+        dropdown.valueProperty().addListener((obs, oldValue, newValue) -> {
+            this.activeTG.setValue(newValue);
+        });
+
+        dropdown.setValue(this.activeTG.getValue());
+
+        return dropdown;
     }
 
     public HBox getLayout(){

@@ -1,11 +1,13 @@
 package UI.Home;
+import models.Session;
 import models.Task;
-
+import models.TaskGroup;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -16,13 +18,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class TaskCard {
+    private Session session;
     private Task task;
     private HBox layout;
+    private Button options;
     private SimpleStringProperty timeDL;
     private SimpleStringProperty dateDL;
 
-    public TaskCard(Task task){
+    public TaskCard(Task task, Session session){
         this.task = task;
+        this.session = session;
 
         this.timeDL = new SimpleStringProperty();
         this.task.getDeadlineProperty().addListener((obs, oldVal, newVal) -> {
@@ -55,8 +60,8 @@ public class TaskCard {
         // Button area
         Button complete = new Button();
         complete.setOnAction(e -> {
-            System.out.println("task completed");
-            this.task.updateDeadline(LocalDateTime.now());
+            TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
+            activeTG.removeTask(this.task);
         });
 
         complete.getStyleClass().add("Completebutton");
@@ -65,15 +70,16 @@ public class TaskCard {
 
         // Content area
         VBox contentarea = new VBox();
-
-        Label title = new Label(this.task.getTitleProperty().getValue());
-        title.textProperty().bind(this.task.getTitleProperty());
+        
+        TextField title = new TextField();
+        title.setEditable(false);
+        title.setText(this.task.getTitleProperty().getValue());
         title.getStyleClass().add("Taskcard-title");
 
-        Label description = new Label(task.getDescriptionProperty().getValue());
-        description.textProperty().bind(this.task.getDescriptionProperty());
-        description.setWrapText(true);
-        description.getStyleClass().add("Taskcard-description");
+        TextField description = new TextField();
+        description.setEditable(false);
+        description.setText(this.task.getDescriptionProperty().getValue());
+        description.getStyleClass().add("Taskcard-description");   
 
         contentarea.getStyleClass().add("Taskcard-contentarea");
         contentarea.getChildren().addAll(title, description);
@@ -83,19 +89,35 @@ public class TaskCard {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
+        // options
+        VBox optionsbox = new VBox();
+        this.options = new Button(); // ⋮
+        this.options.addEventHandler(javafx.event.ActionEvent.ACTION, e -> {
+            if(title.isEditable()){
+                title.setEditable(false);
+                this.task.updateTitle(title.getText());
+                title.getStyleClass().remove("Taskcard-editable");
+
+                description.setEditable(false);
+                this.task.updateDescription(description.getText());
+                description.getStyleClass().remove("Taskcard-editable");
+
+            }
+            else{
+                title.setEditable(true);
+                title.getStyleClass().add("Taskcard-editable");
+
+                description.setEditable(true);
+                description.getStyleClass().add("Taskcard-editable");
+            }
+        });
+
+        optionsbox.getChildren().add(options);
+        optionsbox.getStyleClass().add("Taskcard-optionsbox");
 
         // deadline area
         HBox deadlinewidget = createDeadlinewidget();
         HBox.setMargin(deadlinewidget, new Insets(10, 0, 10, 0));
-
-        // options
-        VBox optionsbox = new VBox();
-        Button options = new Button("⋮");
-        options.setOnAction(e -> {
-            System.out.println("options");
-        });
-        optionsbox.getChildren().add(options);
-        optionsbox.getStyleClass().add("Taskcard-optionsbox");
 
         // main layout
         layout.getChildren().addAll(complete, contentarea, spacer, deadlinewidget, optionsbox);
@@ -113,14 +135,43 @@ public class TaskCard {
         
         VBox deadlinebox = new VBox();     
         deadlinebox.setAlignment(Pos.CENTER_LEFT);
-
-        Label time = new Label();
-        time.textProperty().bind(timeDL);
+        
+        TextField time = new TextField();
+        time.setEditable(false);
+        time.setText(this.timeDL.getValue());
         time.getStyleClass().add("deadline-time");
 
-        Label date = new Label();
+        TextField date = new TextField();
+        date.setEditable(false);
+        date.setText(this.dateDL.getValue());
         date.getStyleClass().add("deadline-date");
-        date.textProperty().bind(dateDL);
+
+        this.options.addEventHandler(javafx.event.ActionEvent.ACTION, e -> {
+            if(time.isEditable()){
+                time.setEditable(false);
+                time.getStyleClass().remove("Taskcard-editable");
+                
+                date.setEditable(false);
+                date.getStyleClass().remove("Taskcard-editable");
+                
+                TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
+
+                this.task.updateDeadline(time.getText(), date.getText());
+                FXCollections.sort(activeTG.getTasksProperty());
+            }
+            else{
+                time.setEditable(true);
+                time.clear();
+                time.setPromptText("HH.mm");
+                time.getStyleClass().add("Taskcard-editable");
+
+                date.setEditable(true);
+                date.clear();
+                date.setPromptText("dd.MM.yyyy");
+                date.getStyleClass().add("Taskcard-editable");
+            }
+        });
+
         deadlinebox.getChildren().addAll(time, date);
 
         layout.getStyleClass().add("Taskcard-deadlinewidget");
