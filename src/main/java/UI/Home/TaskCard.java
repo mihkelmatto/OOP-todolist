@@ -3,11 +3,11 @@ import models.Session;
 import models.Task;
 import models.TaskGroup;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -69,15 +69,16 @@ public class TaskCard {
 
         // Content area
         VBox contentarea = new VBox();
-
-        Label title = new Label(this.task.getTitleProperty().getValue());
-        title.textProperty().bind(this.task.getTitleProperty());
+        
+        TextField title = new TextField();
+        title.setEditable(false);
+        title.setText(this.task.getTitleProperty().getValue());
         title.getStyleClass().add("Taskcard-title");
 
-        Label description = new Label(task.getDescriptionProperty().getValue());
-        description.textProperty().bind(this.task.getDescriptionProperty());
-        description.setWrapText(true);
-        description.getStyleClass().add("Taskcard-description");
+        TextField description = new TextField();
+        description.setEditable(false);
+        description.setText(this.task.getDescriptionProperty().getValue());
+        description.getStyleClass().add("Taskcard-description");   
 
         contentarea.getStyleClass().add("Taskcard-contentarea");
         contentarea.getChildren().addAll(title, description);
@@ -94,13 +95,27 @@ public class TaskCard {
 
         // options
         VBox optionsbox = new VBox();
-        Button options = new Button("⋮");
+        Button options = new Button(); // ⋮
         options.setOnAction(e -> {
-            TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
-            
-            this.task.updateDeadline(LocalDateTime.now());
-            FXCollections.sort(activeTG.getTasksProperty());
+            if(title.isEditable()){
+                title.setEditable(false);
+                this.task.updateTitle(title.getText());
+                title.getStyleClass().remove("Taskcard-editable");
+
+                description.setEditable(false);
+                this.task.updateDescription(description.getText());
+                description.getStyleClass().remove("Taskcard-editable");
+
+            }
+            else{
+                title.setEditable(true);
+                title.getStyleClass().add("Taskcard-editable");
+
+                description.setEditable(true);
+                description.getStyleClass().add("Taskcard-editable");
+            }
         });
+
         optionsbox.getChildren().add(options);
         optionsbox.getStyleClass().add("Taskcard-optionsbox");
 
@@ -133,6 +148,11 @@ public class TaskCard {
         layout.getStyleClass().add("Taskcard-deadlinewidget");
         layout.getChildren().addAll(clockicon, deadlinebox);
         return layout;
+        /*
+            TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
+            this.task.updateDeadline(LocalDateTime.now());
+            FXCollections.sort(activeTG.getTasksProperty());
+        */
     }
 
     public HBox getLayout(){

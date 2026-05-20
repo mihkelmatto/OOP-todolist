@@ -3,7 +3,6 @@ package UI.Home;
 import java.time.LocalDateTime;
 
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -54,13 +53,16 @@ public class Header {
             if(title.isEditable()){
                 title.setEditable(false);
                 this.activeTG.getValue().setGroupname(title.getText());
+                title.getStyleClass().remove("Header-editable");
             }
             else{
                 title.setEditable(true);
+                title.getStyleClass().add("Header-editable");
             }
         });
         edittitle.getStyleClass().add("Header-edittitle");
 
+        // new task
         Button newtask = new Button("New task");
         newtask.setOnAction(e -> {
             this.activeTG.getValue().addTask(new Task("New Task", "Description", LocalDateTime.of(2025, 1, 1, 0, 0)));

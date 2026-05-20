@@ -17,7 +17,7 @@ public class Task implements Comparable<Task>{
     private SimpleStringProperty title;
     private SimpleStringProperty description;
     private ObjectProperty<LocalDateTime> deadline;
-    private ObjectProperty<LocalDateTime> lastupdated; // TODO> kas on vaja?
+    private ObjectProperty<LocalDateTime> lastupdated; // TODO: kas on vaja?
 
     public Task(String title, String description, LocalDateTime deadline){
         this.id = UUIDv7.randomUUID();

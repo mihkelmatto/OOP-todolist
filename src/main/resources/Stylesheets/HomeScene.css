@@ -4,7 +4,7 @@
 }
 
 .root{
-    -fx-background-color: rgb(38, 38, 38);
+    -fx-background-color: #0C1421;
 }
 
 .button {
@@ -18,9 +18,9 @@
 
 /* MidSection (ListView) */
 .MidSection {
-    -fx-background-color: rgb(38, 38, 38);
+    -fx-background-color: #0C1421;
     -fx-border-width: 1 0 0 0;
-    -fx-border-color: rgb(115, 115, 115);
+    -fx-border-color: #2E3442;;
     -fx-background-insets: 0;
 }
 
