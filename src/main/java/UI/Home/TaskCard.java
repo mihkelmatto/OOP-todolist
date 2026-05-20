@@ -3,10 +3,10 @@ import models.Session;
 import models.Task;
 import models.TaskGroup;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -21,6 +21,7 @@ public class TaskCard {
     private Session session;
     private Task task;
     private HBox layout;
+    private Button options;
     private SimpleStringProperty timeDL;
     private SimpleStringProperty dateDL;
 
@@ -88,15 +89,10 @@ public class TaskCard {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-
-        // deadline area
-        HBox deadlinewidget = createDeadlinewidget();
-        HBox.setMargin(deadlinewidget, new Insets(10, 0, 10, 0));
-
         // options
         VBox optionsbox = new VBox();
-        Button options = new Button(); // ⋮
-        options.setOnAction(e -> {
+        this.options = new Button(); // ⋮
+        this.options.addEventHandler(javafx.event.ActionEvent.ACTION, e -> {
             if(title.isEditable()){
                 title.setEditable(false);
                 this.task.updateTitle(title.getText());
@@ -119,6 +115,10 @@ public class TaskCard {
         optionsbox.getChildren().add(options);
         optionsbox.getStyleClass().add("Taskcard-optionsbox");
 
+        // deadline area
+        HBox deadlinewidget = createDeadlinewidget();
+        HBox.setMargin(deadlinewidget, new Insets(10, 0, 10, 0));
+
         // main layout
         layout.getChildren().addAll(complete, contentarea, spacer, deadlinewidget, optionsbox);
         layout.getStyleClass().add("TaskCard");
@@ -135,24 +135,48 @@ public class TaskCard {
         
         VBox deadlinebox = new VBox();     
         deadlinebox.setAlignment(Pos.CENTER_LEFT);
-
-        Label time = new Label();
-        time.textProperty().bind(timeDL);
+        
+        TextField time = new TextField();
+        time.setEditable(false);
+        time.setText(this.timeDL.getValue());
         time.getStyleClass().add("deadline-time");
 
-        Label date = new Label();
+        TextField date = new TextField();
+        date.setEditable(false);
+        date.setText(this.dateDL.getValue());
         date.getStyleClass().add("deadline-date");
-        date.textProperty().bind(dateDL);
+
+        this.options.addEventHandler(javafx.event.ActionEvent.ACTION, e -> {
+            if(time.isEditable()){
+                time.setEditable(false);
+                time.getStyleClass().remove("Taskcard-editable");
+                
+                date.setEditable(false);
+                date.getStyleClass().remove("Taskcard-editable");
+                
+                TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
+
+                this.task.updateDeadline(time.getText(), date.getText());
+                FXCollections.sort(activeTG.getTasksProperty());
+            }
+            else{
+                time.setEditable(true);
+                time.clear();
+                time.setPromptText("HH.mm");
+                time.getStyleClass().add("Taskcard-editable");
+
+                date.setEditable(true);
+                date.clear();
+                date.setPromptText("dd.MM.yyyy");
+                date.getStyleClass().add("Taskcard-editable");
+            }
+        });
+
         deadlinebox.getChildren().addAll(time, date);
 
         layout.getStyleClass().add("Taskcard-deadlinewidget");
         layout.getChildren().addAll(clockicon, deadlinebox);
         return layout;
-        /*
-            TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
-            this.task.updateDeadline(LocalDateTime.now());
-            FXCollections.sort(activeTG.getTasksProperty());
-        */
     }
 
     public HBox getLayout(){

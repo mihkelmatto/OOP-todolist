@@ -1,6 +1,10 @@
 package models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -60,9 +64,19 @@ public class Task implements Comparable<Task>{
         this.lastupdated.set(LocalDateTime.now());
     }
 
-    public void updateDeadline(LocalDateTime deadline){
-        this.deadline.set(deadline);
-        this.lastupdated.set(LocalDateTime.now());
+    public void updateDeadline(String time, String date){
+        time = time.strip();
+        date = date.strip();
+
+        DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH.mm");
+        DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        try{
+            this.deadline.setValue(LocalDateTime.of(LocalDate.parse(date, dateformat), LocalTime.parse(time, timeformat)));
+            this.lastupdated.set(LocalDateTime.now());
+        } catch(Exception e){
+            System.out.println("UpdateDeadLine: Invalid format");
+        }
     }
 
     // GETTERS

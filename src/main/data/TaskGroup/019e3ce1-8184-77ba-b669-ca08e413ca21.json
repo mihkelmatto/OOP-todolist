@@ -3,5 +3,11 @@
   "groupname" : "New task group",
   "owner" : "019e2bf9-c881-7056-80e9-64f7ba927a7c",
   "users" : [ "019e2bf9-c881-7056-80e9-64f7ba927a7c" ],
-  "tasks" : [ ]
+  "tasks" : [ {
+    "id" : "019e459d-b72c-740d-9e04-53e19a72dffd",
+    "title" : "Ülesanne",
+    "description" : "Kirjeldus",
+    "deadline" : "2026-02-07T10:25:00",
+    "lastupdated" : "2026-05-20T16:40:50.6400207"
+  } ]
 }

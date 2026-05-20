@@ -22,6 +22,12 @@
     "deadline" : "2026-05-20T08:00:00",
     "lastupdated" : "2026-05-17T08:10:00"
   }, {
+    "id" : "019f3aa1-4c2b-7b10-8c3d-91a2f4d7e006",
+    "title" : "Grocery list",
+    "description" : "Koosta nädalaseks tarbimiseks vajalike toodete nimekiri",
+    "deadline" : "2026-05-21T19:10:00",
+    "lastupdated" : "2026-05-17T13:55:00"
+  }, {
     "id" : "019f3aa1-4c2b-7b10-8c3d-91a2f4d7e004",
     "title" : "Dusting",
     "description" : "Puhasta kõik pinnad tolmust eluruumides",
@@ -33,11 +39,5 @@
     "description" : "Puhasta kraanikauss, dušš ja põrand",
     "deadline" : "2026-05-24T11:20:00",
     "lastupdated" : "2026-05-17T10:05:00"
-  }, {
-    "id" : "019f3aa1-4c2b-7b10-8c3d-91a2f4d7e006",
-    "title" : "Grocery list",
-    "description" : "Koosta nädalaseks tarbimiseks vajalike toodete nimekiri",
-    "deadline" : "2026-05-21T19:10:00",
-    "lastupdated" : "2026-05-17T13:55:00"
   } ]
 }

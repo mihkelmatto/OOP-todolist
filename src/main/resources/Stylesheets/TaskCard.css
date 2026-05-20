@@ -66,12 +66,14 @@
 
 .deadline-time{
     -fx-font-size: 20px;
+    -fx-max-width: 90;
     -fx-text-fill: #5090DA;
     -fx-font-weight: bold;
 }
 
 .deadline-date{
     -fx-font-size: 15px;
+    -fx-max-width: 90;
     -fx-text-fill: #5090DA;
 }
 

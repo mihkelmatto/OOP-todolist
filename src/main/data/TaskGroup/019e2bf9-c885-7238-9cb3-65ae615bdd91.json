@@ -4,29 +4,29 @@
   "owner" : "019e2bf9-c881-7056-80e9-64f7ba927a7c",
   "users" : [ "019e2bf9-c881-7056-80e9-64f7ba927a7c" ],
   "tasks" : [ {
+    "id" : "019e2bf9-c8bf-7129-bcef-8b486eead23d",
+    "title" : "Testimine",
+    "description" : "Koosta testjuhtumid põhifunktsioonidele",
+    "deadline" : "2026-05-16T19:29:29.8310259",
+    "lastupdated" : "2026-05-16T19:29:29.8310259"
+  }, {
+    "id" : "019e2bf9-c8bf-7db6-81ec-9357d5a5f62e",
+    "title" : "Andmeanalüüs",
+    "description" : "Analüüsi esialgsed andmekogumid",
+    "deadline" : "2026-05-16T19:30:00",
+    "lastupdated" : "2026-05-20T16:41:51.020855"
+  }, {
     "id" : "019e2bf9-c8be-74ac-a502-fdc6f9ffa005",
     "title" : "Projektiplaan",
     "description" : "Koosta algne projektiplaan ja eesmärgid",
     "deadline" : "2026-05-18T16:41:09.5686206",
     "lastupdated" : "2026-05-18T16:41:09.5696281"
   }, {
-    "id" : "019e2bf9-c8bf-7db6-81ec-9357d5a5f62e",
-    "title" : "Andmeanalüüs",
-    "description" : "Analüüsi esialgsed andmekogumid",
-    "deadline" : "2026-05-16T19:29:26.0531961",
-    "lastupdated" : "2026-05-16T19:29:26.0542015"
-  }, {
     "id" : "019e2bf9-c8bf-7abc-954b-ddd7a36d7fce",
     "title" : "Kasutajaliides",
     "description" : "Disaini rakenduse UI prototüüp",
     "deadline" : "2026-05-21T14:03:18.6873809",
     "lastupdated" : "2026-05-15T12:55:41.6873809"
-  }, {
-    "id" : "019e2bf9-c8bf-7129-bcef-8b486eead23d",
-    "title" : "Testimine",
-    "description" : "Koosta testjuhtumid põhifunktsioonidele",
-    "deadline" : "2026-05-16T19:29:29.8310259",
-    "lastupdated" : "2026-05-16T19:29:29.8310259"
   }, {
     "id" : "019e2bf9-c8bf-769a-8231-f5b23815c3f4",
     "title" : "Dokumentatsioon",
