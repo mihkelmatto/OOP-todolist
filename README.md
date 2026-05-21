@@ -1,26 +1,19 @@
 # OOP-todolist
-Projekti eesmärgiks on teha esmalt lokaalne todo list koos kasutajaliidese ja põhifunktsionaalsusega. Võimalusel lisandub ka server. 
+Projekti eesmärgiks on teha esmalt lokaalne todo list koos kasutajaliidese ja põhifunktsionaalsusega. <br>
+Võimalusel lisandub ka server.  <br> 
 
 UI käivitamine root kaustast:                 <br>
 mvn clean install (enne esimest käivitamist)  <br>
 mvn javafx:run                                <br>
 
-
-## Ülesannetel on:
-- pealkiri <br>
-- UUID <br>
-- tähtaeg <br>
-- viimase muudatuse aeg? <br>
-- Looja (User klass, et hiljem oleks lihtsam serverit teha) <br>
-- ülesande sisu <br>
-- värv (organiseerimine) <br>
-
 ## põhifunktsionaalus
-ülesandeid saab vaadata, lisada, muuta, kustutada ja lõpetatuks märkida <br>
+Kasutaja saab sisse logides näha oma ülesandeid.<br>
+Ülesanded on kategooriate kaupa ning saab teiste kasutajatega kategooriate kaupa jagada.<br>
+<br>
+ülesandel on pealkiri, kirjeldus ja tähtaeg. <br>
+ülesandeid saab vaadata, lisada, muuta, kustutada (lõpetada) <br>
 ülesandeid saab otsida - pealkirja, tähtaja, värvi järgi <br>
-ülesandele saab tähtaja määrata <br>
-Ülesandeid saab kettale salvestada ja neid sealt lugeda <br>
-Ülesandeid saab näha kasutajaliidese kaudu <br>
+Ülesandeid ja kasutajainfot salvestatakse json-failidena <br>
 
 ## server
 kõiki andmeid hoitakse keskses serveris, kuhu saab üle võrgu ühenduda <br>
