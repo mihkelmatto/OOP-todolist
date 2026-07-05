@@ -43,7 +43,6 @@ public class TaskCard {
         this.layout = createLayout();
     }
 
-    // TODO: Tegelikult peaks olema teist pidi binditud, et kasutaja saaks üldse aega muuta.
     private void updateDeadlineProperties(LocalDateTime deadline){
         DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
         this.timeDL.set(deadline.toLocalTime().format(timeformat));
@@ -64,9 +63,8 @@ public class TaskCard {
             activeTG.removeTask(this.task);
         });
 
-        complete.getStyleClass().add("Completebutton");
+        complete.setId("Completebutton");
         HBox.setMargin(complete, new Insets(20, 10, 0, 0));
-
 
         // Content area
         VBox contentarea = new VBox();
@@ -74,20 +72,16 @@ public class TaskCard {
         TextField title = new TextField();
         title.setEditable(false);
         title.setText(this.task.getTitleProperty().getValue());
-        title.getStyleClass().add("Taskcard-title");
+        title.setId("Taskcard-title");
 
         TextField description = new TextField();
         description.setEditable(false);
         description.setText(this.task.getDescriptionProperty().getValue());
-        description.getStyleClass().add("Taskcard-description");   
+        description.setId("Taskcard-description");   
 
         contentarea.getStyleClass().add("Taskcard-contentarea");
         contentarea.getChildren().addAll(title, description);
-        
-        
-        // spacer
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
+        HBox.setHgrow(contentarea, Priority.ALWAYS);
 
         // options
         VBox optionsbox = new VBox();
@@ -120,7 +114,7 @@ public class TaskCard {
         HBox.setMargin(deadlinewidget, new Insets(10, 0, 10, 0));
 
         // main layout
-        layout.getChildren().addAll(complete, contentarea, spacer, deadlinewidget, optionsbox);
+        layout.getChildren().addAll(complete, contentarea, deadlinewidget, optionsbox);
         layout.getStyleClass().add("TaskCard");
         layout.getStylesheets().add(getClass().getResource("/Stylesheets/TaskCard.css").toExternalForm());
         return layout;
@@ -138,20 +132,26 @@ public class TaskCard {
         
         TextField time = new TextField();
         time.setEditable(false);
+        time.setFocusTraversable(false);
         time.setText(this.timeDL.getValue());
-        time.getStyleClass().add("deadline-time");
+        time.getStyleClass().add("deadline");
+        time.setId("deadline-time");
 
         TextField date = new TextField();
         date.setEditable(false);
+        date.setFocusTraversable(false);
         date.setText(this.dateDL.getValue());
-        date.getStyleClass().add("deadline-date");
+        date.getStyleClass().add("deadline");
+        date.setId("deadline-date");
 
         this.options.addEventHandler(javafx.event.ActionEvent.ACTION, e -> {
             if(time.isEditable()){
                 time.setEditable(false);
+                time.setFocusTraversable(false);
                 time.getStyleClass().remove("Taskcard-editable");
                 
                 date.setEditable(false);
+                date.setFocusTraversable(false);
                 date.getStyleClass().remove("Taskcard-editable");
                 
                 TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
@@ -161,11 +161,13 @@ public class TaskCard {
             }
             else{
                 time.setEditable(true);
+                time.setFocusTraversable(true);
                 time.clear();
                 time.setPromptText("HH.mm");
                 time.getStyleClass().add("Taskcard-editable");
 
                 date.setEditable(true);
+                date.setFocusTraversable(true);
                 date.clear();
                 date.setPromptText("dd.MM.yyyy");
                 date.getStyleClass().add("Taskcard-editable");
@@ -174,7 +176,7 @@ public class TaskCard {
 
         deadlinebox.getChildren().addAll(time, date);
 
-        layout.getStyleClass().add("Taskcard-deadlinewidget");
+        layout.setId("Taskcard-deadlinewidget");
         layout.getChildren().addAll(clockicon, deadlinebox);
         return layout;
     }

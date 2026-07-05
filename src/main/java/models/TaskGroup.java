@@ -19,9 +19,7 @@ import javafx.collections.ObservableList;
 
 
 /*
-TODO: Userite nimekirja peaks ehk Setiks tegema, et ei peaks duplikaate kontrollima ning otsimisaeg oleks väiksem (Setil on vist O1)
 TODO: Jackson getteritelt field-accessi peale
-TODO: Sisu halduse Error handling? Peaks olema tegelikult varasemalt garanteeritud.
 */
 
 public class TaskGroup implements ToJson, Comparable<TaskGroup> {
@@ -106,7 +104,7 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
 
     public void removeUser(UUID userid){
         if(userid.equals(this.owner)){
-            System.out.println("Omanikku ei saa eemaldada. Selle asemel tuleb grupp kustutada."); // TODO: mida siis UI-s teha?
+            System.out.println("Omanikku ei saa eemaldada. Selle asemel tuleb grupp kustutada.");
         }
         else{
             try{

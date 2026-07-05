@@ -64,6 +64,7 @@ public class Session {
             TaskGroup tg = new TaskGroup(this.user.getID());
             tg.setGroupname("New task group");
             this.taskgroups.add(tg);
+            this.activeTG.set(tg);
 
             UserTgMapper mapper = Classreader.fromJsonFile(this.user.getID(), UserTgMapper.class);
             mapper.addTaskgroups(tg.getID());
@@ -78,6 +79,8 @@ public class Session {
     Kustutab hetkel aktiivse taskgroupi.
     2. iga kasutaja taskmapper lugeda ja uuendada.
     4. taskgroup kustutada
+    
+    TODO: failid tuleks ka ikka ära kustutada
     */
     public void deleteTaskgroup(){
         if(this.taskgroups.size() == 1){

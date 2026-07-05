@@ -4,12 +4,15 @@ import java.time.LocalDateTime;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
+import javafx.geometry.Side;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import models.Session;
 import models.Task;
 import models.TaskGroup;
@@ -19,7 +22,7 @@ public class Header {
     private Session session;
     private SimpleObjectProperty<TaskGroup> activeTG;
     private TextField title;
-    private ComboBox<TaskGroup> dropdown;
+    private ComboBox<TaskGroup> dropdowncontent;
 
     private ObservableList<TaskGroup> taskgroups;
 
@@ -41,59 +44,99 @@ public class Header {
 
     public HBox createLayout(){
         HBox layout = new HBox();
+        layout.setSpacing(10);
 
         // Title
-        this.title = new TextField();
-        this.title.setEditable(false);
-        this.title.setText(this.activeTG.getValue().getGroupnameProperty().getValue());
-        this.title.getStyleClass().add("Header-title");
+        this.title = createTitle();
+        HBox.setHgrow(title, Priority.ALWAYS);
 
-        Button edittitle = new Button();
-        edittitle.setOnAction(e -> {
-            if(title.isEditable()){
-                title.setEditable(false);
-                this.activeTG.getValue().setGroupname(title.getText());
-                title.getStyleClass().remove("Header-editable");
-            }
-            else{
-                title.setEditable(true);
-                title.getStyleClass().add("Header-editable");
-            }
-        });
-        edittitle.getStyleClass().add("Header-edittitle");
-
-        // new task
+        // New task
         Button newtask = new Button("New task");
         newtask.setOnAction(e -> {
             this.activeTG.getValue().addTask(new Task("New Task", "Description", LocalDateTime.of(2025, 1, 1, 0, 0)));
         });
-        newtask.getStyleClass().add("Header-newtask");
-
-        // spacer
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
 
         // Dropdown menu
-        Button dropdownbutton = new Button("+");
-        dropdownbutton.setOnAction(e -> {
-            this.session.createTaskgroup();
-        });
-        dropdownbutton.getStyleClass().add("Header-dropdownbutton");
-
-        this.dropdown = createDropdown();
+        this.dropdowncontent = createDropdownContent();
+        HBox dropdown = createDropdownWidget();
 
 
         // layout settings
-        layout.getChildren().addAll(edittitle, title, newtask, spacer, dropdownbutton, dropdown);
+        layout.getChildren().addAll(title, newtask, dropdown, createOptions());
         layout.getStylesheets().add(getClass().getResource("/Stylesheets/Header.css").toExternalForm());
         layout.getStyleClass().add("Header");
         return layout;
     }
 
-    private ComboBox<TaskGroup> createDropdown(){
-        ComboBox<TaskGroup> dropdown = new ComboBox<>(this.taskgroups);
+    private Button createOptions(){
+        Button optionsbutton = new Button("⋮");
+        ContextMenu options = new ContextMenu();
 
-        dropdown.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
+        options.setWidth(100);
+        optionsbutton.setPrefWidth(30);
+
+        MenuItem edit = new MenuItem("edit title");
+        edit.setOnAction(e -> {
+            editTitle();
+        });
+        
+        MenuItem delete = new MenuItem("delete group");
+        delete.setOnAction(e -> {
+            this.session.deleteTaskgroup();
+        });
+        
+        options.getItems().addAll(edit, delete);
+        optionsbutton.setContextMenu(options);
+
+        // TODO: joondus katki
+        optionsbutton.setOnAction(e -> {
+            int width = 50;
+            options.setWidth(width);
+            if(!options.isShowing()){
+                options.show(optionsbutton, Side.BOTTOM, 0, 0);
+                options.setX(optionsbutton.localToScreen(0, 0).getX() + optionsbutton.getWidth() - options.getWidth());
+            }
+
+        });
+
+        options.setId("options");
+        optionsbutton.setId("optionsbutton");
+        return optionsbutton;
+    }
+
+    private TextField createTitle(){
+        TextField title = new TextField();
+        title.setEditable(false);
+        title.setFocusTraversable(false);
+        title.setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.ENTER) {
+                editTitle();
+            }
+        });
+        title.setText(this.activeTG.getValue().getGroupnameProperty().getValue());
+        title.getStyleClass().add("Header-title");
+
+        return title;
+    }
+
+    private void editTitle(){
+        if(this.title.isEditable()){
+            this.title.setEditable(false);
+            this.title.setFocusTraversable(false);
+            this.activeTG.getValue().setGroupname(title.getText());
+            this.title.getStyleClass().remove("Header-editable");
+        }
+        else{
+            this.title.setEditable(true);
+            this.title.setFocusTraversable(true);
+            this.title.getStyleClass().add("Header-editable");
+        }
+    }
+
+    private ComboBox<TaskGroup> createDropdownContent(){
+        ComboBox<TaskGroup> content = new ComboBox<>(this.taskgroups);
+
+        content.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
             @Override
             protected void updateItem(TaskGroup tg, boolean empty) {
                 super.updateItem(tg, empty);
@@ -107,7 +150,7 @@ public class Header {
             }
         });
 
-        dropdown.setButtonCell(new javafx.scene.control.ListCell<>() {
+        content.setButtonCell(new javafx.scene.control.ListCell<>() {
             @Override
             protected void updateItem(TaskGroup tg, boolean empty) {
                 super.updateItem(tg, empty);
@@ -121,11 +164,25 @@ public class Header {
             }
         });
 
-        dropdown.valueProperty().addListener((obs, oldValue, newValue) -> {
+        content.valueProperty().addListener((obs, oldValue, newValue) -> {
             this.activeTG.setValue(newValue);
         });
 
-        dropdown.setValue(this.activeTG.getValue());
+        content.setValue(this.activeTG.getValue());
+
+        return content;
+    }
+
+    private HBox createDropdownWidget(){
+        Button button = new Button("+");
+        button.setOnAction(e -> {
+            this.session.createTaskgroup();
+        });
+        button.setId("dropdownbutton");
+
+        HBox dropdown = new HBox();
+        dropdown.getChildren().addAll(button, this.dropdowncontent);
+        dropdown.setId("dropdownwidget");
 
         return dropdown;
     }

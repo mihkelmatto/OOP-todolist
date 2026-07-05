@@ -8,13 +8,17 @@
     -fx-border-color: #2E3442;
 }
 
+.Taskcard-editable{
+    -fx-background-color: #132235;
+}
+
 .text-field{
     -fx-padding: 0;
     -fx-background-color: transparent;
 }
 
 /* Completebutton container */
-.Completebutton{
+#Completebutton{
     -fx-background-color: transparent;
     -fx-border-width: 2;
     -fx-border-color: #5090DA;
@@ -22,7 +26,7 @@
     -fx-pref-width: 40;
 }
 
-.Completebutton:hover{
+#Completebutton:hover{
     -fx-background-color: #132235;
 }
 
@@ -31,27 +35,23 @@
     -fx-padding: 10 0 0 0;
 }
 
-.Taskcard-title{
+#Taskcard-title{
     -fx-font-size: 30px;
     -fx-font-weight: bold;
     -fx-text-alignment: left;
     -fx-border-radius: 0;
 }
 
-.Taskcard-description{
+#Taskcard-description{
     -fx-font-size: 20px;
     -fx-text-alignment: left;
     -fx-text-fill: #a7a7a7;
     -fx-border-radius: 0;
 }
 
-.Taskcard-editable{
-    -fx-background-color: #132235;
-}
-
-
 /* Time container */
-.Taskcard-deadlinewidget{
+
+#Taskcard-deadlinewidget{
     -fx-max-width: 160;
     -fx-pref-width: 160;
 
@@ -64,17 +64,18 @@
     -fx-alignment: center;
 }
 
-.deadline-time{
-    -fx-font-size: 20px;
+.deadline{
     -fx-max-width: 90;
     -fx-text-fill: #5090DA;
+}
+
+#deadline-time{
+    -fx-font-size: 20px;
     -fx-font-weight: bold;
 }
 
-.deadline-date{
+#deadline-date{
     -fx-font-size: 15px;
-    -fx-max-width: 90;
-    -fx-text-fill: #5090DA;
 }
 
 .clockicon {
