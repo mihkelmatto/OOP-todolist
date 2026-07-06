@@ -59,19 +59,22 @@ public class Session {
     - uuendab this.taskgroups nimekirja
     - uuendab kasutaja TGmapperit
     */
-    public void createTaskgroup(){
+    public TaskGroup createTaskgroup(){
         try{
             TaskGroup tg = new TaskGroup(this.user.getID());
             tg.setGroupname("New task group");
             this.taskgroups.add(tg);
             this.activeTG.set(tg);
-
+            
             UserTgMapper mapper = Classreader.fromJsonFile(this.user.getID(), UserTgMapper.class);
             mapper.addTaskgroups(tg.getID());
             mapper.toJsonFile();
+
+            return tg;
         }
         catch(IOException e){
             e.printStackTrace(); // ei tohiks juhtuda, kuna taskgroup luuakse sisselogimisel
+            return null;
         }
     }
 
@@ -79,13 +82,11 @@ public class Session {
     Kustutab hetkel aktiivse taskgroupi.
     2. iga kasutaja taskmapper lugeda ja uuendada.
     4. taskgroup kustutada
-    
-    TODO: failid tuleks ka ikka ära kustutada
     */
-    public void deleteTaskgroup(){
+    public TaskGroup deleteTaskgroup(){
         if(this.taskgroups.size() == 1){
             System.out.println("Viimast gruppi ei saa kustutada");
-            return;
+            return null;
         }
 
         // uuendab iga this.activeTG-s oleva kasutaja TGmapperit
@@ -96,12 +97,16 @@ public class Session {
                 mapper.removeTaskgroup(activeTGtgid);
                 mapper.toJsonFile();
             }
+            Classreader.deleteJsonFile(activeTGtgid, TaskGroup.class);
         }
         catch(IOException e){
             e.printStackTrace(); // ei tohiks juhtuda, kuna taskgroup luuakse sisselogimisel
         }
         this.taskgroups.remove(this.activeTG.getValue());
-        this.activeTG.set(this.taskgroups.get(0));
+        TaskGroup newactive = this.taskgroups.get(0);
+
+        this.activeTG.set(newactive);
+        return newactive;
     }
 
     // GETTERS

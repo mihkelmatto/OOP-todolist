@@ -1,7 +1,5 @@
 package UI.Home;
 
-import java.time.LocalDateTime;
-
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -49,29 +47,31 @@ public class Header {
         this.title = createTitle();
         HBox.setHgrow(title, Priority.ALWAYS);
 
-        // New task
-        Button newtask = new Button("New task");
-        newtask.setOnAction(e -> {
-            this.activeTG.getValue().addTask(new Task("New Task", "Description", LocalDateTime.of(2025, 1, 1, 0, 0)));
-        });
-
         // Dropdown menu
         this.dropdowncontent = createDropdownContent();
         HBox dropdown = createDropdownWidget();
 
 
         // layout settings
-        layout.getChildren().addAll(title, newtask, dropdown, createPopup());
+        layout.getChildren().addAll(title, dropdown, createGroupOptions());
         layout.getStylesheets().add(getClass().getResource("/Stylesheets/Header.css").toExternalForm());
         layout.getStyleClass().add("Header");
         return layout;
     }
 
-    private Button createPopup(){
+    private Button createGroupOptions(){
         Button optionsbutton = new Button("⋮");
         Popup popup = new Popup();
 
         VBox vbox = new VBox();
+
+        Button add = new Button("new group");
+        add.setOnAction(e -> {
+            TaskGroup newgroup = this.session.createTaskgroup();
+            editTitle();
+            this.dropdowncontent.getSelectionModel().select(newgroup);
+            popup.hide();
+        });
         
         Button edit = new Button("edit title");
         edit.setOnAction(e -> {
@@ -81,11 +81,12 @@ public class Header {
 
         Button delete = new Button("delete group");
         delete.setOnAction(e -> {
-            this.session.deleteTaskgroup();
+            TaskGroup newactive = this.session.deleteTaskgroup();
+            this.dropdowncontent.getSelectionModel().select(newactive);
             popup.hide();
         });
 
-        vbox.getChildren().addAll(edit, delete);
+        vbox.getChildren().addAll(add, edit, delete);
         popup.getContent().add(vbox);
         
         optionsbutton.setOnAction(e -> {
@@ -177,14 +178,15 @@ public class Header {
     }
 
     private HBox createDropdownWidget(){
-        Button button = new Button("+");
-        button.setOnAction(e -> {
-            this.session.createTaskgroup();
+        Button newtask = new Button("+");
+        newtask.setOnAction(e -> {
+            Task task = new Task();
+            this.activeTG.getValue().addTask(task);            
         });
-        button.setId("dropdownbutton");
+        newtask.setId("dropdownbutton");
 
         HBox dropdown = new HBox();
-        dropdown.getChildren().addAll(button, this.dropdowncontent);
+        dropdown.getChildren().addAll(newtask, this.dropdowncontent);
         dropdown.setId("dropdownwidget");
 
         return dropdown;

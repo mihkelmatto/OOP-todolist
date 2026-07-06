@@ -8,10 +8,6 @@
     -fx-border-color: #2E3442;
 }
 
-.Taskcard-editable{
-    -fx-background-color: #132235;
-}
-
 .text-field{
     -fx-padding: 0;
     -fx-background-color: transparent;
@@ -47,6 +43,10 @@
     -fx-text-alignment: left;
     -fx-text-fill: #a7a7a7;
     -fx-border-radius: 0;
+}
+
+.Taskcard-editable{
+    -fx-background-color: #132235;
 }
 
 /* Time container */

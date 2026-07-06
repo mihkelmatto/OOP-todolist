@@ -7,6 +7,7 @@ import models.UserTgMapper;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -100,5 +101,22 @@ public class Classreader {
     // Vajalik Jacksoni moodulile ToJson ja Classreader klassides 
     public static ObjectMapper getMapper(){
         return mapper;
+    }
+
+
+    public static <T extends ToJson> void deleteJsonFile(UUID id, Class<T> clazz) {
+        File file = new File(String.format("%s/%s.json", getDir(clazz), id));
+        try{
+            if (!file.isFile()) {
+                System.out.println("utils/classreader/deletejson() - File not found: " + file);
+            }
+
+            Files.delete(file.toPath());
+            System.out.printf("File %s deleted.\n", file);
+
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }        
     }
 }
