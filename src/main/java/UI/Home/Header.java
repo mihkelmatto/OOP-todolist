@@ -4,15 +4,14 @@ import java.time.LocalDateTime;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
-import javafx.geometry.Side;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 import models.Session;
 import models.Task;
 import models.TaskGroup;
@@ -62,45 +61,49 @@ public class Header {
 
 
         // layout settings
-        layout.getChildren().addAll(title, newtask, dropdown, createOptions());
+        layout.getChildren().addAll(title, newtask, dropdown, createPopup());
         layout.getStylesheets().add(getClass().getResource("/Stylesheets/Header.css").toExternalForm());
         layout.getStyleClass().add("Header");
         return layout;
     }
 
-    private Button createOptions(){
+    private Button createPopup(){
         Button optionsbutton = new Button("⋮");
-        ContextMenu options = new ContextMenu();
+        Popup popup = new Popup();
 
-        options.setWidth(100);
-        optionsbutton.setPrefWidth(30);
-
-        MenuItem edit = new MenuItem("edit title");
+        VBox vbox = new VBox();
+        
+        Button edit = new Button("edit title");
         edit.setOnAction(e -> {
             editTitle();
+            popup.hide();
         });
-        
-        MenuItem delete = new MenuItem("delete group");
+
+        Button delete = new Button("delete group");
         delete.setOnAction(e -> {
             this.session.deleteTaskgroup();
+            popup.hide();
         });
+
+        vbox.getChildren().addAll(edit, delete);
+        popup.getContent().add(vbox);
         
-        options.getItems().addAll(edit, delete);
-        optionsbutton.setContextMenu(options);
-
-        // TODO: joondus katki
         optionsbutton.setOnAction(e -> {
-            int width = 50;
-            options.setWidth(width);
-            if(!options.isShowing()){
-                options.show(optionsbutton, Side.BOTTOM, 0, 0);
-                options.setX(optionsbutton.localToScreen(0, 0).getX() + optionsbutton.getWidth() - options.getWidth());
+            if(popup.isShowing()){
+                popup.hide();
+                return;
             }
-
+            // TODO: mingi bug, kus popup võib tekkida teisele ekraanile
+            popup.show(optionsbutton, 0, 0);
+            popup.setX(optionsbutton.localToScreen(0, optionsbutton.getHeight()).getX() + optionsbutton.getWidth() - popup.getWidth());
+            popup.setY(optionsbutton.localToScreen(0, optionsbutton.getHeight()).getY() + 5);
         });
 
-        options.setId("options");
+        vbox.setId("options");
         optionsbutton.setId("optionsbutton");
+        popup.setAutoHide(true);
+        vbox.getStylesheets().add(getClass().getResource("/Stylesheets/Header.css").toExternalForm());
+
         return optionsbutton;
     }
 
