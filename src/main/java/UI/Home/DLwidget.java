@@ -70,7 +70,7 @@ public class DLwidget {
         return layout;
     }
 
-    public void toggleEditable(){
+    protected void toggleEditable(){
         if(time.isEditable()){
             TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
             

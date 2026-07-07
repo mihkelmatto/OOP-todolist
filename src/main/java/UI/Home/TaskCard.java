@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+// TODO: Kui ülesandeid on üks, siis aja "fallback" ei õnnestu.
 
 public class TaskCard {
     private Session session;
@@ -62,13 +63,7 @@ public class TaskCard {
         this.options = new Button(); // ⋮
 
         this.options.setOnAction(e -> {
-            if(title.isEditable()){
-                this.task.updateTitle(title.getText());
-                this.task.updateDescription(description.getText());
-            }
-
-            UIUtils.toggleEditable(this.title, this.description);
-            this.dlwidget.toggleEditable();
+            toggleEditable();
         });
 
         optionsbox.getChildren().add(options);
@@ -83,6 +78,16 @@ public class TaskCard {
         layout.getStyleClass().add("TaskCard");
         layout.getStylesheets().add(getClass().getResource("/Stylesheets/TaskCard.css").toExternalForm());
         return layout;
+    }
+
+    protected void toggleEditable(){
+        if(this.title.isEditable()){
+            this.task.updateTitle(this.title.getText());
+            this.task.updateDescription(description.getText());
+        }
+
+        UIUtils.toggleEditable(this.title, this.description);
+        this.dlwidget.toggleEditable();
     }
 
     public HBox getLayout(){

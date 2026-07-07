@@ -74,11 +74,16 @@ public class Task implements Comparable<Task>{
         DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH.mm");
         DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
+        LocalDateTime fallback = this.getDeadlineProperty().getValue();
+        if(fallback == null) fallback = LocalDateTime.now();
+
         try{
             this.deadline.setValue(LocalDateTime.of(LocalDate.parse(date, dateformat), LocalTime.parse(time, timeformat)));
             this.lastupdated.set(LocalDateTime.now());
         } catch(Exception e){
-            System.out.println("UpdateDeadLine: Invalid format");
+            this.deadline.setValue(fallback);
+            this.lastupdated.set(LocalDateTime.now());
+            System.out.printf("Exception at Task.updateDeadline(): %s \nDatetime fallback: %s\n", e, fallback);
         }
     }
 

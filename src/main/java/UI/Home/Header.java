@@ -17,24 +17,27 @@ import utils.UIUtils;
 
 public class Header {
     private HBox layout;
+
     private Session session;
     private SimpleObjectProperty<TaskGroup> activeTG;
+    
     private TextField title;
+    private Button newtask;
     private ComboBox<TaskGroup> dropdowncontent;
-
     private ObservableList<TaskGroup> taskgroups;
 
     public Header(Session session){
         this.session = session;
         
-        this.taskgroups = this.session.getTaskgroupProperty();
         this.activeTG = this.session.getActiveTGProperty();
+        this.taskgroups = this.session.getTaskgroupProperty();
         this.activeTG.addListener(
             (obs, oldVal, newVal) -> {
                 this.title.setText(newVal.getGroupnameProperty().getValue());
             }
         );
-
+        
+        this.dropdowncontent = createDropdownContent();
         this.layout = createLayout();
     }
 
@@ -51,9 +54,19 @@ public class Header {
         });
         HBox.setHgrow(title, Priority.ALWAYS);
 
-        // Dropdown menu
-        this.dropdowncontent = createDropdownContent();
-        HBox dropdown = createDropdownWidget();
+        // dropdown section
+        // TODO: peaks kutsuma taskcard.toggleEditable()
+        // getchildren listener??
+        this.newtask = new Button("+");
+        this.newtask.setId("newtaskbutton");
+        this.newtask.setOnAction(e -> {
+            Task task = new Task();
+            this.session.getActiveTGProperty().getValue().addTask(task);      
+        });
+
+        HBox dropdown = new HBox();
+        dropdown.getChildren().addAll(this.newtask, this.dropdowncontent);
+        dropdown.setId("dropdownwidget");
 
         // layout settings
         layout.getChildren().addAll(title, dropdown, createGroupOptions());
@@ -110,23 +123,16 @@ public class Header {
 
         return optionsbutton;
     }
-
-    private void editTitle(){        
-        if(this.title.isEditable()){
-            this.activeTG.getValue().setGroupname(title.getText());
-        }
-        UIUtils.toggleEditable(this.title);
-    }
-
+    
     private ComboBox<TaskGroup> createDropdownContent(){
         ComboBox<TaskGroup> content = new ComboBox<>(this.taskgroups);
-
+        
         content.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
             @Override
             protected void updateItem(TaskGroup tg, boolean empty) {
                 super.updateItem(tg, empty);
                 textProperty().unbind();
-
+                
                 if (empty || tg == null) {
                     setText(null);
                 } else {
@@ -134,13 +140,13 @@ public class Header {
                 }
             }
         });
-
+        
         content.setButtonCell(new javafx.scene.control.ListCell<>() {
             @Override
             protected void updateItem(TaskGroup tg, boolean empty) {
                 super.updateItem(tg, empty);
                 textProperty().unbind();
-
+                
                 if (empty || tg == null) {
                     setText(null);
                 } else {
@@ -152,27 +158,23 @@ public class Header {
         content.valueProperty().addListener((obs, oldValue, newValue) -> {
             this.activeTG.setValue(newValue);
         });
-
+        
         content.setValue(this.activeTG.getValue());
 
         return content;
     }
-
-    private HBox createDropdownWidget(){
-        Button newtask = new Button("+");
-        newtask.setOnAction(e -> {
-            Task task = new Task();
-            this.activeTG.getValue().addTask(task);            
-        });
-        newtask.setId("dropdownbutton");
-
-        HBox dropdown = new HBox();
-        dropdown.getChildren().addAll(newtask, this.dropdowncontent);
-        dropdown.setId("dropdownwidget");
-
-        return dropdown;
+    
+    private void editTitle(){        
+        if(this.title.isEditable()){
+            this.activeTG.getValue().setGroupname(title.getText());
+        }
+        UIUtils.toggleEditable(this.title);
     }
 
+    public Button getNewtaskButton(){
+        return this.newtask;
+    }
+    
     public HBox getLayout(){
         return this.layout;
     }
