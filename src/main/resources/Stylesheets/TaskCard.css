@@ -27,31 +27,31 @@
 }
 
 /* Content container */
-.Taskcard-contentarea{
+.contentarea{
     -fx-padding: 10 0 0 0;
 }
 
-#Taskcard-title{
+#title{
     -fx-font-size: 30px;
     -fx-font-weight: bold;
     -fx-text-alignment: left;
     -fx-border-radius: 0;
 }
 
-#Taskcard-description{
+#description{
     -fx-font-size: 20px;
     -fx-text-alignment: left;
     -fx-text-fill: #a7a7a7;
     -fx-border-radius: 0;
 }
 
-.Taskcard-editable{
+.editable{
     -fx-background-color: #132235;
 }
 
 /* Time container */
 
-#Taskcard-deadlinewidget{
+#deadlinewidget{
     -fx-max-width: 160;
     -fx-pref-width: 160;
 
