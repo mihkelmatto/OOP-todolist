@@ -3,11 +3,11 @@ package utils;
 import javafx.scene.control.TextField;
 
 public class UIUtils {
-    public static TextField createTextfield(String in, String cssID){
+    public static TextField createTextfield(String in, String cssClassname){
         TextField field = new TextField(in);
         field.setEditable(false);
         field.setFocusTraversable(false);
-        field.setId(cssID);
+        field.getStyleClass().add(cssClassname);
 
         return field;
     }

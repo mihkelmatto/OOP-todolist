@@ -27,14 +27,14 @@
 
 /*  */
 
-.Header-title{
+.title{
     -fx-pref-width: 300;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-color: transparent;
 }
 
-.Header-editable{
+.editable{
     -fx-background-color: #132235;
 }
 
@@ -56,8 +56,6 @@
     -fx-background-radius: 10 0 0 10;
     -fx-border-color: #2E3442;
 }
-
-
 
 /*  */
 #optionsbutton{

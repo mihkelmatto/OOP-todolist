@@ -31,14 +31,14 @@
     -fx-padding: 10 0 0 0;
 }
 
-#title{
+.title{
     -fx-font-size: 30px;
     -fx-font-weight: bold;
     -fx-text-alignment: left;
     -fx-border-radius: 0;
 }
 
-#description{
+.description{
     -fx-font-size: 20px;
     -fx-text-alignment: left;
     -fx-text-fill: #a7a7a7;
@@ -69,12 +69,12 @@
     -fx-text-fill: #5090DA;
 }
 
-#deadline-time{
+.deadline-time{
     -fx-font-size: 20px;
     -fx-font-weight: bold;
 }
 
-#deadline-date{
+.deadline-date{
     -fx-font-size: 15px;
 }
 

@@ -13,6 +13,7 @@ import javafx.stage.Popup;
 import models.Session;
 import models.Task;
 import models.TaskGroup;
+import utils.UIUtils;
 
 public class Header {
     private HBox layout;
@@ -26,10 +27,8 @@ public class Header {
     public Header(Session session){
         this.session = session;
         
-        this.activeTG = this.session.getActiveTGProperty();
-
         this.taskgroups = this.session.getTaskgroupProperty();
-
+        this.activeTG = this.session.getActiveTGProperty();
         this.activeTG.addListener(
             (obs, oldVal, newVal) -> {
                 this.title.setText(newVal.getGroupnameProperty().getValue());
@@ -44,13 +43,17 @@ public class Header {
         layout.setSpacing(10);
 
         // Title
-        this.title = createTitle();
+        this.title = UIUtils.createTextfield(this.activeTG.getValue().getGroupnameProperty().getValue(), "title");
+        title.setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.ENTER) {
+                editTitle();
+            }
+        });
         HBox.setHgrow(title, Priority.ALWAYS);
 
         // Dropdown menu
         this.dropdowncontent = createDropdownContent();
         HBox dropdown = createDropdownWidget();
-
 
         // layout settings
         layout.getChildren().addAll(title, dropdown, createGroupOptions());
@@ -108,33 +111,11 @@ public class Header {
         return optionsbutton;
     }
 
-    private TextField createTitle(){
-        TextField title = new TextField();
-        title.setEditable(false);
-        title.setFocusTraversable(false);
-        title.setOnKeyPressed(e -> {
-            if(e.getCode() == KeyCode.ENTER) {
-                editTitle();
-            }
-        });
-        title.setText(this.activeTG.getValue().getGroupnameProperty().getValue());
-        title.getStyleClass().add("Header-title");
-
-        return title;
-    }
-
-    private void editTitle(){
+    private void editTitle(){        
         if(this.title.isEditable()){
-            this.title.setEditable(false);
-            this.title.setFocusTraversable(false);
             this.activeTG.getValue().setGroupname(title.getText());
-            this.title.getStyleClass().remove("Header-editable");
         }
-        else{
-            this.title.setEditable(true);
-            this.title.setFocusTraversable(true);
-            this.title.getStyleClass().add("Header-editable");
-        }
+        UIUtils.toggleEditable(this.title);
     }
 
     private ComboBox<TaskGroup> createDropdownContent(){
