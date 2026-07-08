@@ -2,54 +2,36 @@ package UI.Home;
 import models.Session;
 import models.Task;
 import models.TaskGroup;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
+import utils.UIUtils;
+
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
+// TODO: Kui ülesandeid on üks, siis aja "fallback" ei õnnestu.
 
 public class TaskCard {
     private Session session;
     private Task task;
+
     private HBox layout;
+
+    private TextField title;
+    private TextField description;
+    private DLwidget dlwidget;
+    
     private Button options;
-    private SimpleStringProperty timeDL;
-    private SimpleStringProperty dateDL;
+    
 
     public TaskCard(Task task, Session session){
         this.task = task;
         this.session = session;
+        this.dlwidget = new DLwidget(session, task);
 
-        this.timeDL = new SimpleStringProperty();
-        this.task.getDeadlineProperty().addListener((obs, oldVal, newVal) -> {
-            updateDeadlineProperties(newVal);
-        });
-
-        this.dateDL = new SimpleStringProperty();
-        this.task.getDeadlineProperty().addListener((obs, oldVal, newVal) -> {
-            updateDeadlineProperties(newVal);
-        });
-
-        updateDeadlineProperties(this.task.getDeadlineProperty().getValue());
         this.layout = createLayout();
-    }
-
-    // TODO: Tegelikult peaks olema teist pidi binditud, et kasutaja saaks üldse aega muuta.
-    private void updateDeadlineProperties(LocalDateTime deadline){
-        DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
-        this.timeDL.set(deadline.toLocalTime().format(timeformat));
-
-        DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("d.MMM yyyy", Locale.getDefault());
-        this.dateDL.set(deadline.toLocalDate().format(dateformat));
     }
 
     private HBox createLayout(){
@@ -57,126 +39,55 @@ public class TaskCard {
         layout.setSpacing(25);
 
 
-        // Button area
+        // Complete task button
         Button complete = new Button();
         complete.setOnAction(e -> {
             TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
             activeTG.removeTask(this.task);
         });
 
-        complete.getStyleClass().add("Completebutton");
+        complete.setId("Completebutton");
         HBox.setMargin(complete, new Insets(20, 10, 0, 0));
-
 
         // Content area
         VBox contentarea = new VBox();
-        
-        TextField title = new TextField();
-        title.setEditable(false);
-        title.setText(this.task.getTitleProperty().getValue());
-        title.getStyleClass().add("Taskcard-title");
+        this.title = UIUtils.createTextfield(this.task.getTitleProperty().getValue(), "title");
+        this.description = UIUtils.createTextfield(this.task.getDescriptionProperty().getValue(), "description");
 
-        TextField description = new TextField();
-        description.setEditable(false);
-        description.setText(this.task.getDescriptionProperty().getValue());
-        description.getStyleClass().add("Taskcard-description");   
-
-        contentarea.getStyleClass().add("Taskcard-contentarea");
+        contentarea.getStyleClass().add("contentarea");
         contentarea.getChildren().addAll(title, description);
-        
-        
-        // spacer
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
+        HBox.setHgrow(contentarea, Priority.ALWAYS);
 
         // options
         VBox optionsbox = new VBox();
         this.options = new Button(); // ⋮
-        this.options.addEventHandler(javafx.event.ActionEvent.ACTION, e -> {
-            if(title.isEditable()){
-                title.setEditable(false);
-                this.task.updateTitle(title.getText());
-                title.getStyleClass().remove("Taskcard-editable");
 
-                description.setEditable(false);
-                this.task.updateDescription(description.getText());
-                description.getStyleClass().remove("Taskcard-editable");
-
-            }
-            else{
-                title.setEditable(true);
-                title.getStyleClass().add("Taskcard-editable");
-
-                description.setEditable(true);
-                description.getStyleClass().add("Taskcard-editable");
-            }
+        this.options.setOnAction(e -> {
+            toggleEditable();
         });
 
         optionsbox.getChildren().add(options);
         optionsbox.getStyleClass().add("Taskcard-optionsbox");
 
         // deadline area
-        HBox deadlinewidget = createDeadlinewidget();
-        HBox.setMargin(deadlinewidget, new Insets(10, 0, 10, 0));
+        HBox dlLayout = this.dlwidget.getLayout();
+        HBox.setMargin(dlLayout, new Insets(10, 0, 10, 0));
 
         // main layout
-        layout.getChildren().addAll(complete, contentarea, spacer, deadlinewidget, optionsbox);
+        layout.getChildren().addAll(complete, contentarea, dlLayout, optionsbox);
         layout.getStyleClass().add("TaskCard");
         layout.getStylesheets().add(getClass().getResource("/Stylesheets/TaskCard.css").toExternalForm());
         return layout;
     }
 
-    private HBox createDeadlinewidget(){
-        HBox layout = new HBox();
-        layout.setSpacing(20);
+    protected void toggleEditable(){
+        if(this.title.isEditable()){
+            this.task.updateTitle(this.title.getText());
+            this.task.updateDescription(description.getText());
+        }
 
-        Region clockicon = new Region();
-        clockicon.getStyleClass().add("clockicon");
-        
-        VBox deadlinebox = new VBox();     
-        deadlinebox.setAlignment(Pos.CENTER_LEFT);
-        
-        TextField time = new TextField();
-        time.setEditable(false);
-        time.setText(this.timeDL.getValue());
-        time.getStyleClass().add("deadline-time");
-
-        TextField date = new TextField();
-        date.setEditable(false);
-        date.setText(this.dateDL.getValue());
-        date.getStyleClass().add("deadline-date");
-
-        this.options.addEventHandler(javafx.event.ActionEvent.ACTION, e -> {
-            if(time.isEditable()){
-                time.setEditable(false);
-                time.getStyleClass().remove("Taskcard-editable");
-                
-                date.setEditable(false);
-                date.getStyleClass().remove("Taskcard-editable");
-                
-                TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
-
-                this.task.updateDeadline(time.getText(), date.getText());
-                FXCollections.sort(activeTG.getTasksProperty());
-            }
-            else{
-                time.setEditable(true);
-                time.clear();
-                time.setPromptText("HH.mm");
-                time.getStyleClass().add("Taskcard-editable");
-
-                date.setEditable(true);
-                date.clear();
-                date.setPromptText("dd.MM.yyyy");
-                date.getStyleClass().add("Taskcard-editable");
-            }
-        });
-
-        deadlinebox.getChildren().addAll(time, date);
-
-        layout.getStyleClass().add("Taskcard-deadlinewidget");
-        layout.getChildren().addAll(clockicon, deadlinebox);
-        return layout;
+        UIUtils.toggleEditable(this.title, this.description);
+        this.dlwidget.toggleEditable();
     }
 
     public HBox getLayout(){

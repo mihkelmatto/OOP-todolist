@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -22,6 +21,10 @@ public class Task implements Comparable<Task>{
     private SimpleStringProperty description;
     private ObjectProperty<LocalDateTime> deadline;
     private ObjectProperty<LocalDateTime> lastupdated; // TODO: kas on vaja?
+
+    public Task(){
+        this("New Task", "Description", LocalDateTime.of(2025, 1, 1, 0, 0));
+    }
 
     public Task(String title, String description, LocalDateTime deadline){
         this.id = UUIDv7.randomUUID();
@@ -71,11 +74,16 @@ public class Task implements Comparable<Task>{
         DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH.mm");
         DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
+        LocalDateTime fallback = this.getDeadlineProperty().getValue();
+        if(fallback == null) fallback = LocalDateTime.now();
+
         try{
             this.deadline.setValue(LocalDateTime.of(LocalDate.parse(date, dateformat), LocalTime.parse(time, timeformat)));
             this.lastupdated.set(LocalDateTime.now());
         } catch(Exception e){
-            System.out.println("UpdateDeadLine: Invalid format");
+            this.deadline.setValue(fallback);
+            this.lastupdated.set(LocalDateTime.now());
+            System.out.printf("Exception at Task.updateDeadline(): %s \nDatetime fallback: %s\n", e, fallback);
         }
     }
 
