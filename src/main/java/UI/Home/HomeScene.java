@@ -18,6 +18,7 @@ public class HomeScene{
         root.getChildren().addAll(header.getLayout(), midsection.getLayout());
 
         this.scene = new Scene(root);
+        this.scene.getStylesheets().add(getClass().getResource("/Stylesheets/Global.css").toExternalForm());
         this.scene.getStylesheets().add(getClass().getResource("/Stylesheets/HomeScene.css").toExternalForm());
     }
 

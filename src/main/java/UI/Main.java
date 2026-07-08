@@ -1,6 +1,7 @@
 package UI;
 
 import UI.Home.HomeScene;
+import UI.LoginScene.LoginScene;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -16,10 +17,11 @@ public class Main extends Application {
     public void start(Stage stage) {
         this.session = new Session("Mari");
         HomeScene home = new HomeScene(this.session);
+        LoginScene login = new LoginScene();
 
         stageSettings(stage);
 
-        stage.setScene(home.getScene());
+        stage.setScene(login.getScene());
         stage.show();
     }
 
