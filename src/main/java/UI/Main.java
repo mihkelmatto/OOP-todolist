@@ -1,45 +1,20 @@
 package UI;
 
-import UI.Home.HomeScene;
-import UI.LoginScene.LoginScene;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import models.Session;
 /**
  * JavaFX App
  */
 public class Main extends Application {
-    Session session;
+    SceneManager scenemanager;
 
     @Override
     public void start(Stage stage) {
-        this.session = new Session("Mari");
-        HomeScene home = new HomeScene(this.session);
-        LoginScene login = new LoginScene();
-
-        stageSettings(stage);
-
-        stage.setScene(login.getScene());
+        this.scenemanager = new SceneManager(stage);
+        
+        scenemanager.stageSettings();
+        scenemanager.showLogin();
         stage.show();
-    }
-
-    public void stageSettings(Stage stage){
-        Image icon = new Image("icon.png");
-        stage.getIcons().add(icon);
-        stage.setTitle("OOP-todolist");
-
-        stage.setWidth(1000);
-        stage.setHeight(750);
-        // stage.setResizable(false);
-
-        stage.setOnCloseRequest(event -> {
-            this.session.save();
-
-            Platform.exit();
-            System.exit(0);
-        });
     }
 
     public static void main(String[] args) {

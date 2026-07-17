@@ -43,7 +43,8 @@ public class LoginBox {
 
         buttonbox.getChildren().addAll(login, register);
         buttonbox.setId("buttonbox");
-
+        
+        // need ID-d kasutusel ka scenemanageris eventide jaoks
         register.setId("registerbutton");
         login.setId("loginbutton");
 
