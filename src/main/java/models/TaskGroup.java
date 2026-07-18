@@ -17,11 +17,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-
-/*
-TODO: Jackson getteritelt field-accessi peale
-*/
-
 public class TaskGroup implements ToJson, Comparable<TaskGroup> {
     private final UUID id;
     private SimpleStringProperty groupname;

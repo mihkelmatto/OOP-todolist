@@ -3,7 +3,7 @@ import models.Session;
 import models.Task;
 import models.TaskGroup;
 import utils.UIUtils;
-
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -24,12 +24,14 @@ public class TaskCard {
     private DLwidget dlwidget;
     
     private Button options;
+    private SimpleBooleanProperty editable;
     
 
     public TaskCard(Task task, Session session){
         this.task = task;
         this.session = session;
         this.dlwidget = new DLwidget(session, task);
+        this.editable = task.getEditableProperty();
 
         this.layout = createLayout();
     }
@@ -63,6 +65,11 @@ public class TaskCard {
         this.options = new Button(); // ⋮
 
         this.options.setOnAction(e -> {
+            if(this.editable.getValue() == true) this.task.getEditableProperty().setValue(false);
+            else this.task.getEditableProperty().setValue(true);
+        });
+
+        this.editable.addListener(e -> {
             toggleEditable();
         });
 
@@ -81,7 +88,7 @@ public class TaskCard {
     }
 
     protected void toggleEditable(){
-        if(this.title.isEditable()){
+        if(this.editable.getValue()){
             this.task.updateTitle(this.title.getText());
             this.task.updateDescription(description.getText());
         }

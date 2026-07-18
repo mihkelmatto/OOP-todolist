@@ -55,13 +55,13 @@ public class Header {
         HBox.setHgrow(title, Priority.ALWAYS);
 
         // dropdown section
-        // TODO: peaks kutsuma taskcard.toggleEditable()
-        // getchildren listener??
+
         this.newtask = new Button("+");
         this.newtask.setId("newtaskbutton");
         this.newtask.setOnAction(e -> {
             Task task = new Task();
-            this.session.getActiveTGProperty().getValue().addTask(task);      
+            this.session.getActiveTGProperty().getValue().addTask(task); 
+            task.getEditableProperty().setValue(true);     
         });
 
         HBox dropdown = new HBox();
