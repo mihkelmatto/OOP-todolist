@@ -1,0 +1,94 @@
+/* Global settings */
+.root{
+    -fx-background-color: #0C1421;
+    -fx-alignment: center;
+}
+
+.centercol{
+    -fx-alignment: center;
+}
+
+.button{
+    -fx-pref-width: 250;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-border-width: 1;
+    -fx-border-color: #2E3442;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
+
+.text-field, .password-field{
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-border-width: 1;
+    -fx-border-color: #2E3442;
+
+    -fx-background-color: transparent;
+    -fx-font-size: 15
+}
+
+.label{
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+}
+
+/* Login box */
+
+.loginbox{
+    -fx-pref-height: 280;
+    -fx-pref-width: 280;
+    -fx-padding: 40 30 40 30;
+
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+
+    -fx-background-color: #121B2A;
+    -fx-border-color: #2E3442;
+}
+
+
+.loginbox .text-field{
+    -fx-pref-height: 30;
+    -fx-pref-width: 100;
+    -fx-padding: 10;
+}
+
+/* Button box */
+
+#buttonbox{
+    -fx-padding: 10 0 0 0;
+    -fx-pref-width: 100;
+}
+
+#buttonbox .button{
+    -fx-padding: 10;
+    -fx-font-size: 15;
+}
+
+#loginbutton{
+    -fx-background-color: #5090daab;
+}
+
+#loginbutton:hover{
+    -fx-background-color: #386fad9c;
+}
+
+#loginbutton:pressed{
+    -fx-background-color: #5090da8c;
+}
+
+#registerbutton{
+    -fx-pref-height: 20;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+#registerbutton:hover{
+    -fx-text-fill: #5090daab;
+}
+
+#registerbutton:pressed{
+    -fx-text-fill: #5090da;
+}

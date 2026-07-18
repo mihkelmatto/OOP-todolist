@@ -35,13 +35,13 @@ public class Session {
 
 
     /*
-    SortedListi ei saa otse muuta.
+    ObservableListi ei saa otse muuta.
     - lisamine ja eemaldamine taskgroups alt.
     - get() ja sarnased meetodid taskgroups alt
     */
-   
-    public Session(String username){
-        this.user = Classreader.findUser(username);
+
+    public Session(User user){
+        this.user = user;
         this.taskgroups = FXCollections.observableArrayList(Classreader.findTaskgroups(this.user.getID()));
         this.activeTG = new SimpleObjectProperty<TaskGroup>(this.taskgroups.get(0));
         FXCollections.sort(this.taskgroups);

@@ -24,9 +24,7 @@ public class Classreader {
     /*
     Leiab Stringi järgi kasutaja
 
-    Kui failist ei leia, siis:
-    - loob uue kasutaja
-    - salvestab kasutaja faili
+    !!! Kui failist ei leia, siis tagastab null
     */
     public static User findUser(String username){
         File dir = new File(getDir(User.class));
@@ -40,14 +38,12 @@ public class Classreader {
             }
 
             System.out.println("Kasutajat ei leitud: " + username);
-            return new User(username);
+            return null;
 
         } catch(IOException e){
             e.printStackTrace();
             System.out.println("Kasutajate kaust on tühi.");
-            User user = new User(username);
-            user.toJsonFile();
-            return user;
+            return null;
         }
     }
 

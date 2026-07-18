@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.github.robsonkades.uuidv7.UUIDv7;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -20,7 +21,8 @@ public class Task implements Comparable<Task>{
     private SimpleStringProperty title;
     private SimpleStringProperty description;
     private ObjectProperty<LocalDateTime> deadline;
-    private ObjectProperty<LocalDateTime> lastupdated; // TODO: kas on vaja?
+    private ObjectProperty<LocalDateTime> lastupdated;
+    private SimpleBooleanProperty editable;
 
     public Task(){
         this("New Task", "Description", LocalDateTime.of(2025, 1, 1, 0, 0));
@@ -32,6 +34,7 @@ public class Task implements Comparable<Task>{
         this.description = new SimpleStringProperty(description);
         this.deadline = new SimpleObjectProperty<>(deadline);
         this.lastupdated = new SimpleObjectProperty<>(LocalDateTime.now());
+        this.editable = new SimpleBooleanProperty(false);
     }
 
     @JsonCreator
@@ -47,6 +50,7 @@ public class Task implements Comparable<Task>{
         this.description = new SimpleStringProperty(description);
         this.deadline = new SimpleObjectProperty<>(deadline);
         this.lastupdated = new SimpleObjectProperty<>(lastupdated);
+        this.editable = new SimpleBooleanProperty(false);
     }
 
     @Override
@@ -107,6 +111,11 @@ public class Task implements Comparable<Task>{
     @JsonIgnore
     public ObjectProperty<LocalDateTime> getLastupdatedProperty() {
         return this.lastupdated;
+    }
+
+    @JsonIgnore
+    public SimpleBooleanProperty getEditableProperty(){
+        return this.editable;
     }
 
     public UUID getID(){
