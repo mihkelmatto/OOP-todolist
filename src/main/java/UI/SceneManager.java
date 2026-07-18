@@ -3,13 +3,13 @@ package UI;
 import UI.Home.HomeScene;
 import UI.LoginScene.LoginScene;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import models.Session;
 import models.User;
 import utils.Auth;
+import utils.LoginEvent;
+import utils.RegisterEvent;
 
 public class SceneManager {
     private Stage stage;
@@ -24,24 +24,29 @@ public class SceneManager {
 
         // Spooky action at a distance
         login.getScene().addEventFilter(
-            ActionEvent.ACTION,
+            LoginEvent.LOGIN,
             event -> {
+                String username = event.getUsername();
+                String password = event.getPassword();
 
-                if (event.getTarget() instanceof Button button) {
+                System.out.printf("Login input: %s, Password input: %s \n", username, password);
+                
+                User user = Auth.userauth(username, password);
+                if(user != null){
+                    this.session = new Session(user);
+                    this.stage.setScene(new HomeScene(this.session).getScene());
+                } else System.out.println("Scenemanager: login failed");
+            }
+        );
 
-                    if(button.getId().equals("loginbutton")){
-                        System.out.println("login event");
-
-                        User user = Auth.userauth("Mari");
-                        if(user != null){
-                            this.session = new Session(user);
-                            this.stage.setScene(new HomeScene(this.session).getScene());
-                        }
-                    }
-                    else if(button.getId().equals("registerbutton")){
-                        System.out.println("register event");
-                    }
-                }
+        login.getScene().addEventFilter(
+            RegisterEvent.REGISTER,
+            event -> {
+                User user = Auth.createUser(event.getUsername(), event.getPassword());
+                if(user != null){
+                    this.session = new Session(user);
+                    this.stage.setScene(new HomeScene(session).getScene());
+                } else System.out.println("Scenemanager: Register failed");
             }
         );
 
@@ -63,7 +68,7 @@ public class SceneManager {
         // stage.setResizable(false);
 
         this.stage.setOnCloseRequest(event -> {
-            this.session.save();
+            if(this.session != null) this.session.save();
 
             Platform.exit();
             System.exit(0);

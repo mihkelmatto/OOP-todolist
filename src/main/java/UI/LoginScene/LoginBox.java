@@ -5,6 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import utils.LoginEvent;
+import utils.RegisterEvent;
 
 public class LoginBox {
     private VBox layout;
@@ -31,14 +33,14 @@ public class LoginBox {
 
         Button login = new Button("Login");
         login.setOnAction(e -> {
-            String input = username.getText();
-            System.out.printf("Username input: %s\n", input);
+            LoginEvent loginevent = new LoginEvent(this.username.getText(), this.password.getText());
+            login.fireEvent(loginevent);                
         });
 
         Button register = new Button("Register");
         register.setOnAction(e -> {
-            String input = password.getText();
-            System.out.printf("Password input: %s\n", input);
+            RegisterEvent registerevent = new RegisterEvent(this.username.getText(), this.password.getText());
+            register.fireEvent(registerevent);
         });
 
         buttonbox.getChildren().addAll(login, register);
