@@ -1,4 +1,4 @@
-package UI.LoginScene;
+package UI.Login;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

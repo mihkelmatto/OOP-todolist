@@ -1,7 +1,8 @@
 package UI;
 
+import UI.Account.AccountScene;
 import UI.Home.HomeScene;
-import UI.LoginScene.LoginScene;
+import UI.Login.LoginScene;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -34,7 +35,7 @@ public class SceneManager {
                 User user = Auth.userauth(username, password);
                 if(user != null){
                     this.session = new Session(user);
-                    this.stage.setScene(new HomeScene(this.session).getScene());
+                    this.stage.setScene(new AccountScene(this.session.getUser()).getScene()); // TODO: teha nupp, hetkel homescene asendatud
                 } else System.out.println("Scenemanager: login failed");
             }
         );
@@ -58,8 +59,13 @@ public class SceneManager {
         stage.setScene(home.getScene());
     }
 
+    public void showAccount(){
+        AccountScene account = new AccountScene(session.getUser());
+        stage.setScene(account.getScene());
+    }
+
     public void stageSettings(){
-        Image icon = new Image("icon.png");
+        Image icon = new Image("/images/windowicon.png");
         this.stage.getIcons().add(icon);
         this.stage.setTitle("OOP-todolist");
 

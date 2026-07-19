@@ -1,4 +1,4 @@
-package UI.LoginScene;
+package UI.Login;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;

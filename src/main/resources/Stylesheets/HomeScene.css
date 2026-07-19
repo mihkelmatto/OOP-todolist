@@ -18,15 +18,13 @@
     -fx-border-width: 1 0 0 0;
     -fx-border-color: #2E3442;;
     -fx-background-insets: 0;
+    -fx-padding: 20;
 }
 
 .MidSection .list-cell {
     -fx-background-color: transparent;
 }
 
-.MidSection {
-    -fx-padding: 20;
-}
 
 .MidSection .list-view {
     -fx-background-color: transparent;
