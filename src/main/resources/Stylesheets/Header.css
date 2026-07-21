@@ -57,6 +57,10 @@
     -fx-border-color: #2E3442;
 }
 
+#accbutton {
+    -fx-pref-width: 30;
+}
+
 /*  */
 #optionsbutton{
     -fx-pref-width: 30;

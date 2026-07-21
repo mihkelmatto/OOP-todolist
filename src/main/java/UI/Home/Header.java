@@ -14,6 +14,8 @@ import models.Session;
 import models.Task;
 import models.TaskGroup;
 import utils.UIUtils;
+import utils.events.ChangeSceneEvent;
+import utils.events.SceneType;
 
 public class Header {
     private HBox layout;
@@ -69,10 +71,20 @@ public class Header {
         dropdown.setId("dropdownwidget");
 
         // layout settings
-        layout.getChildren().addAll(title, dropdown, createGroupOptions());
+        layout.getChildren().addAll(title, dropdown, createGroupOptions(), createAccbutton());
         layout.getStylesheets().add(getClass().getResource("/Stylesheets/Header.css").toExternalForm());
         layout.getStyleClass().add("Header");
         return layout;
+    }
+
+    private Button createAccbutton(){
+        Button account = new Button();
+        account.setOnAction(e -> {
+            ChangeSceneEvent showaccount = new ChangeSceneEvent(SceneType.ACCOUNT);
+            account.fireEvent(showaccount);
+        });
+        account.setId("accbutton");
+        return account;
     }
 
     private Button createGroupOptions(){

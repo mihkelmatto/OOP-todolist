@@ -4,13 +4,18 @@ import UI.Account.AccountScene;
 import UI.Home.HomeScene;
 import UI.Login.LoginScene;
 import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import models.Session;
-import models.User;
-import utils.Auth;
-import utils.LoginEvent;
-import utils.RegisterEvent;
+import utils.eventhandlers.ChangeSceneHandler;
+import utils.eventhandlers.LoginHandler;
+import utils.eventhandlers.LogoutEventHandler;
+import utils.eventhandlers.RegisterHandler;
+import utils.events.ChangeSceneEvent;
+import utils.events.LoginEvent;
+import utils.events.LogoutEvent;
+import utils.events.RegisterEvent;
 
 public class SceneManager {
     private Stage stage;
@@ -21,47 +26,42 @@ public class SceneManager {
     }
 
     public void showLogin(){
-        LoginScene login = new LoginScene();
+        Scene loginscene = new LoginScene().getScene();
 
-        // Spooky action at a distance
-        login.getScene().addEventFilter(
-            LoginEvent.LOGIN,
-            event -> {
-                String username = event.getUsername();
-                String password = event.getPassword();
-
-                System.out.printf("Login input: %s, Password input: %s \n", username, password);
-                
-                User user = Auth.userauth(username, password);
-                if(user != null){
-                    this.session = new Session(user);
-                    this.stage.setScene(new AccountScene(this.session.getUser()).getScene()); // TODO: teha nupp, hetkel homescene asendatud
-                } else System.out.println("Scenemanager: login failed");
-            }
+        loginscene.addEventHandler(
+            LoginEvent.LOGIN, 
+            new LoginHandler(this)
         );
 
-        login.getScene().addEventFilter(
+        loginscene.addEventHandler(
             RegisterEvent.REGISTER,
-            event -> {
-                User user = Auth.createUser(event.getUsername(), event.getPassword());
-                if(user != null){
-                    this.session = new Session(user);
-                    this.stage.setScene(new HomeScene(session).getScene());
-                } else System.out.println("Scenemanager: Register failed");
-            }
+            new RegisterHandler(this)    
         );
 
-        stage.setScene(login.getScene());
+        stage.setScene(loginscene);
     }
-
-    public void showHome(Session session){
-        HomeScene home = new HomeScene(session);
-        stage.setScene(home.getScene());
+    
+    public void showHome(){
+        Scene homescene = new HomeScene(this.session).getScene();
+        addChangeSceneHandlers(homescene);
+        stage.setScene(homescene);
     }
-
+    
     public void showAccount(){
-        AccountScene account = new AccountScene(session.getUser());
-        stage.setScene(account.getScene());
+        Scene accountscene = new AccountScene(this.session.getUser()).getScene();
+        addChangeSceneHandlers(accountscene);
+        accountscene.addEventHandler(
+            LogoutEvent.LOGOUT,
+            new LogoutEventHandler(this)
+        );
+        stage.setScene(accountscene);
+    }
+
+    public void addChangeSceneHandlers(Scene scene){
+        scene.addEventHandler(
+            ChangeSceneEvent.CHANGE_SCENE,
+            new ChangeSceneHandler(this)
+        );
     }
 
     public void stageSettings(){
@@ -79,5 +79,13 @@ public class SceneManager {
             Platform.exit();
             System.exit(0);
         });
+    }
+
+    public Session getSession(){
+        return this.session;
+    }
+
+    public void setSession(Session session){
+        this.session = session;
     }
 }

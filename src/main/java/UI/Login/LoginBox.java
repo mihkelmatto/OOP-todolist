@@ -5,8 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import utils.LoginEvent;
-import utils.RegisterEvent;
+import utils.events.LoginEvent;
+import utils.events.RegisterEvent;
 
 public class LoginBox {
     private VBox layout;

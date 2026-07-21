@@ -25,6 +25,9 @@ public class Row {
         HBox.setHgrow(spacer, Priority.ALWAYS);
         TextField description = UIUtils.createTextfield(descriptiontext.getValue(), "row-description");
         Button edit = new Button();
+        edit.setOnAction(e -> {
+            UIUtils.toggleEditable(description);
+        });
 
         descriptiontext.addListener(
             (obs, oldVal, newVal) -> {
