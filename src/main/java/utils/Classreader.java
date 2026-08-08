@@ -105,6 +105,7 @@ public class Classreader {
         try{
             if (!file.isFile()) {
                 System.out.println("utils/classreader/deletejson() - File not found: " + file);
+                return;
             }
 
             Files.delete(file.toPath());

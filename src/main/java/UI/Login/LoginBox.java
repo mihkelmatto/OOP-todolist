@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import utils.events.LoginEvent;
 import utils.events.RegisterEvent;
@@ -12,17 +13,32 @@ public class LoginBox {
     private VBox layout;
     private TextField username;
     private PasswordField password;
-
+    private Button loginButton;
+    private Button registerButton;
+    
     public LoginBox(){
         this.layout = new VBox();
         this.layout.setSpacing(10);
         
         Label userlabel = new Label("Username");
         this.username = new TextField();
-
+        
         Label passlabel = new Label("Password");
         this.password = new PasswordField();
         
+        this.username.setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.TAB) {
+                this.password.requestFocus();
+            }
+        });
+
+        this.password.setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.ENTER) {
+                LoginEvent loginevent = new LoginEvent(this.username.getText(), this.password.getText());
+                this.loginButton.fireEvent(loginevent);  
+            }
+        });
+
         this.layout.getChildren().addAll(userlabel, this.username, passlabel, this.password, buttons2());
         this.layout.getStyleClass().add("loginbox");
     }
@@ -31,24 +47,24 @@ public class LoginBox {
         VBox buttonbox = new VBox();
         buttonbox.setSpacing(10);
 
-        Button login = new Button("Login");
-        login.setOnAction(e -> {
+        this.loginButton = new Button("Login");
+        this.loginButton.setOnAction(e -> {
             LoginEvent loginevent = new LoginEvent(this.username.getText(), this.password.getText());
-            login.fireEvent(loginevent);                
+            this.loginButton.fireEvent(loginevent);                
         });
 
-        Button register = new Button("Register");
-        register.setOnAction(e -> {
+        this.registerButton = new Button("Register");
+        this.registerButton.setOnAction(e -> {
             RegisterEvent registerevent = new RegisterEvent(this.username.getText(), this.password.getText());
-            register.fireEvent(registerevent);
+            this.registerButton.fireEvent(registerevent);
         });
 
-        buttonbox.getChildren().addAll(login, register);
+        buttonbox.getChildren().addAll(this.loginButton, this.registerButton);
         buttonbox.setId("buttonbox");
         
         // need ID-d kasutusel ka scenemanageris eventide jaoks
-        register.setId("registerbutton");
-        login.setId("loginbutton");
+        this.registerButton.setId("registerbutton");
+        this.loginButton.setId("loginbutton");
 
         return buttonbox;
     }

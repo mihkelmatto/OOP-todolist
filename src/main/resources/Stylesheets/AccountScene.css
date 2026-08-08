@@ -76,6 +76,9 @@
 }
 
 .row-description {
+    -fx-border-color: red;
+    -fx-border-width: 1;
+
     -fx-padding: 0;
     -fx-min-width: 300;
     -fx-alignment: center-right;

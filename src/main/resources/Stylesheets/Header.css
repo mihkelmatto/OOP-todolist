@@ -27,11 +27,10 @@
 
 /*  */
 
-.title{
-    -fx-pref-width: 300;
+.title .text-field,
+.title .label {
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-color: transparent;
 }
 
 .editable{
