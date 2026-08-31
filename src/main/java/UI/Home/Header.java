@@ -4,9 +4,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import models.Session;
@@ -16,9 +14,7 @@ import utils.events.ChangeSceneEvent;
 import utils.events.SceneType;
 import utils.widgets.EditableField;
 
-public class Header {
-    private HBox layout;
-
+public class Header extends utils.widgets.Header{
     private Session session;
     private SimpleObjectProperty<TaskGroup> activeTG;
     
@@ -28,10 +24,13 @@ public class Header {
     private ObservableList<TaskGroup> taskgroups;
 
     public Header(Session session){
+        super(session.getActiveTGProperty().getValue().getGroupnameProperty().getValue());
+        this.title = this.getTitleField();
+
         this.session = session;
-        
         this.activeTG = this.session.getActiveTGProperty();
         this.taskgroups = this.session.getTaskgroupProperty();
+
         this.activeTG.addListener(
             (obs, oldVal, newVal) -> {
                 this.title.setValue(newVal.getGroupnameProperty().getValue());
@@ -39,43 +38,24 @@ public class Header {
         );
         
         this.dropdowncontent = createDropdownContent();
-        this.layout = createLayout();
+        this.getChildren().addAll(createDropdownSection(), createAccbutton());
+
     }
 
-    public HBox createLayout(){
-        HBox layout = new HBox();
-        layout.setSpacing(10);
-
-        // Title
-        this.title = new EditableField(this.activeTG.getValue().getGroupnameProperty().getValue());
-        title.setOnKeyPressed(e -> {
-            if(e.getCode() == KeyCode.ENTER) {
-                this.title.setEditable(false);
-            }
-        });
-        HBox.setHgrow(title, Priority.ALWAYS);
-
-        // dropdown section
-
-        this.newtask = new Button("+");
-        this.newtask.setOnAction(e -> {
+    private HBox createDropdownSection(){
+        Button newtask = new Button("+");
+        newtask.setOnAction(e -> {
             Task task = new Task();
             this.session.getActiveTGProperty().getValue().addTask(task); 
             task.getEditableProperty().setValue(true);     
         });
-        
-        HBox dropdown = new HBox();
-        dropdown.getChildren().addAll(this.newtask, this.dropdowncontent);
-        
-        // layout settings
-        layout.getChildren().addAll(title, dropdown, createGroupOptions(), createAccbutton());
-        layout.getStylesheets().add(getClass().getResource("/Stylesheets/Header.css").toExternalForm());
+        newtask.setId("newtaskbutton");
 
-        layout.getStyleClass().add("Header");
-        this.title.getStyleClass().add("title");
-        this.newtask.setId("newtaskbutton");
-        dropdown.setId("dropdownwidget");
-        return layout;
+        HBox dropdownSection = new HBox();
+        dropdownSection.getChildren().addAll(newtask, this.dropdowncontent, createGroupOptions());
+        dropdownSection.setId("dropdownsection");
+        return dropdownSection;
+
     }
 
     private Button createAccbutton(){
@@ -179,9 +159,5 @@ public class Header {
 
     public Button getNewtaskButton(){
         return this.newtask;
-    }
-    
-    public HBox getLayout(){
-        return this.layout;
     }
 }

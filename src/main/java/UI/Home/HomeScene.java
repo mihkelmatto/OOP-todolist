@@ -11,11 +11,10 @@ public class HomeScene{
     public HomeScene(Session session){
         this.session = session;        
         VBox root = new VBox();
-
         Header header = new Header(this.session);
         MidSection midsection = new MidSection(this.session);
 
-        root.getChildren().addAll(header.getLayout(), midsection.getLayout());
+        root.getChildren().addAll(header, midsection.getLayout());
 
         this.scene = new Scene(root);
         this.scene.getStylesheets().add(getClass().getResource("/Stylesheets/Global.css").toExternalForm());

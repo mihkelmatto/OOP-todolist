@@ -18,7 +18,7 @@ public class AccountScene {
         VBox layout = new VBox();
         ScrollPane content = createContent();
         VBox.setVgrow(content, Priority.ALWAYS);
-        layout.getChildren().addAll(new Header().getLayout(), content);
+        layout.getChildren().addAll(new Header(), content);
 
         this.scene = new Scene(layout);
         this.scene.getStylesheets().add(getClass().getResource("/Stylesheets/Global.css").toExternalForm());

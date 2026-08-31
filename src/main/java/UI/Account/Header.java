@@ -1,33 +1,22 @@
 package UI.Account;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import utils.events.ChangeSceneEvent;
 import utils.events.LogoutEvent;
 import utils.events.SceneType;
 
-public class Header {
-    private HBox layout;
+public class Header extends utils.widgets.Header{
 
     private Button home;
     private Button logout;
 
     public Header(){
-        this.layout = new HBox();
-        layout.setSpacing(10);
+        super("Konto");
 
-        Label title = new Label("Konto");
-        title.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(title, Priority.ALWAYS);
         this.home = createHomebutton();
         this.logout = createLogoutbutton();
         
-        
-        this.layout.getChildren().addAll(title, home, logout);
-        layout.getStylesheets().add(getClass().getResource("/Stylesheets/Header.css").toExternalForm());
-        layout.getStyleClass().add("Header");
+        this.getChildren().addAll(home, logout);
     }
 
     private Button createHomebutton(){
@@ -46,9 +35,5 @@ public class Header {
             logout.fireEvent(logoutevent);
         });
         return logout;
-    }
-
-    public HBox getLayout(){
-        return this.layout;
     }
 }

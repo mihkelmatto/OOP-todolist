@@ -2,21 +2,21 @@
 
 .Header{
     -fx-alignment: CENTER_LEFT;
-    -fx-padding: 10;
+    -fx-padding: 0 30 0 30;
     -fx-border-width: 0 0 0 0;
     -fx-background-color: #121A27;
 
     -fx-font-size: 30px;
     -fx-font-weight: bold;
 
-    -fx-min-height: 80;
+    -fx-pref-height: 90;
 }
 
 .button{
     -fx-padding: 0;
     -fx-pref-height: 50;
-    -fx-border-color: #2E3442;
     -fx-background-color: #1C2431;
+    -fx-border-color: #2E3442;
 
     -fx-font-size: 20;
 }
@@ -38,8 +38,8 @@
 }
 
 
-/*  */
-#dropdownwidget{
+/* Home Scene */
+#dropdownsection{
     -fx-alignment: center;
 }
 
