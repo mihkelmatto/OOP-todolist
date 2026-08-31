@@ -22,7 +22,7 @@ public class AccountScene {
 
         this.scene = new Scene(layout);
         this.scene.getStylesheets().add(getClass().getResource("/Stylesheets/Global.css").toExternalForm());
-        this.scene.getStylesheets().add(getClass().getResource("/Stylesheets/AccountScene.css").toExternalForm());
+        this.scene.getStylesheets().add(getClass().getResource("/Stylesheets/Account/AccountScene.css").toExternalForm());
     }
 
     private ScrollPane createContent(){

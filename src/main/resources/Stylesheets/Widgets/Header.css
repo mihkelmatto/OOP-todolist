@@ -1,0 +1,45 @@
+/* header global settings*/
+
+.Header{
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 30 0 30;
+    -fx-border-width: 0 0 0 0;
+    -fx-background-color: #121A27;
+
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+
+    -fx-pref-height: 90;
+}
+
+.button{
+    -fx-padding: 0;
+    -fx-pref-height: 50;
+    -fx-background-color: #1C2431;
+    -fx-border-color: #2E3442;
+
+    -fx-font-size: 20;
+}
+
+.button:hover {
+    -fx-background-color: #1d334e;
+}
+
+/*  */
+
+.title .valuefield,
+.title .valuelabel {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.title .valuefield{
+    -fx-background-color: #132235;
+}
+
+
+/* Home Scene */
+
+#accbutton {
+    -fx-pref-width: 30;
+}

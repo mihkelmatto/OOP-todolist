@@ -83,7 +83,7 @@ public class TaskCard {
         // main layout
         layout.getChildren().addAll(complete, contentarea, dlLayout, optionsbox);
         layout.getStyleClass().add("TaskCard");
-        layout.getStylesheets().add(getClass().getResource("/Stylesheets/TaskCard.css").toExternalForm());
+        layout.getStylesheets().add(getClass().getResource("/Stylesheets/Home/TaskCard.css").toExternalForm());
         return layout;
     }
 

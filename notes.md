@@ -11,9 +11,5 @@
 - testkasutajasse saab siseneda ilma kasutajainfot sisestamata (2x enter)
 
 # TODO:
-teha taaskasutatav header klass
-- fikseeritud suurus
-- title, button stiil
-- vasak- ja paremjoondusega elemendid
 
 täielikult implementeerida editableField (UIUtils asemel)

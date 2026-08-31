@@ -22,7 +22,7 @@ public class Header extends HBox{
         // css
         this.getStyleClass().add("Header");
         this.titlefield.getStyleClass().add("title");
-        this.getStylesheets().add(getClass().getResource("/Stylesheets/Header.css").toExternalForm());
+        this.getStylesheets().add(getClass().getResource("/Stylesheets/Widgets/Header.css").toExternalForm());
     }
 
     public Header(String title, Node ... nodes){

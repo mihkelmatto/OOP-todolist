@@ -18,7 +18,7 @@ public class HomeScene{
 
         this.scene = new Scene(root);
         this.scene.getStylesheets().add(getClass().getResource("/Stylesheets/Global.css").toExternalForm());
-        this.scene.getStylesheets().add(getClass().getResource("/Stylesheets/HomeScene.css").toExternalForm());
+        this.scene.getStylesheets().add(getClass().getResource("/Stylesheets/Home/HomeScene.css").toExternalForm());
     }
 
     public Scene getScene(){
