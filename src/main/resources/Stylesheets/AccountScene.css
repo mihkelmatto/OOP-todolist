@@ -92,7 +92,7 @@
     -fx-alignment: center;
 }
 
-.editable{
+.editablefield .valuefield{
     -fx-background-color: #132235;
 }
 

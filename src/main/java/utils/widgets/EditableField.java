@@ -1,10 +1,18 @@
 package utils.widgets;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+
+/*
+    Label, mida saab muudetavaks teha-
+    Hoiab oma väärtust eraldi StringProperty sees, et oleks võimalik vahele valideerimine lisada
+    Vaikimisi editable = false, st. nähtaval on label
+        kui editable = true, siis on nähtaval hoopis textfield (label.setvisible = false)
+*/
 
 public class EditableField extends StackPane{
     private Label valueLabel;
@@ -16,12 +24,17 @@ public class EditableField extends StackPane{
         this.valueProperty = new SimpleStringProperty(value);
         this.valueLabel = createValueLabel();
         this.valueField = createValuefield();
-        this.setEditable(false);
-
+        
         this.getStyleClass().add(cssClassname);
-        this.valueField.getStyleClass().add("editable");
-
+        this.valueLabel.getStyleClass().addAll("value", "valuelabel");
+        this.valueField.getStyleClass().addAll("value", "valuefield");
+        
         getChildren().addAll(this.valueLabel, this.valueField);
+
+        StackPane.setAlignment(valueLabel, Pos.CENTER_LEFT);
+        StackPane.setAlignment(valueField, Pos.CENTER_LEFT);
+
+        this.setEditable(false);
     }
 
     public EditableField(String value){
@@ -37,7 +50,6 @@ public class EditableField extends StackPane{
 
         label.setText(this.valueProperty.getValue());
         label.textProperty().bindBidirectional(this.valueProperty);
-        label.prefWidthProperty().bind(this.widthProperty());
         
         return label;
     }
@@ -50,7 +62,6 @@ public class EditableField extends StackPane{
                 this.setEditable(false);
             }
         });
-        field.prefWidthProperty().bind(this.widthProperty());
 
         return field;
     }

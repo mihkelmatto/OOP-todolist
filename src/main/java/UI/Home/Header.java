@@ -16,8 +16,6 @@ import utils.events.ChangeSceneEvent;
 import utils.events.SceneType;
 import utils.widgets.EditableField;
 
-// TODO: title joondus katki
-
 public class Header {
     private HBox layout;
 
