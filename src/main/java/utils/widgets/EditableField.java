@@ -8,7 +8,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 
 /*
-    Label, mida saab muudetavaks teha-
+    Label, mida saab muudetavaks teha
     Hoiab oma väärtust eraldi StringProperty sees, et oleks võimalik vahele valideerimine lisada
     Vaikimisi editable = false, st. nähtaval on label
         kui editable = true, siis on nähtaval hoopis textfield (label.setvisible = false)
@@ -50,7 +50,8 @@ public class EditableField extends StackPane{
 
         label.setText(this.valueProperty.getValue());
         label.textProperty().bindBidirectional(this.valueProperty);
-        
+
+        label.prefWidthProperty().bind(this.widthProperty());
         return label;
     }
 
@@ -101,5 +102,13 @@ public class EditableField extends StackPane{
 
     public TextField getValueField(){
         return this.valueField;
+    }
+
+    public boolean isEditable(){
+        return this.editable;
+    }
+
+    public String getValue(){
+        return this.valueProperty.getValue();
     }
 }

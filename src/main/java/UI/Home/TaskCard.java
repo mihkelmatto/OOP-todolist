@@ -1,8 +1,5 @@
 package UI.Home;
-import models.Session;
-import models.Task;
-import models.TaskGroup;
-import utils.UIUtils;
+
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -10,6 +7,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+
+import models.Session;
+import models.Task;
+import models.TaskGroup;
+
+import utils.UIUtils;
+import utils.widgets.DLwidget;
+
 
 // TODO: Kui ülesandeid on üks, siis aja "fallback" ei õnnestu.
 
@@ -77,7 +82,7 @@ public class TaskCard {
         optionsbox.getStyleClass().add("Taskcard-optionsbox");
 
         // deadline area
-        HBox dlLayout = this.dlwidget.getLayout();
+        HBox dlLayout = this.dlwidget;
         HBox.setMargin(dlLayout, new Insets(10, 0, 10, 0));
 
         // main layout

@@ -76,9 +76,6 @@
 }
 
 .row-description {
-    -fx-border-color: red;
-    -fx-border-width: 1;
-
     -fx-padding: 0;
     -fx-min-width: 300;
     -fx-alignment: center-right;
@@ -94,6 +91,10 @@
 
 .editablefield .valuefield{
     -fx-background-color: #132235;
+}
+
+.editablefield .valuelabel{
+    -fx-alignment: center_right;
 }
 
 /* scrollbar */

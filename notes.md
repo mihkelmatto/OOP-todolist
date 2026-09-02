@@ -6,10 +6,12 @@
     account lehel
     home pealkirjas
 
-# login vaate muudatused
-- tekstiväljad reageerivad nüüd tab ja enter vajutusele
-- testkasutajasse saab siseneda ilma kasutajainfot sisestamata (2x enter)
-
 # TODO:
 
 täielikult implementeerida editableField (UIUtils asemel)
+account nupp:
+- ikoon
+- dropdown, mis navigeerib account lehele või logib välja
+
+Account scene
+- nuppudele parameetriteks lambda-meetodid (functional interface?)
