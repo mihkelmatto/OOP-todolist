@@ -1,16 +1,16 @@
 package models;
 
+import io.github.robsonkades.uuidv7.UUIDv7;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.github.robsonkades.uuidv7.UUIDv7;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -71,24 +71,9 @@ public class Task implements Comparable<Task>{
         this.lastupdated.set(LocalDateTime.now());
     }
 
-    public void updateDeadline(String time, String date){
-        time = time.strip();
-        date = date.strip();
-
-        DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH.mm");
-        DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-        LocalDateTime fallback = this.getDeadlineProperty().getValue();
-        if(fallback == null) fallback = LocalDateTime.now();
-
-        try{
-            this.deadline.setValue(LocalDateTime.of(LocalDate.parse(date, dateformat), LocalTime.parse(time, timeformat)));
-            this.lastupdated.set(LocalDateTime.now());
-        } catch(Exception e){
-            this.deadline.setValue(fallback);
-            this.lastupdated.set(LocalDateTime.now());
-            System.out.printf("Exception at Task.updateDeadline(): %s \nDatetime fallback: %s\n", e, fallback);
-        }
+    public void updateDeadline(LocalDate date, LocalTime time){
+        this.deadline.setValue(LocalDateTime.of(date, time));
+        this.lastupdated.set(LocalDateTime.now());
     }
 
     // GETTERS

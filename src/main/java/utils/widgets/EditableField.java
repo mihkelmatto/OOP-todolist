@@ -6,22 +6,35 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import utils.validators.NotEmptyValidator;
+import utils.validators.Validator;
 
 /*
     Label, mida saab muudetavaks teha
-    Hoiab oma väärtust eraldi StringProperty sees, et oleks võimalik vahele valideerimine lisada
+    
     Vaikimisi editable = false, st. nähtaval on label
         kui editable = true, siis on nähtaval hoopis textfield (label.setvisible = false)
+        TextFieldis enteri vajutamisel kutsutakse setEditable(false)
+
+    Update tsükkel: valuefield -> validate -> valueproperty -> valuelabel
+    - setEditable(false) -> valueField väärtus uuendab valueProperty väärtust, kui validator annab true
+    - valueProperty muutumine uuendab valueLabel väärtust
+
+    Validator:
+    - default validator kontrollib, kas sisend on tühi (v.a. whitespace)
+    - validatori määramiseks on konstruktori asemel setValidator(Validator validator)
 */
 
 public class EditableField extends StackPane{
     private Label valueLabel;
     private TextField valueField;
     private SimpleStringProperty valueProperty;
+
+    private Validator validator = new NotEmptyValidator();
     private boolean editable;
 
-    public EditableField(String value, String cssClassname){
-        this.valueProperty = new SimpleStringProperty(value);
+    public EditableField(SimpleStringProperty valueProperty, String cssClassname){
+        this.valueProperty = valueProperty;
         this.valueLabel = createValueLabel();
         this.valueField = createValuefield();
         
@@ -34,24 +47,23 @@ public class EditableField extends StackPane{
         StackPane.setAlignment(valueLabel, Pos.CENTER_LEFT);
         StackPane.setAlignment(valueField, Pos.CENTER_LEFT);
 
-        this.setEditable(false);
+        this.editable = false;
+        this.valueLabel.setVisible(true);
+        this.valueField.setVisible(false);
     }
 
-    public EditableField(String value){
-        this(value, "editablefield");
+    public EditableField(SimpleStringProperty valueProperty){
+        this(valueProperty, "editablefield");
     }
 
-    public EditableField(){
-        this("");
-    }
+    //
 
     private Label createValueLabel(){
         Label label = new Label();
 
-        label.setText(this.valueProperty.getValue());
-        label.textProperty().bindBidirectional(this.valueProperty);
-
+        label.textProperty().bind(this.valueProperty);
         label.prefWidthProperty().bind(this.widthProperty());
+
         return label;
     }
 
@@ -72,6 +84,8 @@ public class EditableField extends StackPane{
         setEditable(this.editable);
     }
 
+    // SETTERS
+
     public void setEditable(boolean editable){
         this.editable = editable;
 
@@ -82,33 +96,40 @@ public class EditableField extends StackPane{
         }
 
         else{
-            if(!this.valueField.getText().isBlank()){
-                this.valueProperty.set(this.valueField.getText());
+            String input = this.valueField.getText();
+            
+            if(validator.validate(input)){
+                this.valueProperty.setValue(input);
             }
-            this.valueField.clear();
-
+            else{
+                System.out.println("EditableField: Validation failed");
+            }
+            
             this.valueLabel.setVisible(true);
             this.valueField.setVisible(false);
         }
+    }
+
+    public void setValidator(Validator validator){
+        this.validator = validator;
     }
 
     public void setValue(String value){
         this.valueProperty.setValue(value);
     }
 
-    public SimpleStringProperty getValueProperty(){
-        return this.valueProperty;
-    }
+    // GETTERS
 
     public TextField getValueField(){
         return this.valueField;
     }
 
+    public String getValue(){
+        return this.valueProperty.getValue();
+    }
+    
     public boolean isEditable(){
         return this.editable;
     }
 
-    public String getValue(){
-        return this.valueProperty.getValue();
-    }
 }

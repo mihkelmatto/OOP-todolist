@@ -23,7 +23,7 @@ public class Row {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        EditableField description = new EditableField(descriptiontext.getValue());
+        EditableField description = new EditableField(descriptiontext);
 
         Button edit = new Button();
         edit.setOnAction(e -> {

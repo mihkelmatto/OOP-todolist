@@ -17,8 +17,9 @@ public class Header extends utils.widgets.Header{
     private EditableField title;
 
     public Header(Session session){
-        super(session.getActiveTGProperty().getValue().getGroupnameProperty().getValue());
+        super(session.getActiveTGProperty().getValue().getGroupnameProperty());
         this.title = this.getTitleField();
+
         this.session = session;
         this.activeTG = session.getActiveTGProperty();
 
