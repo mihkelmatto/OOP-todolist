@@ -123,7 +123,6 @@ public class DropdownSection extends HBox{
                 popup.hide();
                 return;
             }
-            // TODO: mingi bug, kus popup võib tekkida teisele ekraanile
             popup.show(optionsbutton, 0, 0);
             popup.setX(optionsbutton.localToScreen(0, optionsbutton.getHeight()).getX() + optionsbutton.getWidth() - popup.getWidth());
             popup.setY(optionsbutton.localToScreen(0, optionsbutton.getHeight()).getY());

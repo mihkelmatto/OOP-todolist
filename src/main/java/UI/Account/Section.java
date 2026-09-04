@@ -14,7 +14,7 @@ public class Section {
         this.title = createTitle(title);
 
         for(int i = 0; i<rows.length; i++){
-            this.layout.getChildren().add(rows[i].getLayout());
+            this.layout.getChildren().add(rows[i]);
             if(i<rows.length-1) this.layout.getChildren().add(new Separator());
         }
 

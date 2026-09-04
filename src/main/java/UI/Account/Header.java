@@ -1,6 +1,5 @@
 package UI.Account;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Button;
 import utils.events.ChangeSceneEvent;
 import utils.events.LogoutEvent;
@@ -12,7 +11,7 @@ public class Header extends utils.widgets.Header{
     private Button logout;
 
     public Header(){
-        super(new SimpleStringProperty("Konto"));
+        super("Konto");
 
         this.home = createHomebutton();
         this.logout = createLogoutbutton();

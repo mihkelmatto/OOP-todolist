@@ -26,63 +26,52 @@ import utils.validators.Validator;
 */
 
 public class EditableField extends StackPane{
+    private SimpleStringProperty valueProperty;
     private Label valueLabel;
     private TextField valueField;
-    private SimpleStringProperty valueProperty;
 
     private Validator validator = new NotEmptyValidator();
     private boolean editable;
 
-    public EditableField(SimpleStringProperty valueProperty, String cssClassname){
-        this.valueProperty = valueProperty;
-        this.valueLabel = createValueLabel();
-        this.valueField = createValuefield();
-        
-        this.getStyleClass().add(cssClassname);
-        this.valueLabel.getStyleClass().addAll("value", "valuelabel");
-        this.valueField.getStyleClass().addAll("value", "valuefield");
-        
-        getChildren().addAll(this.valueLabel, this.valueField);
-
-        StackPane.setAlignment(valueLabel, Pos.CENTER_LEFT);
-        StackPane.setAlignment(valueField, Pos.CENTER_LEFT);
-
+    public EditableField(String value, String cssClassname){
+        this.valueProperty = new SimpleStringProperty(value);
+        this.valueLabel = new Label();
+        this.valueField = new TextField();
         this.editable = false;
-        this.valueLabel.setVisible(true);
-        this.valueField.setVisible(false);
-    }
 
-    public EditableField(SimpleStringProperty valueProperty){
-        this(valueProperty, "editablefield");
-    }
+        initLayout(cssClassname);
 
-    //
-
-    private Label createValueLabel(){
-        Label label = new Label();
-
-        label.textProperty().bind(this.valueProperty);
-        label.prefWidthProperty().bind(this.widthProperty());
-
-        return label;
-    }
-
-    private TextField createValuefield(){
-        TextField field = new TextField();
-
-        field.setOnKeyPressed(e -> {
+        // events / listeners
+        this.valueLabel.textProperty().bind(this.valueProperty);
+        this.valueField.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.ENTER) {
                 this.setEditable(false);
             }
         });
+    }
+    
+    public EditableField(String value){
+        this(value, "editablefield");
+    }
+    
+    private void initLayout(String cssClassname){
+        // layout        
+        this.valueLabel.prefWidthProperty().bind(this.widthProperty());
+        StackPane.setAlignment(valueLabel, Pos.CENTER_LEFT);
+        StackPane.setAlignment(valueField, Pos.CENTER_LEFT);        
+        
+        this.valueLabel.setVisible(!this.editable);
+        this.valueField.setVisible(this.editable);
+        this.valueField.setText(this.valueProperty.getValue());
+        
+        getChildren().addAll(this.valueLabel, this.valueField);
 
-        return field;
+        // css
+        this.getStyleClass().add(cssClassname);
+        this.valueLabel.getStyleClass().addAll("value", "valuelabel");
+        this.valueField.getStyleClass().addAll("value", "valuefield");
     }
 
-    public void toggleEditable(){
-        this.editable = !this.editable;
-        setEditable(this.editable);
-    }
 
     // SETTERS
 
@@ -102,7 +91,7 @@ public class EditableField extends StackPane{
                 this.valueProperty.setValue(input);
             }
             else{
-                System.out.println("EditableField: Validation failed");
+                if(!input.isBlank()) System.out.println("EditableField: Validation failed");
             }
             
             this.valueLabel.setVisible(true);
@@ -122,6 +111,10 @@ public class EditableField extends StackPane{
 
     public TextField getValueField(){
         return this.valueField;
+    }
+
+    public SimpleStringProperty getValueProperty(){
+        return this.valueProperty;
     }
 
     public String getValue(){

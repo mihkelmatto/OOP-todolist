@@ -8,17 +8,13 @@ import models.TaskGroup;
 
 import utils.events.ChangeSceneEvent;
 import utils.events.SceneType;
-import utils.widgets.EditableField;
 
 public class Header extends utils.widgets.Header{
     private Session session;
     private SimpleObjectProperty<TaskGroup> activeTG;
     
-    private EditableField title;
-
     public Header(Session session){
-        super(session.getActiveTGProperty().getValue().getGroupnameProperty());
-        this.title = this.getTitleField();
+        super(session.getActiveTGProperty().getValue().getGroupnameProperty().getValue());
 
         this.session = session;
         this.activeTG = session.getActiveTGProperty();

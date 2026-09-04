@@ -11,10 +11,8 @@ import java.util.UUID;
 
 
 /*
-Username peaks ka olema unikaalne, et sisselogimisel andmed üles leida.
-Siiski on vist mõistlik mujal UUID-d kasutada, et nimevahetus oleks tehniliselt lihtsam.
-
-TODO: Username vahetamisel unikaalsuse kontroll
+    Username on unikaalne, et sisselogimisel andmed üles leida.
+    Siiski on vist mõistlik mujal UUID-d kasutada, et nimevahetus oleks tehniliselt lihtsam.
 */ 
 
 public class User implements ToJson{ 

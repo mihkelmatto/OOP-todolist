@@ -1,6 +1,5 @@
 package UI.Account;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Priority;
@@ -54,9 +53,9 @@ public class AccountScene {
     private Section createProfileSection(){
         String subtitle = "Profiil";
         Row[] items = {
-            new Row("Kasutajanimi", user.getUsernameProperty(), "windowicon.png"),
-            new Row("Parool", new SimpleStringProperty("Viimati muudetud: 10.07.2026"), "windowicon.png"), // TODO: luua property
-            new Row("E-post", new SimpleStringProperty(""), "windowicon.png")
+            new Row("Kasutajanimi", user.getUsernameProperty().getValue(), "windowicon.png"),
+            new Row("Parool", "Viimati muudetud: 10.07.2026", "windowicon.png"),
+            new Row("E-post", "", "windowicon.png")
         };
         return new Section(subtitle, items);
     }
@@ -64,8 +63,8 @@ public class AccountScene {
     private Section createPrefSection(){
         String subtitle = "Eelistused";
         Row[] items = {
-            new Row("Teavitused", new SimpleStringProperty(""), "windowicon.png"),
-            new Row("Keel", new SimpleStringProperty(""), "windowicon.png")
+            new Row("Teavitused", "", "windowicon.png"),
+            new Row("Keel", "", "windowicon.png")
         };
         return new Section(subtitle, items);
     }
@@ -73,7 +72,7 @@ public class AccountScene {
     private Section createAdvSection(){
         String subtitle = "Lisavalikud";
         Row[] items = {
-            new Row("Kustuta konto", new SimpleStringProperty(""), "windowicon.png")
+            new Row("Kustuta konto", "", "windowicon.png")
         };
         return new Section(subtitle, items);
     }

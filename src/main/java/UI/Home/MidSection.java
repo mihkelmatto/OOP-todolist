@@ -35,8 +35,7 @@ public class MidSection {
                     setGraphic(null);
                     setText(null);
                 } else {
-                    TaskCard card = new TaskCard(task, session);
-                    setGraphic(card.getLayout());
+                    setGraphic(new TaskCard(task, session));
                 }
             }
         });
