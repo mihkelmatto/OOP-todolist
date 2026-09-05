@@ -1,13 +1,15 @@
 package utils.widgets;
 
+import utils.validators.NotEmptyValidator;
+import utils.validators.Validator;
+
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
-import utils.validators.NotEmptyValidator;
-import utils.validators.Validator;
 
 /*
     Label, mida saab muudetavaks teha
@@ -26,20 +28,20 @@ import utils.validators.Validator;
 */
 
 public class EditableField extends StackPane{
-    private SimpleStringProperty valueProperty;
+    private StringProperty valueProperty;
     private Label valueLabel;
     private TextField valueField;
 
     private Validator validator = new NotEmptyValidator();
     private boolean editable;
 
-    public EditableField(String value, String cssClassname){
+    public EditableField(String value){
         this.valueProperty = new SimpleStringProperty(value);
         this.valueLabel = new Label();
         this.valueField = new TextField();
         this.editable = false;
 
-        initLayout(cssClassname);
+        initLayout();
 
         // events / listeners
         this.valueLabel.textProperty().bind(this.valueProperty);
@@ -50,11 +52,7 @@ public class EditableField extends StackPane{
         });
     }
     
-    public EditableField(String value){
-        this(value, "editablefield");
-    }
-    
-    private void initLayout(String cssClassname){
+    private void initLayout(){
         // layout        
         this.valueLabel.prefWidthProperty().bind(this.widthProperty());
         StackPane.setAlignment(valueLabel, Pos.CENTER_LEFT);
@@ -67,7 +65,7 @@ public class EditableField extends StackPane{
         getChildren().addAll(this.valueLabel, this.valueField);
 
         // css
-        this.getStyleClass().add(cssClassname);
+        this.getStyleClass().add("editablefield");
         this.valueLabel.getStyleClass().addAll("value", "valuelabel");
         this.valueField.getStyleClass().addAll("value", "valuefield");
     }
@@ -113,7 +111,7 @@ public class EditableField extends StackPane{
         return this.valueField;
     }
 
-    public SimpleStringProperty getValueProperty(){
+    public StringProperty getValueProperty(){
         return this.valueProperty;
     }
 

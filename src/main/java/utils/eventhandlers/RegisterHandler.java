@@ -1,11 +1,12 @@
 package utils.eventhandlers;
 
-import UI.SceneManager;
-import javafx.event.EventHandler;
 import models.Session;
 import models.User;
 import utils.Auth;
 import utils.events.RegisterEvent;
+import UI.SceneManager;
+
+import javafx.event.EventHandler;
 
 public class RegisterHandler implements EventHandler<RegisterEvent>{
     private SceneManager scenemanager;

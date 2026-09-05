@@ -9,6 +9,8 @@
     -fx-font-size: 30px;
     -fx-font-weight: bold;
 
+    -fx-max-height: 90;
+    -fx-min-height: 90;
     -fx-pref-height: 90;
 }
 

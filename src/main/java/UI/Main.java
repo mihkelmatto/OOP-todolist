@@ -2,9 +2,11 @@ package UI;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+
 /**
  * JavaFX App
  */
+
 public class Main extends Application {
     SceneManager scenemanager;
 

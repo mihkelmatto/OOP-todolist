@@ -1,39 +1,36 @@
 package UI.Account;
 
-import javafx.scene.control.Button;
 import utils.events.ChangeSceneEvent;
 import utils.events.LogoutEvent;
 import utils.events.SceneType;
 
-public class Header extends utils.widgets.Header{
+import javafx.scene.control.Button;
+
+public class AccountHeader extends utils.widgets.Header{
 
     private Button home;
     private Button logout;
 
-    public Header(){
+    public AccountHeader(){
         super("Konto");
+        this.home = new Button("Kodu");
+        this.logout = new Button("Logi välja");
 
-        this.home = createHomebutton();
-        this.logout = createLogoutbutton();
-        
-        this.getChildren().addAll(home, logout);
-    }
+        initLayout();
 
-    private Button createHomebutton(){
-        Button home = new Button("Kodu");
+        // events / listeners
         home.setOnAction(e -> {
             ChangeSceneEvent showhome = new ChangeSceneEvent(SceneType.HOME);
             home.fireEvent(showhome);
         });
-        return home;
-    }
-
-    private Button createLogoutbutton(){
-        Button logout = new Button("Logi välja");
+        
         logout.setOnAction(e -> {
             LogoutEvent logoutevent = new LogoutEvent();
             logout.fireEvent(logoutevent);
         });
-        return logout;
+    }
+    
+    private void initLayout(){
+        this.getChildren().addAll(home, logout);
     }
 }

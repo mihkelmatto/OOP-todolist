@@ -5,6 +5,7 @@ import utils.Classreader;
 import java.io.IOException;
 import java.util.UUID;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,7 +32,7 @@ Salvestada uus TGmapper
 public class Session {
     private User user;
     private ObservableList<TaskGroup> taskgroups;
-    private SimpleObjectProperty<TaskGroup> activeTG;
+    private ObjectProperty<TaskGroup> activeTG;
 
 
     /*
@@ -110,7 +111,7 @@ public class Session {
     }
 
     // GETTERS
-    public SimpleObjectProperty<TaskGroup> getActiveTGProperty(){
+    public ObjectProperty<TaskGroup> getActiveTGProperty(){
         return this.activeTG;
     }
     

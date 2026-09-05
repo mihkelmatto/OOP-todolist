@@ -1,13 +1,11 @@
 package UI;
 
+import models.Session;
+
 import UI.Account.AccountScene;
 import UI.Home.HomeScene;
 import UI.Login.LoginScene;
-import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
-import models.Session;
+
 import utils.eventhandlers.ChangeSceneHandler;
 import utils.eventhandlers.LoginHandler;
 import utils.eventhandlers.LogoutEventHandler;
@@ -16,6 +14,11 @@ import utils.events.ChangeSceneEvent;
 import utils.events.LoginEvent;
 import utils.events.LogoutEvent;
 import utils.events.RegisterEvent;
+
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 public class SceneManager {
     private Stage stage;
@@ -26,7 +29,7 @@ public class SceneManager {
     }
 
     public void showLogin(){
-        Scene loginscene = new LoginScene().getScene();
+        Scene loginscene = new LoginScene();
 
         loginscene.addEventHandler(
             LoginEvent.LOGIN, 
@@ -42,13 +45,13 @@ public class SceneManager {
     }
     
     public void showHome(){
-        Scene homescene = new HomeScene(this.session).getScene();
+        Scene homescene = new HomeScene(this.session);
         addChangeSceneHandlers(homescene);
         stage.setScene(homescene);
     }
     
     public void showAccount(){
-        Scene accountscene = new AccountScene(this.session.getUser()).getScene();
+        Scene accountscene = new AccountScene(this.session.getUser());
         addChangeSceneHandlers(accountscene);
         accountscene.addEventHandler(
             LogoutEvent.LOGOUT,

@@ -1,6 +1,11 @@
 package UI.Home;
 
-import javafx.beans.property.SimpleBooleanProperty;
+import models.Task;
+import models.TaskGroup;
+import utils.widgets.EditableField;
+
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -8,16 +13,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-import models.Session;
-import models.Task;
-import models.TaskGroup;
-
-import utils.widgets.EditableField;
-
 public class TaskCard extends HBox{
-    private Session session;
+    private ObjectProperty<TaskGroup> activeTGProperty;
     private Task task;
-    private SimpleBooleanProperty editable;
+    private BooleanProperty editable;
 
     private Button complete;
     private EditableField title;
@@ -25,14 +24,14 @@ public class TaskCard extends HBox{
     private DLwidget dlwidget;
     private Button options;    
 
-    public TaskCard(Task task, Session session){
-        this.session = session;
+    public TaskCard(Task task, ObjectProperty<TaskGroup> activeTGProperty){
+        this.activeTGProperty = activeTGProperty;
         this.task = task;
         this.editable = task.getEditableProperty();
 
         this.complete = new Button();
-        this.title = new EditableField(this.task.getTitleProperty().getValue(), "title");
-        this.description = new EditableField(this.task.getDescriptionProperty().getValue(), "description");
+        this.title = new EditableField(this.task.getTitleProperty().getValue());
+        this.description = new EditableField(this.task.getDescriptionProperty().getValue());
         this.dlwidget = new DLwidget(this.task.getDeadlineProperty().getValue());
         this.options = new Button(); // ⋮
 
@@ -48,7 +47,7 @@ public class TaskCard extends HBox{
         });
 
         this.complete.setOnAction(e -> {
-            TaskGroup activeTG = this.session.getActiveTGProperty().getValue();
+            TaskGroup activeTG = this.activeTGProperty.getValue();
             activeTG.removeTask(this.task);
         });
 
@@ -69,9 +68,13 @@ public class TaskCard extends HBox{
         
         // css
         this.getStyleClass().add("TaskCard");
+
         this.complete.setId("Completebutton");
+        this.title.getStyleClass().add("title");
+        this.description.getStyleClass().add("description");
         contentarea.getStyleClass().add("contentarea");
         optionsbox.getStyleClass().add("Taskcard-optionsbox");
+        
         this.getStylesheets().add(getClass().getResource("/Stylesheets/Home/TaskCard.css").toExternalForm());
     }
 
@@ -85,7 +88,7 @@ public class TaskCard extends HBox{
             this.task.updateDescription(this.description.getValue());
             this.task.updateDeadline(this.dlwidget.getDate(), this.dlwidget.getTime());
 
-            FXCollections.sort(this.session.getActiveTGProperty().getValue().getTasksProperty());
+            FXCollections.sort(this.activeTGProperty.getValue().getTasksProperty());
         }
     }
 }

@@ -28,7 +28,7 @@
     -fx-background-radius: 0 10 10 0;
 }
 
-.optionsmenu .button{
+.optionscontent .button{
     -fx-pref-width: 150;
     -fx-font-size: 15;
     -fx-border-radius: 0;

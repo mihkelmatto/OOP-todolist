@@ -33,7 +33,7 @@
 /* Content */
 
 .scrollable .viewport, 
-.scrollable .content {
+.scrollable .scrollable-content {
     -fx-background-color: #0C1421;
 }
 
@@ -50,7 +50,7 @@
     -fx-text-fill: #a7a7a7;
 }
 
-.section {
+.section-content {
     -fx-padding: 20;
     -fx-border-radius: 20;
     -fx-background-radius: 20;
@@ -62,7 +62,7 @@
 
 /* Row */
 
-.row-iconcontainer {
+.row-icon {
     -fx-pref-height: 30;
     -fx-max-height: 30;
 }
@@ -84,6 +84,9 @@
     -fx-text-fill: #a7a7a7;
     -fx-background-color: transparent;
 }
+.row-description .valuelabel{
+    -fx-alignment: center_right;
+}
 
 .row-edit {
     -fx-alignment: center;
@@ -91,10 +94,6 @@
 
 .editablefield .valuefield{
     -fx-background-color: #132235;
-}
-
-.editablefield .valuelabel{
-    -fx-alignment: center_right;
 }
 
 /* scrollbar */

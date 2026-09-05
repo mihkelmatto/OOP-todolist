@@ -1,5 +1,7 @@
 package UI.Account;
 
+import utils.widgets.EditableField;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -9,7 +11,14 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
-import utils.widgets.EditableField;
+/*
+    Igas reas on ikoon, pealkiri, sisu ja nupp.
+
+    Sisu saab muuta nupu abil, mis kutsub description.setEditable(boolean editable)
+    - editable = true: EditableField võtab sisendi
+    - editable = false: EditableField valideerib sisendi ning salvestab enda StringProperty sisse.
+        Seejärel kutsub iga nupp meetodeid vastavalt oma ülesandele.
+*/
 
 public class Row extends HBox{
     private boolean editable;
@@ -20,8 +29,8 @@ public class Row extends HBox{
     private Button edit;
 
     public Row(String titletext, String descriptiontext, String iconpath){
-        // init
         this.editable = false;
+
         this.icon = createIcon(iconpath);
         this.title = new Label(titletext);
         this.description = new EditableField(descriptiontext);
@@ -47,22 +56,22 @@ public class Row extends HBox{
 
         // css
         this.getStyleClass().add("row");
-        icon.getStyleClass().add("row-icon");
-        title.getStyleClass().add("row-title");
-        edit.getStyleClass().add("row-edit");
-        description.getStyleClass().add("row-description");
+
+        this.icon.getStyleClass().add("row-icon");
+        this.title.getStyleClass().add("row-title");
+        this.description.getStyleClass().add("row-description");
+        this.edit.getStyleClass().add("row-edit");
     }
 
     private StackPane createIcon(String iconpath){
-        ImageView icon = new ImageView(new Image(getClass().getResource("/images/" + iconpath).toExternalForm()));
-        StackPane iconcontainer = new StackPane();
-        iconcontainer.getChildren().add(icon);
-        icon.fitWidthProperty().bind(iconcontainer.prefWidthProperty());
-        icon.fitHeightProperty().bind(iconcontainer.prefHeightProperty());
-        icon.setPreserveRatio(true);
+        ImageView image = new ImageView(new Image(getClass().getResource("/images/" + iconpath).toExternalForm()));
 
-        icon.getStyleClass().add("row-icon");
-        iconcontainer.getStyleClass().add("row-iconcontainer");
+        StackPane iconcontainer = new StackPane();
+        iconcontainer.getChildren().add(image);
+
+        image.fitWidthProperty().bind(iconcontainer.prefWidthProperty());
+        image.fitHeightProperty().bind(iconcontainer.prefHeightProperty());
+        image.setPreserveRatio(true);
 
         return iconcontainer;
     }

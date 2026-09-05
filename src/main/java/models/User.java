@@ -1,13 +1,17 @@
 package models;
+
 import utils.ToJson;
+
+import io.github.robsonkades.uuidv7.UUIDv7;
+import java.util.UUID;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.robsonkades.uuidv7.UUIDv7;
-import javafx.beans.property.SimpleStringProperty;
 
-import java.util.UUID;
 
 
 /*
@@ -17,7 +21,7 @@ import java.util.UUID;
 
 public class User implements ToJson{ 
     private final UUID id;
-    private SimpleStringProperty username;
+    private StringProperty username;
     private String password;
 
     public User(String username, String password){
@@ -50,7 +54,7 @@ public class User implements ToJson{
     // GETTERS
 
     @JsonIgnore
-    public SimpleStringProperty getUsernameProperty(){
+    public StringProperty getUsernameProperty(){
         return this.username;
     }
 

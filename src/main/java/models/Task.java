@@ -7,22 +7,24 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Task implements Comparable<Task>{
     private final UUID id;
-    private SimpleStringProperty title;
-    private SimpleStringProperty description;
+    private StringProperty title;
+    private StringProperty description;
     private ObjectProperty<LocalDateTime> deadline;
     private ObjectProperty<LocalDateTime> lastupdated;
-    private SimpleBooleanProperty editable;
+    private BooleanProperty editable;
 
     public Task(){
         this("New Task", "Description", LocalDateTime.of(2025, 1, 1, 0, 0));
@@ -79,12 +81,12 @@ public class Task implements Comparable<Task>{
     // GETTERS
     
     @JsonIgnore
-    public SimpleStringProperty getTitleProperty() {
+    public StringProperty getTitleProperty() {
         return this.title;
     }
 
     @JsonIgnore
-    public SimpleStringProperty getDescriptionProperty() {
+    public StringProperty getDescriptionProperty() {
         return this.description;
     }
 
@@ -99,7 +101,7 @@ public class Task implements Comparable<Task>{
     }
 
     @JsonIgnore
-    public SimpleBooleanProperty getEditableProperty(){
+    public BooleanProperty getEditableProperty(){
         return this.editable;
     }
 

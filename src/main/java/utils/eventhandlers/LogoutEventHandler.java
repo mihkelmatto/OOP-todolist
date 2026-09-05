@@ -1,8 +1,9 @@
 package utils.eventhandlers;
 
 import UI.SceneManager;
-import javafx.event.EventHandler;
 import utils.events.LogoutEvent;
+
+import javafx.event.EventHandler;
 
 public class LogoutEventHandler implements EventHandler<LogoutEvent>{
 

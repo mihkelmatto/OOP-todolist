@@ -1,8 +1,9 @@
 package utils.eventhandlers;
 
 import UI.SceneManager;
-import javafx.event.EventHandler;
 import utils.events.ChangeSceneEvent;
+
+import javafx.event.EventHandler;
 
 public class ChangeSceneHandler implements EventHandler<ChangeSceneEvent>{
 

@@ -1,11 +1,8 @@
 package UI.Home;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Pos;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import utils.validators.DateValidator;
+import utils.validators.TimeValidator;
+import utils.widgets.EditableField;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,9 +10,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import utils.validators.DateValidator;
-import utils.validators.TimeValidator;
-import utils.widgets.EditableField;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 
 /*
     Näitab kuupäeva ja kellaaega ning võimaldab seda muudetavaks teha setEditable() abil
@@ -37,11 +37,11 @@ public class DLwidget extends HBox{
         String time = deadline.toLocalTime().format(getTimeformat());
         String date = deadline.toLocalDate().format(getDateformat());
 
-        this.time = new EditableField(time, "deadline-time");
+        this.time = new EditableField(time);
         this.time.setValidator(new TimeValidator());
         this.time.getValueField().setPromptText("HH.mm");
 
-        this.date = new EditableField(date, "deadline-date");
+        this.date = new EditableField(date);
         this.date.setValidator(new DateValidator());
         this.date.getValueField().setPromptText("dd.MM.yyyy");
 
@@ -75,6 +75,8 @@ public class DLwidget extends HBox{
         this.setId("deadlinewidget");
         this.time.getStyleClass().add("deadline"); 
         this.date.getStyleClass().add("deadline");
+        this.time.getStyleClass().add("deadline-time");
+        this.date.getStyleClass().add("deadline-date");
     }
 
     public void setEditable(boolean editable){

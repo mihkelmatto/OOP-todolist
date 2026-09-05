@@ -7,19 +7,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import io.github.robsonkades.uuidv7.UUIDv7;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.github.robsonkades.uuidv7.UUIDv7;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 public class TaskGroup implements ToJson, Comparable<TaskGroup> {
     private final UUID id;
-    private SimpleStringProperty groupname;
+    private StringProperty groupname;
     private UUID owner;
     private ArrayList<UUID> users;
     private ObservableList<Task> tasks;
@@ -124,7 +125,7 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
 
     // GETTERS
     @JsonIgnore
-    public SimpleStringProperty getGroupnameProperty(){
+    public StringProperty getGroupnameProperty(){
         return this.groupname;
     }
 

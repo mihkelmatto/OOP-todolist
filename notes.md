@@ -19,10 +19,13 @@ Home scene
     parandada bug, kus headeri options-menüü tekib teisele ekraanile
 
 Muu
+    Luua eraldi klass ikoonide kuvamiseks pildifailist (asendamaks näiteks Account.row ikooni)
+
     Viia ülejäänud UI-klassid standardformaati + refactor
     - TaskCard.setEditable() seest sorting teise kohta viia
 
-    EditableField css-konstruktor eemaldada?
+
+    Utils.Auth teha ümber validator klassiks
 
     Kõik listenerid-eventid üle vaadata
     - Mingi bug, kus iga taskcardi ajasektsioonid kaovad ära
@@ -32,4 +35,4 @@ Muu
 # Viimane commit:
 UIUtils klass eemaldatud.
 Refactor
-EditableField võtab uuesti Stringi sisendina
+EditableField võtab uuesti Stringi sisendina, css-argument eemaldatud

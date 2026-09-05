@@ -1,10 +1,10 @@
 package utils.validators;
 
+import UI.Home.DLwidget;
+
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
-import UI.Home.DLwidget;
 
 public class TimeValidator implements Validator{
 

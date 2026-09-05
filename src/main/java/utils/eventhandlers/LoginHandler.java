@@ -1,12 +1,16 @@
 package utils.eventhandlers;
 
-import UI.SceneManager;
-import javafx.event.EventHandler;
 import models.Session;
 import models.User;
+
+import UI.SceneManager;
 import utils.Auth;
 import utils.Classreader;
 import utils.events.LoginEvent;
+
+import javafx.event.EventHandler;
+
+
 
 public class LoginHandler implements EventHandler<LoginEvent>{
 

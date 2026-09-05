@@ -1,8 +1,7 @@
 package utils;
 
-import com.password4j.Password;
-
 import models.User;
+import com.password4j.Password;
 
 public class Auth {
     public static User userauth(String username, String password){
