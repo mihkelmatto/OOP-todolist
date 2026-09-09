@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -32,6 +31,7 @@ public class DLwidget extends HBox{
     private EditableField date;
 
     private ObjectProperty<LocalDateTime> datetimeProperty;
+    private boolean editable;
 
     public DLwidget(LocalDateTime deadline){
         String time = deadline.toLocalTime().format(getTimeformat());
@@ -39,25 +39,19 @@ public class DLwidget extends HBox{
 
         this.time = new EditableField(time);
         this.time.setValidator(new TimeValidator());
-        this.time.getValueField().setPromptText("HH.mm");
+        this.time.getValueField().setPromptText(getTimePattern());
 
         this.date = new EditableField(date);
         this.date.setValidator(new DateValidator());
-        this.date.getValueField().setPromptText("dd.MM.yyyy");
+        this.date.getValueField().setPromptText(getDatePattern());
 
         this.datetimeProperty = new SimpleObjectProperty<>(deadline);
+        this.editable = false;
 
         initLayout();
 
         // events / listeners
 
-        this.time.getValueProperty().addListener(e -> {
-            updateDatetimeProperty();
-        });
-
-        this.date.getValueProperty().addListener(e -> {
-            updateDatetimeProperty();
-        });
     }
 
     private void initLayout(){
@@ -80,8 +74,13 @@ public class DLwidget extends HBox{
     }
 
     public void setEditable(boolean editable){
+        this.editable = editable;
         this.time.setEditable(editable);
         this.date.setEditable(editable);
+
+        if(!editable){
+            updateDatetimeProperty();
+        }
     }
 
     public void updateDatetimeProperty(){
@@ -92,10 +91,11 @@ public class DLwidget extends HBox{
                 LocalTime.parse(this.time.getValue(), getTimeformat())
             );
             this.datetimeProperty.setValue(dt);
+            System.out.printf("Time set to %s\n", dt);
         }
     }
     // GETTERS
-    public ObjectProperty<LocalDateTime> getTimeProperty(){
+    public ObjectProperty<LocalDateTime> getDateTimeProperty(){
         return this.datetimeProperty;
     }
 
@@ -111,16 +111,27 @@ public class DLwidget extends HBox{
         return this.datetimeProperty.getValue().toLocalDate();
     }
 
+    public boolean isEditable(){
+        return this.editable;
+    }
+
     /*
         Annab erinevatele komponentidele formaadi, milles kasutajaliides aega näitab
     */
+    public static String getDatePattern(){
+        return "d.MMM.yyyy";
+    }
+
+    public static String getTimePattern(){
+        return "HH:mm";
+    }
 
     public static DateTimeFormatter getTimeformat(){
-        return DateTimeFormatter.ofPattern("HH:mm");
+        return DateTimeFormatter.ofPattern(getTimePattern());
     }
 
     public static DateTimeFormatter getDateformat(){
-        return DateTimeFormatter.ofPattern("d.MMM yyyy", Locale.getDefault());
+        return DateTimeFormatter.ofPattern(getDatePattern());
     }
 }
 

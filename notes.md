@@ -11,6 +11,10 @@ Account scene
 Home scene
     TaskCard sisu:
     - property listenerid, bindingud jm käsitlemine
+    - taskcard setEditable() seest sorting teise kohta viia
+    - taskCard setEditable kutsutakse nupule vajutades kaks korda
+        - task.editableproperty asemel kasutada booleani ja eventi?
+    - lisada focus-põhine setEditable(false)? (miks headeri nupuga see niisama töötab?)
 
     account nupp:
     - ikoon
@@ -21,18 +25,15 @@ Home scene
 Muu
     Luua eraldi klass ikoonide kuvamiseks pildifailist (asendamaks näiteks Account.row ikooni)
 
-    Viia ülejäänud UI-klassid standardformaati + refactor
-    - TaskCard.setEditable() seest sorting teise kohta viia
-
+    TaskCard.setEditable() seest sorting teise kohta viia
 
     Utils.Auth teha ümber validator klassiks
 
     Kõik listenerid-eventid üle vaadata
-    - Mingi bug, kus iga taskcardi ajasektsioonid kaovad ära
     - headeri teksti update
     - ...
 
 # Viimane commit:
-UIUtils klass eemaldatud.
-Refactor
-EditableField võtab uuesti Stringi sisendina, css-argument eemaldatud
+    - parandatud bug, kus taskcardile klikkimine kasvatab contentarea fielde
+    - listenerid kontrollitud:
+        + DLwidget

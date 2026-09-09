@@ -2,9 +2,7 @@ package models;
 
 import io.github.robsonkades.uuidv7.UUIDv7;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.UUID;
 
 import javafx.beans.property.BooleanProperty;
@@ -73,8 +71,8 @@ public class Task implements Comparable<Task>{
         this.lastupdated.set(LocalDateTime.now());
     }
 
-    public void updateDeadline(LocalDate date, LocalTime time){
-        this.deadline.setValue(LocalDateTime.of(date, time));
+    public void updateDeadline(LocalDateTime dt){
+        this.deadline.setValue(dt);
         this.lastupdated.set(LocalDateTime.now());
     }
 

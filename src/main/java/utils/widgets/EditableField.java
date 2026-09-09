@@ -54,7 +54,9 @@ public class EditableField extends StackPane{
     
     private void initLayout(){
         // layout        
-        this.valueLabel.prefWidthProperty().bind(this.widthProperty());
+        this.valueLabel.prefWidthProperty().bind(this.prefWidthProperty());
+        this.valueField.prefWidthProperty().bind(this.prefWidthProperty());
+        
         StackPane.setAlignment(valueLabel, Pos.CENTER_LEFT);
         StackPane.setAlignment(valueField, Pos.CENTER_LEFT);        
         

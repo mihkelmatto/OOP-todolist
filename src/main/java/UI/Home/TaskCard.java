@@ -52,13 +52,13 @@ public class TaskCard extends HBox{
         });
 
     }
-
+    
     private void initLayout(){
         // layout
         this.setSpacing(25);
         HBox.setMargin(complete, new Insets(20, 10, 0, 0));
         HBox.setMargin(this.dlwidget, new Insets(10, 0, 10, 0));
-
+        
         VBox contentarea = new VBox(this.title, this.description);
         HBox.setHgrow(contentarea, Priority.ALWAYS);
         
@@ -70,14 +70,17 @@ public class TaskCard extends HBox{
         this.getStyleClass().add("TaskCard");
 
         this.complete.setId("Completebutton");
+
+        contentarea.getStyleClass().add("contentarea");
         this.title.getStyleClass().add("title");
         this.description.getStyleClass().add("description");
-        contentarea.getStyleClass().add("contentarea");
+
         optionsbox.getStyleClass().add("Taskcard-optionsbox");
         
         this.getStylesheets().add(getClass().getResource("/Stylesheets/Home/TaskCard.css").toExternalForm());
+        
     }
-
+    
     protected void setEditable(boolean editable){
         this.title.setEditable(editable);
         this.description.setEditable(editable);
@@ -86,7 +89,7 @@ public class TaskCard extends HBox{
         if(!editable){
             this.task.updateTitle(this.title.getValue());
             this.task.updateDescription(this.description.getValue());
-            this.task.updateDeadline(this.dlwidget.getDate(), this.dlwidget.getTime());
+            this.task.updateDeadline(this.dlwidget.getDateTime());
 
             FXCollections.sort(this.activeTGProperty.getValue().getTasksProperty());
         }

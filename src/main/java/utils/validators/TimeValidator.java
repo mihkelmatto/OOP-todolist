@@ -17,7 +17,7 @@ public class TimeValidator implements Validator{
         }
         catch(DateTimeParseException e){
             if(!time.isBlank()){
-                System.out.printf("DateTimeParseException at TimeValidator.validate(): %s \n", e);
+                System.out.printf("TimeValidator.validate(): %s \n", e);
             }
             return false;
         }
