@@ -32,8 +32,11 @@ Muu
     Kõik listenerid-eventid üle vaadata
     - headeri teksti update
     - ...
+    + DLWidget
+
+    Kas TGEvent handleri saaks ühise teha?
 
 # Viimane commit:
-    - parandatud bug, kus taskcardile klikkimine kasvatab contentarea fielde
-    - listenerid kontrollitud:
-        + DLwidget
+    - AuthEvent klass koos ühise handleriga (Login, register, logout)
+    - TG add, edit ja delete on nüüd eventidena lahendatud. (Eventide sisu tuleks ilmselt mujalt veel juurde lisada)
+    - Options Popup ja button -> OptionsButton.java

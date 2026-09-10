@@ -1,4 +1,4 @@
-package utils.events;
+package utils.events.SceneEvent;
 
 import javafx.event.Event;
 import javafx.event.EventType;

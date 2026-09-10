@@ -1,4 +1,4 @@
-package utils.events;
+package utils.events.SceneEvent;
 
 public enum SceneType {
     LOGIN,

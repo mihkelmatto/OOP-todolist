@@ -1,14 +1,14 @@
 package UI.Login;
 
-import utils.events.LoginEvent;
-import utils.events.RegisterEvent;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+
+import utils.events.AuthEvent.LoginEvent;
+import utils.events.AuthEvent.RegisterEvent;
 
 /*
     Navigatsioon TextFieldide vahel toimub enter-tabiga.
@@ -60,20 +60,22 @@ public class LoginBox extends VBox{
         });
         
         this.password.setOnKeyPressed(e -> {
-            if(e.getCode() == KeyCode.ENTER) {
-                LoginEvent loginevent = new LoginEvent(this.username.getText(), this.password.getText());
-                this.loginButton.fireEvent(loginevent);  
+            if(e.getCode() == KeyCode.ENTER){
+                fireLoginEvent(this.loginButton);
             }
         });
 
-        this.loginButton.setOnAction(e -> {
-            LoginEvent loginevent = new LoginEvent(this.username.getText(), this.password.getText());
-            this.loginButton.fireEvent(loginevent);                
-        });
-    
-        this.registerButton.setOnAction(e -> {
-            RegisterEvent registerevent = new RegisterEvent(this.username.getText(), this.password.getText());
-            this.registerButton.fireEvent(registerevent);
-        });
+        this.loginButton.setOnAction(e -> fireLoginEvent(this.loginButton));
+        this.registerButton.setOnAction(e -> fireRegisterEvent(this.registerButton));
+    }
+
+    private void fireLoginEvent(Button button){
+        LoginEvent loginevent = new LoginEvent(this.username.getText(), this.password.getText());
+        button.fireEvent(loginevent);
+    }
+
+    private void fireRegisterEvent(Button button){
+        RegisterEvent registerevent = new RegisterEvent(this.username.getText(), this.password.getText());
+        button.fireEvent(registerevent); 
     }
 }

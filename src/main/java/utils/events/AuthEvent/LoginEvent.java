@@ -1,18 +1,17 @@
-package utils.events;
+package utils.events.AuthEvent;
 
-import javafx.event.Event;
 import javafx.event.EventType;
 
-public class RegisterEvent extends Event {
+public class LoginEvent extends AuthEvent {
 
-    public static final EventType<RegisterEvent> REGISTER =
-        new EventType<>(Event.ANY, "REGISTER");
+    public static final EventType<LoginEvent> LOGIN =
+        new EventType<>(AuthEvent.ANY, "LOGIN");
 
     private final String username;
     private final String password;
 
-    public RegisterEvent(String username, String password) {
-        super(REGISTER);
+    public LoginEvent(String username, String password) {
+        super(LOGIN);
         this.username = username;
         this.password = password;
     }

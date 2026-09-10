@@ -1,9 +1,8 @@
 package UI.Account;
 
-import utils.events.ChangeSceneEvent;
-import utils.events.LogoutEvent;
-import utils.events.SceneType;
-
+import utils.events.AuthEvent.LogoutEvent;
+import utils.events.SceneEvent.ChangeSceneEvent;
+import utils.events.SceneEvent.SceneType;
 import javafx.scene.control.Button;
 
 public class AccountHeader extends utils.widgets.Header{
@@ -19,15 +18,8 @@ public class AccountHeader extends utils.widgets.Header{
         initLayout();
 
         // events / listeners
-        home.setOnAction(e -> {
-            ChangeSceneEvent showhome = new ChangeSceneEvent(SceneType.HOME);
-            home.fireEvent(showhome);
-        });
-        
-        logout.setOnAction(e -> {
-            LogoutEvent logoutevent = new LogoutEvent();
-            logout.fireEvent(logoutevent);
-        });
+        home.setOnAction(e -> home.fireEvent(new ChangeSceneEvent(SceneType.HOME)));
+        logout.setOnAction(e -> logout.fireEvent(new LogoutEvent()));
     }
     
     private void initLayout(){
