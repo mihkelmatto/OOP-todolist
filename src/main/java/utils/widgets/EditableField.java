@@ -25,14 +25,20 @@ import javafx.scene.layout.StackPane;
     Validator:
     - default validator kontrollib, kas sisend on tühi (v.a. whitespace)
     - validatori määramiseks on konstruktori asemel setValidator(Validator validator)
+
+    Väljaspoolt klassi valueProperty muutmisel uuendatakse ka valueFieldi väärtust.
+
+    onEditComplete:
+    setteriga saab määrata funktsiooni, mida kutsutakse setEditable(false) puhul peale edukat valideerimist.
 */
 
 public class EditableField extends StackPane{
-    private StringProperty valueProperty;
-    private Label valueLabel;
-    private TextField valueField;
+    private final StringProperty valueProperty;
+    private final Label valueLabel;
+    private final TextField valueField;
 
     private Validator validator = new NotEmptyValidator();
+    private Runnable onEditComplete = () -> {};
     private boolean editable;
 
     public EditableField(String value){
@@ -49,6 +55,10 @@ public class EditableField extends StackPane{
             if(e.getCode() == KeyCode.ENTER) {
                 this.setEditable(false);
             }
+        });
+
+        this.valueProperty.addListener(e -> {
+            this.valueField.setText(this.valueProperty.getValue());
         });
     }
     
@@ -72,6 +82,10 @@ public class EditableField extends StackPane{
         this.valueField.getStyleClass().addAll("value", "valuefield");
     }
 
+    public void setOnEditComplete(Runnable action){
+        this.onEditComplete = action;
+    }
+
 
     // SETTERS
 
@@ -89,6 +103,7 @@ public class EditableField extends StackPane{
             
             if(validator.validate(input)){
                 this.valueProperty.setValue(input);
+                onEditComplete.run();
             }
             else{
                 if(!input.isBlank()) System.out.println("EditableField: Validation failed");

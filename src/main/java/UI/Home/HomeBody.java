@@ -2,8 +2,6 @@ package UI.Home;
 
 import models.Task;
 import models.TaskGroup;
-import utils.eventhandlers.Task.DelTaskHandler;
-import utils.events.Task.DelTaskEvent;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -24,9 +22,7 @@ public class HomeBody extends ListView<Task>{
             this.setItems(this.activeTGproperty.getValue().getTasksProperty());
         });
 
-        this.addEventHandler(
-            DelTaskEvent.DEL_TASK,
-            new DelTaskHandler(activeTGproperty));
+
     }
     
     private void initLayout(){
@@ -40,16 +36,30 @@ public class HomeBody extends ListView<Task>{
     private void initCellFactory(){
         this.setCellFactory(param -> new ListCell<Task>() {
 
+            private TaskCard currentCard;
+
             @Override
             protected void updateItem(Task task, boolean empty) {
 
                 super.updateItem(task, empty);
 
+                if(currentCard != null) {
+                    currentCard.dispose();
+                    currentCard = null;
+                }
+
                 if(empty || task == null){
                     setGraphic(null);
                     setText(null);
-                } else {
-                    setGraphic(new TaskCard(task));
+                    return;
+                } 
+
+                currentCard = new TaskCard(task);
+                setGraphic(currentCard);
+                
+                if(task.isnew()){
+                    currentCard.setEditable(true);
+                    task.consumeNew();
                 }
             }
         });

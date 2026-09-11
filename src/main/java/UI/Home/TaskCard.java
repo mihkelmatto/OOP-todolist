@@ -1,12 +1,14 @@
 package UI.Home;
 
 import models.Task;
+import utils.eventhandlers.OutsideClickHandler;
 import utils.events.Task.DelTaskEvent;
 import utils.events.Task.UpdateTaskEvent;
 import utils.widgets.EditableField;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -14,16 +16,18 @@ import javafx.scene.layout.VBox;
 public class TaskCard extends HBox{
     private Task task;
     private boolean editable;
+    private final OutsideClickHandler clickhandler;
 
     private Button complete;
     private EditableField title;
     private EditableField description;
     private DLwidget dlwidget;
-    private Button edit;    
+    private Button edit;
 
     public TaskCard(Task task){
         this.task = task;
         this.editable = false;
+        this.clickhandler = new OutsideClickHandler(this);
 
         this.complete = new Button();
         this.title = new EditableField(this.task.getTitleProperty().getValue());
@@ -33,20 +37,24 @@ public class TaskCard extends HBox{
 
         initLayout();
 
+        
         // events / listeners
-
         this.edit.setOnAction(e -> {
             setEditable(!editable);
         });
-
+        
         this.complete.setOnAction(e -> {
             this.complete.fireEvent(new DelTaskEvent(this.task));
         });
+        
+        this.clickhandler.setAction(() -> setEditable(false));
+        this.clickhandler.setTarget(this);
 
-        if(this.task.isnew()){
-            setEditable(true);
-            this.task.consumeNew();
-        }
+        /*
+            Kui task on uus, siis kutsutakse HomeBody ListCellis setEditable(true)
+            Seda ei saa konstruktoris teha, sest muidu on TaskCardi Scene null.
+            (vt. this.setclickhandler())
+        */
     }
     
     private void initLayout(){
@@ -78,6 +86,10 @@ public class TaskCard extends HBox{
     }
     
     public void setEditable(boolean editable){
+        if(this.editable == editable){
+            return;
+        }
+
         this.editable = editable;
         this.title.setEditable(editable);
         this.description.setEditable(editable);
@@ -92,5 +104,31 @@ public class TaskCard extends HBox{
                     this.dlwidget.getDateTime()
                 ));
         }
+
+        setClickFilter(editable);
+    }
+
+
+    public void setClickFilter(boolean active){
+        if(active){
+            getScene().addEventFilter(
+                MouseEvent.MOUSE_PRESSED,
+                clickhandler
+            );
+        }
+        else{
+            getScene().removeEventFilter(
+                MouseEvent.MOUSE_PRESSED,
+                clickhandler
+            );
+        }
+    }
+
+    /*
+        Eemaldab vanemklassidest viited
+        !! Tuleb alati kutsuda enne TaskCardi eemaldamist (lifecycle)
+    */
+    public void dispose(){
+        this.setClickFilter(false);
     }
 }

@@ -68,7 +68,7 @@ public class Classreader {
 
         } catch(IOException e){ // Default task group: Tasks
             TaskGroup tg = new TaskGroup(userid);
-            tg.setGroupname("Tasks");
+            tg.setTitle("Tasks");
             taskgroups.add(tg);
             
             UserTgMapper tgmapper = new UserTgMapper(userid, tg.getID());

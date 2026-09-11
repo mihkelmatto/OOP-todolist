@@ -11,6 +11,7 @@ public interface ToJson {
     /*
     Kirjutab objekti json-failina. Loob vajadusel vastava directory.
     */
+   
     public default void toJsonFile() {
         File file = new File(String.format("%s/%s.json", Classreader.getDir(this.getClass()), this.getID()));
 

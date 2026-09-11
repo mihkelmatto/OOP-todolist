@@ -1,32 +1,26 @@
 package UI.Home;
 
-import models.Session;
 import models.TaskGroup;
+
 import javafx.beans.property.ObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 
 public class Dropdown extends ComboBox<TaskGroup>{
-    private final ObjectProperty<TaskGroup> activeTGProperty;
 
-    public Dropdown(Session session){
-        super(session.getTGListProperty());
-
-        this.activeTGProperty = session.getActiveTGProperty();
+    public Dropdown(ObservableList<TaskGroup> TGlistProperty, ObjectProperty<TaskGroup> activeTGproperty){
+        super(TGlistProperty);
 
         init();
+
+        // eventid / listenerid
+        this.valueProperty().bindBidirectional(activeTGproperty);
     }
 
     private void init(){
         this.setCellFactory(lv -> createTGCell());
         this.setButtonCell(createTGCell());
-        
-        // TODO: bindBiDirectional?
-        this.valueProperty().addListener((obs, oldValue, newValue) -> {
-            this.activeTGProperty.setValue(newValue);
-        });
-        
-        this.setValue(this.activeTGProperty.getValue());
     }
 
     private ListCell<TaskGroup> createTGCell() {
@@ -39,7 +33,7 @@ public class Dropdown extends ComboBox<TaskGroup>{
                 if (empty || tg == null) {
                     setText(null);
                 } else {
-                    textProperty().bind(tg.getGroupnameProperty());
+                    textProperty().bind(tg.getTitleProperty());
                 }
             }
         };

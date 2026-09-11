@@ -5,7 +5,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
 public class Header extends HBox{
-    protected EditableField title;
+    private EditableField title;
 
     public Header(String titleStr, Node ... nodes){
         this.title = new EditableField(titleStr);

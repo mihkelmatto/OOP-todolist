@@ -1,6 +1,6 @@
 {
   "id" : "019f3aa1-4c2b-7a19-9d3e-2f8c91a7b5c4",
-  "groupname" : "Chores",
+  "title" : "Chores",
   "owner" : "019f3aa1-4c2b-7a19-9d3e-2f8c91a7b5c4",
   "users" : [ "019f3aa1-4c2b-7a19-9d3e-2f8c91a7b5c4" ],
   "tasks" : [ {

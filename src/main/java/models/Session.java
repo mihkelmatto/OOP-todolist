@@ -45,7 +45,6 @@ public class Session {
         this.user = user;
         this.taskgroups = FXCollections.observableArrayList(Classreader.findTaskgroups(this.user.getID()));
         this.activeTGProperty = new SimpleObjectProperty<TaskGroup>(this.taskgroups.get(0));
-        FXCollections.sort(this.taskgroups);
     }
 
     // salvestamise ajal vist ei pea tgmapperit kontrollima?
@@ -63,7 +62,7 @@ public class Session {
     public TaskGroup createTaskgroup(){
         try{
             TaskGroup tg = new TaskGroup(this.user.getID());
-            tg.setGroupname("New task group");
+            tg.setTitle("New task group");
             this.taskgroups.add(tg);
             this.activeTGProperty.setValue(tg);
             
@@ -84,10 +83,10 @@ public class Session {
     2. iga kasutaja taskmapper lugeda ja uuendada.
     4. taskgroup kustutada
     */
-    public TaskGroup deleteTaskgroup(){
+    public void deleteTaskgroup(){
         if(this.taskgroups.size() == 1){
             System.out.println("Viimast gruppi ei saa kustutada");
-            return null;
+            return;
         }
 
         // uuendab iga this.activeTG-s oleva kasutaja TGmapperit
@@ -104,10 +103,9 @@ public class Session {
             e.printStackTrace(); // ei tohiks juhtuda, kuna taskgroup luuakse sisselogimisel
         }
         this.taskgroups.remove(activeTG);
-        TaskGroup newactive = this.taskgroups.get(0);
 
+        TaskGroup newactive = this.taskgroups.get(0);
         this.activeTGProperty.set(newactive);
-        return newactive;
     }
 
     // GETTERS

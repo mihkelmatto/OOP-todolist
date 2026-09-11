@@ -20,20 +20,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TaskGroup implements ToJson, Comparable<TaskGroup> {
     private final UUID id;
-    private StringProperty groupname;
+    private StringProperty title;
     private UUID owner;
     private ArrayList<UUID> users;
     private ObservableList<Task> tasks;
 
     public TaskGroup(UUID owner, Task... tasks){
         this.id = UUIDv7.randomUUID();
-        this.groupname = new SimpleStringProperty("New Group");
+        this.title = new SimpleStringProperty("New Group");
         this.owner = owner;
         this.users = new ArrayList<>();
 
         this.tasks = FXCollections.observableArrayList();
         this.tasks.addAll(List.of(tasks));
-        FXCollections.sort(this.tasks);
 
         this.users.add(owner);
         System.out.printf("New Taskgroup created for user: %s\n", owner);
@@ -42,29 +41,27 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
     @JsonCreator
     public TaskGroup(
             @JsonProperty("id") UUID id,
-            @JsonProperty("groupname") String groupname,
+            @JsonProperty("title") String title,
             @JsonProperty("owner") UUID owner,
             @JsonProperty("users") ArrayList<UUID> users,
             @JsonProperty("tasks") ArrayList<Task> tasks
     ) {
         this.id = id;
-        this.groupname = new SimpleStringProperty(groupname);
+        this.title = new SimpleStringProperty(title);
         this.owner = owner;
         this.users = users != null ? new ArrayList<>(users) : new ArrayList<>();
         this.tasks = FXCollections.observableArrayList();
         this.tasks.addAll(tasks);
-        FXCollections.sort(this.tasks);
-
     }
 
     @Override
     public int compareTo(TaskGroup tg) {
-        return this.groupname.getValue().compareToIgnoreCase(tg.groupname.getValue());
+        return this.title.getValue().compareToIgnoreCase(tg.title.getValue());
     }
 
     // SETTERS
-    public void setGroupname(String groupname){
-        this.groupname.set(groupname);
+    public void setTitle(String title){
+        this.title.set(title);
     }
 
     /*
@@ -125,8 +122,8 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
 
     // GETTERS
     @JsonIgnore
-    public StringProperty getGroupnameProperty(){
-        return this.groupname;
+    public StringProperty getTitleProperty(){
+        return this.title;
     }
 
     @JsonIgnore
@@ -139,8 +136,8 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
     }
 
     @Deprecated
-    public String getGroupname(){
-        return this.groupname.getValue();
+    public String getTitle(){
+        return this.title.getValue();
     }
 
     @Deprecated

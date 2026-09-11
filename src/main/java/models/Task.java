@@ -50,9 +50,16 @@ public class Task implements Comparable<Task>{
         this.isnew = false;
     }
 
+    // ajaline -> pealkirja tähestikuline järjestus
     @Override
     public int compareTo(Task task) {
-        return this.getDeadline().compareTo(task.getDeadline());
+        int result = this.getDeadline().compareTo(task.getDeadline());
+        
+        if (result != 0) {
+            return result;
+        }
+
+        return this.getTitle().compareToIgnoreCase(task.getTitle());
     }
 
 
