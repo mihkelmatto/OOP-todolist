@@ -5,12 +5,8 @@ import io.github.robsonkades.uuidv7.UUIDv7;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,11 +14,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Task implements Comparable<Task>{
     private final UUID id;
-    private StringProperty title;
-    private StringProperty description;
-    private ObjectProperty<LocalDateTime> deadline;
-    private ObjectProperty<LocalDateTime> lastupdated;
-    private BooleanProperty editable;
+    private SimpleStringProperty title;
+    private SimpleStringProperty description;
+    private SimpleObjectProperty<LocalDateTime> deadline;
+    private SimpleObjectProperty<LocalDateTime> lastupdated;
+
+    private boolean isnew;
 
     public Task(){
         this("New Task", "Description", LocalDateTime.of(2025, 1, 1, 0, 0));
@@ -34,7 +31,7 @@ public class Task implements Comparable<Task>{
         this.description = new SimpleStringProperty(description);
         this.deadline = new SimpleObjectProperty<>(deadline);
         this.lastupdated = new SimpleObjectProperty<>(LocalDateTime.now());
-        this.editable = new SimpleBooleanProperty(false);
+        this.isnew = true;
     }
 
     @JsonCreator
@@ -50,7 +47,7 @@ public class Task implements Comparable<Task>{
         this.description = new SimpleStringProperty(description);
         this.deadline = new SimpleObjectProperty<>(deadline);
         this.lastupdated = new SimpleObjectProperty<>(lastupdated);
-        this.editable = new SimpleBooleanProperty(false);
+        this.isnew = false;
     }
 
     @Override
@@ -76,31 +73,35 @@ public class Task implements Comparable<Task>{
         this.lastupdated.set(LocalDateTime.now());
     }
 
+    public void consumeNew(){
+        this.isnew = false;
+    }
+
     // GETTERS
     
     @JsonIgnore
-    public StringProperty getTitleProperty() {
+    public SimpleStringProperty getTitleProperty() {
         return this.title;
     }
 
     @JsonIgnore
-    public StringProperty getDescriptionProperty() {
+    public SimpleStringProperty getDescriptionProperty() {
         return this.description;
     }
 
     @JsonIgnore
-    public ObjectProperty<LocalDateTime> getDeadlineProperty(){
+    public SimpleObjectProperty<LocalDateTime> getDeadlineProperty(){
         return this.deadline;
     }
   
     @JsonIgnore
-    public ObjectProperty<LocalDateTime> getLastupdatedProperty() {
+    public SimpleObjectProperty<LocalDateTime> getLastupdatedProperty() {
         return this.lastupdated;
     }
 
-    @JsonIgnore
-    public BooleanProperty getEditableProperty(){
-        return this.editable;
+    @JsonIgnore 
+    public boolean isnew(){
+        return this.isnew;
     }
 
     public UUID getID(){

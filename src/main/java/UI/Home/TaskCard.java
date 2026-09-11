@@ -1,12 +1,10 @@
 package UI.Home;
 
 import models.Task;
-import models.TaskGroup;
+import utils.events.Task.DelTaskEvent;
+import utils.events.Task.UpdateTaskEvent;
 import utils.widgets.EditableField;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -14,43 +12,41 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class TaskCard extends HBox{
-    private ObjectProperty<TaskGroup> activeTGProperty;
     private Task task;
-    private BooleanProperty editable;
+    private boolean editable;
 
     private Button complete;
     private EditableField title;
     private EditableField description;
     private DLwidget dlwidget;
-    private Button options;    
+    private Button edit;    
 
-    public TaskCard(Task task, ObjectProperty<TaskGroup> activeTGProperty){
-        this.activeTGProperty = activeTGProperty;
+    public TaskCard(Task task){
         this.task = task;
-        this.editable = task.getEditableProperty();
+        this.editable = false;
 
         this.complete = new Button();
         this.title = new EditableField(this.task.getTitleProperty().getValue());
         this.description = new EditableField(this.task.getDescriptionProperty().getValue());
         this.dlwidget = new DLwidget(this.task.getDeadlineProperty().getValue());
-        this.options = new Button(); // ⋮
+        this.edit = new Button(); // ⋮
 
         initLayout();
 
         // events / listeners
-        this.editable.addListener(e -> {
-            setEditable(this.editable.getValue());
-        });
 
-        this.options.setOnAction(e -> {
-            this.editable.setValue(!this.editable.getValue());
+        this.edit.setOnAction(e -> {
+            setEditable(!editable);
         });
 
         this.complete.setOnAction(e -> {
-            TaskGroup activeTG = this.activeTGProperty.getValue();
-            activeTG.removeTask(this.task);
+            this.complete.fireEvent(new DelTaskEvent(this.task));
         });
 
+        if(this.task.isnew()){
+            setEditable(true);
+            this.task.consumeNew();
+        }
     }
     
     private void initLayout(){
@@ -62,7 +58,7 @@ public class TaskCard extends HBox{
         VBox contentarea = new VBox(this.title, this.description);
         HBox.setHgrow(contentarea, Priority.ALWAYS);
         
-        VBox optionsbox = new VBox(this.options);
+        VBox optionsbox = new VBox(this.edit);
         
         this.getChildren().addAll(this.complete, contentarea, this.dlwidget, optionsbox);
         
@@ -81,17 +77,20 @@ public class TaskCard extends HBox{
         
     }
     
-    protected void setEditable(boolean editable){
+    public void setEditable(boolean editable){
+        this.editable = editable;
         this.title.setEditable(editable);
         this.description.setEditable(editable);
         this.dlwidget.setEditable(editable);
 
         if(!editable){
-            this.task.updateTitle(this.title.getValue());
-            this.task.updateDescription(this.description.getValue());
-            this.task.updateDeadline(this.dlwidget.getDateTime());
-
-            FXCollections.sort(this.activeTGProperty.getValue().getTasksProperty());
+            this.edit.fireEvent(
+                new UpdateTaskEvent(
+                    task,
+                    this.title.getValue(),
+                    this.description.getValue(),
+                    this.dlwidget.getDateTime()
+                ));
         }
     }
 }

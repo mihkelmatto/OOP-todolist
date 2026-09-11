@@ -2,7 +2,8 @@ package UI.Home;
 
 import models.Task;
 import models.TaskGroup;
-
+import utils.eventhandlers.Task.DelTaskHandler;
+import utils.events.Task.DelTaskEvent;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -22,6 +23,10 @@ public class HomeBody extends ListView<Task>{
         this.activeTGproperty.addListener(e -> {
             this.setItems(this.activeTGproperty.getValue().getTasksProperty());
         });
+
+        this.addEventHandler(
+            DelTaskEvent.DEL_TASK,
+            new DelTaskHandler(activeTGproperty));
     }
     
     private void initLayout(){
@@ -44,7 +49,7 @@ public class HomeBody extends ListView<Task>{
                     setGraphic(null);
                     setText(null);
                 } else {
-                    setGraphic(new TaskCard(task, activeTGproperty));
+                    setGraphic(new TaskCard(task));
                 }
             }
         });

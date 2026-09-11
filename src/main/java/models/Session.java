@@ -32,7 +32,7 @@ Salvestada uus TGmapper
 public class Session {
     private User user;
     private ObservableList<TaskGroup> taskgroups;
-    private ObjectProperty<TaskGroup> activeTG;
+    private ObjectProperty<TaskGroup> activeTGProperty;
 
 
     /*
@@ -44,7 +44,7 @@ public class Session {
     public Session(User user){
         this.user = user;
         this.taskgroups = FXCollections.observableArrayList(Classreader.findTaskgroups(this.user.getID()));
-        this.activeTG = new SimpleObjectProperty<TaskGroup>(this.taskgroups.get(0));
+        this.activeTGProperty = new SimpleObjectProperty<TaskGroup>(this.taskgroups.get(0));
         FXCollections.sort(this.taskgroups);
     }
 
@@ -65,7 +65,7 @@ public class Session {
             TaskGroup tg = new TaskGroup(this.user.getID());
             tg.setGroupname("New task group");
             this.taskgroups.add(tg);
-            this.activeTG.set(tg);
+            this.activeTGProperty.setValue(tg);
             
             UserTgMapper mapper = Classreader.fromJsonFile(this.user.getID(), UserTgMapper.class);
             mapper.addTaskgroups(tg.getID());
@@ -91,35 +91,35 @@ public class Session {
         }
 
         // uuendab iga this.activeTG-s oleva kasutaja TGmapperit
-        UUID activeTGtgid = this.activeTG.getValue().getID();
+        TaskGroup activeTG = this.activeTGProperty.getValue();
         try{
-            for(UUID userid : this.activeTG.getValue().getUsers()){
+            for(UUID userid : activeTG.getUsers()){
                 UserTgMapper mapper = Classreader.fromJsonFile(userid, UserTgMapper.class);
-                mapper.removeTaskgroup(activeTGtgid);
+                mapper.removeTaskgroup(activeTG.getID());
                 mapper.toJsonFile();
             }
-            Classreader.deleteJsonFile(activeTGtgid, TaskGroup.class);
+            Classreader.deleteJsonFile(activeTG.getID(), TaskGroup.class);
         }
         catch(IOException e){
             e.printStackTrace(); // ei tohiks juhtuda, kuna taskgroup luuakse sisselogimisel
         }
-        this.taskgroups.remove(this.activeTG.getValue());
+        this.taskgroups.remove(activeTG);
         TaskGroup newactive = this.taskgroups.get(0);
 
-        this.activeTG.set(newactive);
+        this.activeTGProperty.set(newactive);
         return newactive;
     }
 
     // GETTERS
     public ObjectProperty<TaskGroup> getActiveTGProperty(){
-        return this.activeTG;
+        return this.activeTGProperty;
     }
     
     public User getUser(){
         return this.user;
     }
 
-    public ObservableList<TaskGroup> getTaskgroupProperty(){
+    public ObservableList<TaskGroup> getTGListProperty(){
         return this.taskgroups;
     }
 }

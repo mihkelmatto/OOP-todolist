@@ -34,9 +34,11 @@ Muu
     - ...
     + DLWidget
 
-    Kas TGEvent handleri saaks ühise teha?
+    Eventide hierarhia / funktsionaalsus?
+    - TaskGroup
+    - Task
 
 # Viimane commit:
-    - AuthEvent klass koos ühise handleriga (Login, register, logout)
-    - TG add, edit ja delete on nüüd eventidena lahendatud. (Eventide sisu tuleks ilmselt mujalt veel juurde lisada)
-    - Options Popup ja button -> OptionsButton.java
+    - dropdownwidget -> Dropdown, HomeHeader
+    - Task Eventid: new, del, update.
+    - 
