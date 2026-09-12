@@ -1,7 +1,7 @@
 package UI.Home;
 
-import utils.validators.DateValidator;
-import utils.validators.TimeValidator;
+import utils.validators.datetime.DateValidator;
+import utils.validators.datetime.TimeValidator;
 import utils.widgets.EditableField;
 import utils.widgets.svg.SVGIcon;
 

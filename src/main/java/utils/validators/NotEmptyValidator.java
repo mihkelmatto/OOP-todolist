@@ -1,8 +1,12 @@
 package utils.validators;
 
 public class NotEmptyValidator implements Validator{
-    public boolean validate(String input){
-        if(input.isBlank()) return false;
-        else return true;
+    public ValidationResult validate(String input){
+        if(input.isBlank()){
+            return ValidationResult.EMPTY;
+        }
+        else{
+            return ValidationResult.VALID;
+        }
     }   
 }

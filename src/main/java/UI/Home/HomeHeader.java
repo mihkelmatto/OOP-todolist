@@ -5,6 +5,7 @@ import models.TaskGroup;
 import utils.events.SceneEvent.ChangeSceneEvent;
 import utils.events.SceneEvent.SceneType;
 import utils.events.Task.NewTaskEvent;
+import utils.validators.text.TextValidator;
 import utils.widgets.svg.SVGButton;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
@@ -34,6 +35,9 @@ public class HomeHeader extends utils.widgets.Header{
 
         initLayout();
         initEvents();
+        
+        // validators
+        this.getTitle().setValidator(new TextValidator(0, 20));
     }
     
     private void initLayout(){

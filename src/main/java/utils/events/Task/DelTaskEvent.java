@@ -1,13 +1,13 @@
 package utils.events.Task;
 
-import javafx.event.Event;
-import javafx.event.EventType;
 import models.Task;
+import javafx.event.EventType;
 
-public class DelTaskEvent extends Event{
+public class DelTaskEvent extends TaskEvent{
     public static final EventType<DelTaskEvent> DEL_TASK = 
-        new EventType<>(Event.ANY, "DEL_TASK");
-        private Task task;
+        new EventType<>(TaskEvent.ANY, "DEL_TASK");
+
+    private Task task;
 
     public DelTaskEvent(Task task){
         super(DEL_TASK);

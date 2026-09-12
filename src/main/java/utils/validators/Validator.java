@@ -1,5 +1,5 @@
 package utils.validators;
 
 public interface Validator {
-    public boolean validate(String input);
+    public ValidationResult validate(String input);
 }

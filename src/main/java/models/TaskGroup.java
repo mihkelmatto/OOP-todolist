@@ -35,7 +35,6 @@ public class TaskGroup implements ToJson, Comparable<TaskGroup> {
         this.tasks.addAll(List.of(tasks));
 
         this.users.add(owner);
-        System.out.printf("New Taskgroup created for user: %s\n", owner);
     }
 
     @JsonCreator

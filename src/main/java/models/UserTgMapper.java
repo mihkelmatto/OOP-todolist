@@ -19,7 +19,6 @@ public class UserTgMapper implements ToJson{
         this.id = user;
         this.taskgroups = new ArrayList<>();
         for(UUID tg : taskgroups) this.taskgroups.add(tg);
-        System.out.printf("New tgmapper created for user: %s\n", user);
     }
 
     @JsonCreator

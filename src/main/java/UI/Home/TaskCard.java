@@ -4,6 +4,7 @@ import models.Task;
 import utils.eventhandlers.OutsideClickHandler;
 import utils.events.Task.DelTaskEvent;
 import utils.events.Task.UpdateTaskEvent;
+import utils.validators.text.TextValidator;
 import utils.widgets.EditableField;
 import utils.widgets.svg.SVGButton;
 import javafx.geometry.Insets;
@@ -37,6 +38,9 @@ public class TaskCard extends HBox{
 
         initLayout();
 
+        // validators
+        this.title.setValidator(new TextValidator(0, 20));
+        this.description.setValidator(new TextValidator(0, 50));
         
         // events / listeners
         this.edit.setOnAction(e -> {
@@ -108,7 +112,6 @@ public class TaskCard extends HBox{
         setClickFilter(editable);
     }
 
-
     public void setClickFilter(boolean active){
         if(active){
             getScene().addEventFilter(
@@ -116,7 +119,7 @@ public class TaskCard extends HBox{
                 clickhandler
             );
         }
-        else{
+        else if(!(this.getScene() == null)){
             getScene().removeEventFilter(
                 MouseEvent.MOUSE_PRESSED,
                 clickhandler
@@ -128,6 +131,7 @@ public class TaskCard extends HBox{
         Eemaldab vanemklassidest viited
         !! Tuleb alati kutsuda enne TaskCardi eemaldamist (lifecycle)
     */
+
     public void dispose(){
         this.setClickFilter(false);
     }

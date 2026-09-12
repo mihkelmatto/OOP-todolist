@@ -1,14 +1,14 @@
 package utils.events.Task;
 
-import java.time.LocalDateTime;
-
-import javafx.event.Event;
-import javafx.event.EventType;
 import models.Task;
 
-public class UpdateTaskEvent extends Event{
+import java.time.LocalDateTime;
+import javafx.event.EventType;
+
+
+public class UpdateTaskEvent extends TaskEvent{
     public static final EventType<UpdateTaskEvent> UPDATE_TASK = 
-        new EventType<>(Event.ANY, "UPDATE_TASK");
+        new EventType<>(TaskEvent.ANY, "UPDATE_TASK");
 
     private Task task;
     private String title;

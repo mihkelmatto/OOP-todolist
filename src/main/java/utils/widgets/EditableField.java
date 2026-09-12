@@ -1,6 +1,7 @@
 package utils.widgets;
 
 import utils.validators.NotEmptyValidator;
+import utils.validators.ValidationResult;
 import utils.validators.Validator;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -101,14 +102,15 @@ public class EditableField extends StackPane{
         else{
             String input = this.valueField.getText();
             
-            if(validator.validate(input)){
+            if(validator.validate(input) == ValidationResult.VALID){
                 this.valueProperty.setValue(input);
                 this.onEditComplete.run();
             }
             else{
-                if(!input.isBlank()) System.out.println("EditableField: Validation failed");
+                this.valueField.setText(this.getValue());
+                System.out.printf("EditableField: Validation failed for value: %s\n", input);
             }
-            
+
             this.valueLabel.setVisible(true);
             this.valueField.setVisible(false);
         }

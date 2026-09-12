@@ -1,6 +1,6 @@
 package UI.Home;
 
-import utils.events.TaskGroup.DeleteTGEvent;
+import utils.events.TaskGroup.DelTGEvent;
 import utils.events.TaskGroup.EditTGEvent;
 import utils.events.TaskGroup.NewTGEvent;
 
@@ -40,7 +40,7 @@ public class OptionsButton extends Button{
         });
     
         this.delete.setOnAction(e -> {
-            Event.fireEvent(target, new DeleteTGEvent());
+            Event.fireEvent(target, new DelTGEvent());
             this.popup.hide();
         });
     }
