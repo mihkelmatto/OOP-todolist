@@ -69,7 +69,7 @@ public class OptionsButton extends Button{
         
         var point = localToScreen(0, this.getHeight());
 
-        this.popup.show(this, 0, 0);
+        this.popup.show(this, -400, 0);
         this.popup.setX(point.getX() + this.getWidth() - this.popup.getWidth());
         this.popup.setY(point.getY());
     }

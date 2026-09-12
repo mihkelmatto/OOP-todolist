@@ -1,4 +1,4 @@
-package UI.Account;
+package UI.Account.Section;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -14,26 +14,29 @@ public class Section extends VBox{
     private Label title;
     private VBox content;
 
-    public Section(String title, Row ... rows){
+    public Section(String title){
         this.title = new Label(title);
         this.content = new VBox();
         
-        initLayout(rows);
+        initLayout();
     }
     
-    private void initLayout(Row ... rows){
+    private void initLayout(){
         this.setSpacing(10);
         this.content.setSpacing(10);
         
-        for(int i = 0; i<rows.length; i++){
-            this.content.getChildren().add(rows[i]);
-            if(i<rows.length-1) this.content.getChildren().add(new Separator());
-        }
-
         this.getChildren().addAll(this.title, this.content);
         
         // css
         this.title.getStyleClass().add("section-title");
         this.content.getStyleClass().add("section-content");
+    }
+
+    protected void addRow(Row row){
+        if(!this.content.getChildren().isEmpty()){
+            this.content.getChildren().add(new Separator());
+        }
+
+        this.content.getChildren().add(row);
     }
 }

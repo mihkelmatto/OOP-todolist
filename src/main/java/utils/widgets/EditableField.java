@@ -103,7 +103,7 @@ public class EditableField extends StackPane{
             
             if(validator.validate(input)){
                 this.valueProperty.setValue(input);
-                onEditComplete.run();
+                this.onEditComplete.run();
             }
             else{
                 if(!input.isBlank()) System.out.println("EditableField: Validation failed");

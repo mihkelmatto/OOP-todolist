@@ -31,7 +31,7 @@ public class HomeScene extends Scene{
         this.session = session;
         this.activeTGProperty = session.getActiveTGProperty();
 
-        this.header = new HomeHeader(session);
+        this.header = new HomeHeader(this.activeTGProperty, this.session.getTGListProperty());
         this.body = new HomeBody(this.activeTGProperty);
 
         initLayout();

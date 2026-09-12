@@ -5,7 +5,7 @@ import utils.eventhandlers.OutsideClickHandler;
 import utils.events.Task.DelTaskEvent;
 import utils.events.Task.UpdateTaskEvent;
 import utils.widgets.EditableField;
-
+import utils.widgets.svg.SVGButton;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -33,7 +33,7 @@ public class TaskCard extends HBox{
         this.title = new EditableField(this.task.getTitleProperty().getValue());
         this.description = new EditableField(this.task.getDescriptionProperty().getValue());
         this.dlwidget = new DLwidget(this.task.getDeadlineProperty().getValue());
-        this.edit = new Button(); // ⋮
+        this.edit = new SVGButton("editicon.path"); // ⋮
 
         initLayout();
 

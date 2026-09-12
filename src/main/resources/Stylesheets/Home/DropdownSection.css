@@ -7,6 +7,14 @@
 .button{
     -fx-border-radius: 0;
     -fx-background-radius: 0;
+    -fx-border-color: #5090dae5;
+}
+
+.button,
+.combo-box,
+.combo-box-popup .list-cell,
+.combo-box-popup .list-view{
+    -fx-background-color: #132235;
 }
 
 #newtaskbutton{
@@ -19,11 +27,11 @@
     -fx-border-width: 1 0 1 1;
     -fx-border-radius: 10 0 0 10;
     -fx-background-radius: 10 0 0 10;
-    -fx-border-color: #2E3442;
 }
 
 #optionsbutton{
     -fx-pref-width: 30;
+    -fx-border-width: 1 1 1 0;
     -fx-border-radius: 0 10 10 0;
     -fx-background-radius: 0 10 10 0;
 }
@@ -41,21 +49,13 @@
     -fx-pref-height: 50;
     -fx-pref-width: 300;
     -fx-font-size: 20px;
-
-    -fx-border-color: #2E3442;;
     -fx-border-width: 1 1 1 1;
-
-    -fx-background-color: #1C2431;  
+    -fx-border-color:#5090dae5 #5090da62 #5090dae5 #5090da62;
 }
 
 .combo-box-popup .list-view{
-    -fx-background-color: #1C2431;
-    -fx-border-color: #2E3442;;
     -fx-border-width: 0 1 1 1;
-}
-
-.combo-box-popup .list-cell{
-    -fx-background-color: #1C2431;
+    -fx-border-color: #5090da62;
 }
 
 .combo-box:hover,
@@ -71,12 +71,12 @@
 }
 
 .combo-box-popup .scroll-bar .thumb {
-    -fx-background-color: rgb(115, 115, 115);
+    -fx-background-color: rgba(0, 132, 255, 0.678);
     -fx-background-radius: 6px;
 }
 
 .combo-box-popup .scroll-bar:vertical {
-    -fx-pref-width: 8;
+    -fx-pref-width: 6;
     -fx-background-color: transparent;
 }
 

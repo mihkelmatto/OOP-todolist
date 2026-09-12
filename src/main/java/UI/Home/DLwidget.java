@@ -3,6 +3,7 @@ package UI.Home;
 import utils.validators.DateValidator;
 import utils.validators.TimeValidator;
 import utils.widgets.EditableField;
+import utils.widgets.svg.SVGIcon;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,7 +14,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 /*
@@ -56,7 +56,8 @@ public class DLwidget extends HBox{
 
     private void initLayout(){
         this.setSpacing(20);
-        Region clockicon = new Region();
+ 
+        SVGIcon clockicon = new SVGIcon("clockicon.path");
         clockicon.getStyleClass().add("clockicon");
         
         VBox timebox = new VBox();
@@ -91,7 +92,6 @@ public class DLwidget extends HBox{
                 LocalTime.parse(this.time.getValue(), getTimeformat())
             );
             this.datetimeProperty.setValue(dt);
-            System.out.printf("Time set to %s\n", dt);
         }
     }
     // GETTERS

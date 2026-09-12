@@ -1,40 +1,42 @@
-package UI.Account;
+package UI.Account.Section;
 
+import utils.validators.NotEmptyValidator;
+import utils.validators.Validator;
 import utils.widgets.EditableField;
-
+import utils.widgets.svg.SVGButton;
+import utils.widgets.svg.SVGIcon;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 
 /*
     Igas reas on ikoon, pealkiri, sisu ja nupp.
 
     Sisu saab muuta nupu abil, mis kutsub description.setEditable(boolean editable)
-    - editable = true: EditableField võtab sisendi
-    - editable = false: EditableField valideerib sisendi ning salvestab enda StringProperty sisse.
-        Seejärel kutsub iga nupp meetodeid vastavalt oma ülesandele.
+    Eduka valideerimise puhul muudetakse descriptioni väärtust ning kutsutakse this.onEditComplete.run()
 */
 
 public class Row extends HBox{
     private boolean editable;
 
-    private StackPane icon;
-    private Label title;
-    private EditableField description;
-    private Button edit;
+    private final SVGIcon icon;
+    private final Label title;
+    private final EditableField description;
+    private final Button edit;
+
+    private Validator validator = new NotEmptyValidator();
+    private Runnable onEditComplete = () -> {};
+
 
     public Row(String titletext, String descriptiontext, String iconpath){
         this.editable = false;
 
-        this.icon = createIcon(iconpath);
+        this.icon = new SVGIcon(iconpath);
         this.title = new Label(titletext);
         this.description = new EditableField(descriptiontext);
-        this.edit = new Button();
+        this.edit = new SVGButton("editicon.path");
         
         initLayout();
 
@@ -43,9 +45,15 @@ public class Row extends HBox{
             this.editable = !editable;
             description.setEditable(editable);
         });
+
+        this.description.getValueProperty().addListener(e -> {
+            this.onEditComplete.run();
+        });
     }
 
     private void initLayout(){
+        this.description.setValidator(this.validator);
+        
         // layout
         this.setSpacing(10);
 
@@ -57,22 +65,18 @@ public class Row extends HBox{
         // css
         this.getStyleClass().add("row");
 
-        this.icon.getStyleClass().add("row-icon");
         this.title.getStyleClass().add("row-title");
         this.description.getStyleClass().add("row-description");
-        this.edit.getStyleClass().add("row-edit");
     }
 
-    private StackPane createIcon(String iconpath){
-        ImageView image = new ImageView(new Image(getClass().getResource("/images/" + iconpath).toExternalForm()));
+    // SETTERS
 
-        StackPane iconcontainer = new StackPane();
-        iconcontainer.getChildren().add(image);
+    public void setValidator(Validator validator){
+        this.validator = validator;
+        this.description.setValidator(validator);
+    }
 
-        image.fitWidthProperty().bind(iconcontainer.prefWidthProperty());
-        image.fitHeightProperty().bind(iconcontainer.prefHeightProperty());
-        image.setPreserveRatio(true);
-
-        return iconcontainer;
+    public void setOnEditComplete(Runnable action){
+        this.onEditComplete = action;
     }
 }
