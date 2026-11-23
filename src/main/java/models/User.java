@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 */ 
 
 public class User implements ToJson{ 
-    private final UUID id;
+    private UUID id;
     private StringProperty username;
     private String password;
 
